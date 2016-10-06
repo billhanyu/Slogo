@@ -11,11 +11,12 @@
 + Interpreter
     * Parses the command depending on which language the user chose and calls the corresponding action for the ViewObject.
 
-+ Actions
-    *
-
 + View/User Interface
     * Renders the backend and displays all other information needed for the program. This will consist of different subclasses which each hold a different part of the view.
+
++ Actions
+    
++ Exceptions
 
 + ViewObject
     * This is a superclass which represents any object on the viewing screen that the user can control. 
