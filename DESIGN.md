@@ -9,7 +9,10 @@
     * Responsible for taking in input and passing it to the interpreter, after which it calls the view to update/render itself again.
 
 + Interpreter
-    * Parses the command and calls the corresponding action for the ViewObject.
+    * Parses the command depending on which language the user chose and calls the corresponding action for the ViewObject.
+
++ Actions
+    *
 
 + View/User Interface
     * Renders the backend and displays all other information needed for the program. This will consist of different subclasses which each hold a different part of the view.
