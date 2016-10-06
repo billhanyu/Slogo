@@ -1,6 +1,6 @@
 # Design for SLogo
 
-###Design Overview
+### Design Overview
 
 + Main
     * Would initialize the controller and start the program.
