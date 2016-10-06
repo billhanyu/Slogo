@@ -1,4 +1,6 @@
 API Exercise
+
++ Members: Ryan Anders (dra17), Charles Xu (cx15), Bill Yu (hy103), Chalena Maess-Scholl(cm296)
 ============
 
 ## CA
