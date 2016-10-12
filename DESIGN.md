@@ -72,10 +72,11 @@ TODO
         * void push(TurtleState state)
         * TurtleState poll()
     * Command
-        * void execute(Map<String->value> args)
+        * void execute(Map<String,value> args)
+        * private appendState(TurtleState state)
     * Interpreter
         * void parseScript(String script)
-        * List<Command> getCommands()
+        * Command getMainCommand()
     * Environment
         * GlobalVars
             * boolean addVar(String name, ? value)
@@ -104,8 +105,20 @@ TODO
     * Console
         * void setText(String text, ...style)
 
+* Controller
+    * void runScript(String script)
+
 ### API Example Code
 
++ 'fd 50'
+
+    Note: class after colon is the one calling. class with '.' is the one executing.
+    Controller.runScript(script) : Editor
+    Interpreter.parseScript(script) : Controller
+    Interpreter.getMainCommand().execute(script) : Controller
+    Canvas.render(log) : Controller
+    CommandHistory.addCommand(command) : Controller
+    CommandHistoryView.update(CommandHistory) : Controller
 
 ### Design Considerations 
 
