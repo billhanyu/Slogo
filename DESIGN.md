@@ -45,8 +45,64 @@ TODO
 ### User Interface
 
 
-### API Details 
+### API Details
 
++ View
+    * render(model)
+
++ Model
+    * Turtle
+        * TurtleState getState()
+        * void setState(TurtleState state)
+    * TurtleState
+        * double setPositionX(double x)
+        * double setPositionY(double y)
+        * double setDirection(double degrees)
+        * boolean setPen(boolean isDown)
+        * boolean setVisible(boolean isVisible)
+        * void setImage(Graphics image)
+        * void setAnimate(boolean animate)
+        * double getPositionX()
+        * double getPositionY()
+        * double getHeading()
+        * boolean isPenDown()
+        * boolean isVisible()
+        * boolean doesAnimate()
+    * TurtleLog
+        * void push(TurtleState state)
+        * TurtleState poll()
+    * Command
+        * void execute(Map<String->value> args)
+    * Interpreter
+        * void parseScript(String script)
+        * List<Command> getCommands()
+    * Environment
+        * GlobalVars
+            * boolean addVar(String name, ? value)
+            * ? getValue(String name)
+            * Map(name->value) getAll()
+            * boolean remove(String name)
+        * UserCommands
+            * void addCommand(Command cmd)
+            * Collection<Command> getAll()
+        * CommandHistory
+            * void addCommand(Command cmd)
+            * List<Command> getAll()
+
++ View
+    * Canvas
+        * void render(TurtleLog log)
+    * EnvironmentView
+        * GlobalVarsView
+            * void update(GlobalVars vars)
+        * UserCommandsView
+            * void update(UserCommandsView cmds)
+        * CommandHistoryView
+            * void update(CommandHistory history)
+    * Editor
+        * void setText(String text, ...style)
+    * Console
+        * void setText(String text, ...style)
 
 ### API Example Code
 
