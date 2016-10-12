@@ -47,9 +47,6 @@ TODO
 
 ### API Details
 
-+ View
-    * render(model)
-
 + Model
     * Turtle
         * TurtleState getState()
