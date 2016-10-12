@@ -110,12 +110,12 @@ TODO
 + 'fd 50'
 
     Note: class after colon is the one calling. class with '.' is the one executing.
-    Controller.runScript(script) : Editor
-    Interpreter.parseScript(script) : Controller
-    Interpreter.getMainCommand().execute(script) : Controller
-    Canvas.render(log) : Controller
-    CommandHistory.addCommand(command) : Controller
-    CommandHistoryView.update(CommandHistory) : Controller
+    * Controller.runScript(script) : Editor
+    * Interpreter.parseScript(script) : Controller
+    * Interpreter.getMainCommand().execute(script) : Controller
+    * Canvas.render(log) : Controller
+    * CommandHistory.addCommand(command) : Controller
+    * CommandHistoryView.update(CommandHistory) : Controller
 
 ### Design Considerations 
 
