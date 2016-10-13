@@ -140,6 +140,12 @@ A UI mockup is shown in the picture below.
     + The image in TurtleView is updated with user's choice
     + View.render is called to update the view shown to the user
 
+ * Use case 'dra17' - User uses reset command
+  * Controller.runScript(script) : View
+  * InstructionCache <- Interpreter.parseScript(script) : Controller
+  * A TurtleState's reset boolean is set to 'True'
+  * The TurtleState is added to the TurtleLog
+  * When that state is read, the turtle will be set back to the center and the lines drawn will be cleared
 
 ### Design Considerations 
 
@@ -147,4 +153,5 @@ We want to emphasize the modularity of this design. The entire View as a fronten
 
 ### Team Responsibilities
 
-
+Front End: Chalena, Bill
+Back End: Ryan, Charles
