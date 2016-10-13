@@ -68,7 +68,6 @@ A UI mockup is shown in the picture below.
         * double setDirection(double degrees)
         * boolean setPen(boolean isDown)
         * boolean setVisible(boolean isVisible)
-        * void setImage(Graphics image)
         * void setAnimate(boolean animate)
         * double getPositionX()
         * double getPositionY()
@@ -123,7 +122,7 @@ A UI mockup is shown in the picture below.
 ### API Example Code
 
 + 'fd 50'
-
+    
     Note: class after colon is the one calling. class with '.' is the one executing.
     * Controller.runScript(script) : View
     * InstructionCache <- Interpreter.parseScript(script) : Controller
@@ -132,6 +131,15 @@ A UI mockup is shown in the picture below.
     * View.updateCommandHistory(commandList) : Controller
     * View.updateVariables(vars) : Controller
     * View.updateUserCommands(cmds) : Controller
+
++ Use case 'cm296' - Changing background color
+    + The view takes care of this as this is not something the backend has to worry about.
+    + View updates the color in the scene by calling a method within it to do that.
+
++ Use case 'hy103' - changing the image of the turtle
+    + The image in TurtleView is updated with user's choice
+    + View.render is called to update the view shown to the user
+
 
 ### Design Considerations 
 
