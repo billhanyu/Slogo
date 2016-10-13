@@ -1,9 +1,10 @@
-#API Review
+# API Review
+
 Ryan Anders
 Niklas Sjoquist
 dra17, nhs4
 
-##Part 1
+## Part 1
 
 What about your API/design is intended to be flexible?
 
@@ -30,7 +31,7 @@ Why do you think your API/design is good (also define what your measure of good 
  * Modular
  * Need a clear division between private and public methods, as well as internal vs external API
 
-##Part 2
+## Part 2
 
 Come up with at least five use cases for your part (it is absolutely fine if they are useful for both teams).
 
