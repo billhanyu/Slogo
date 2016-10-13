@@ -1,7 +1,6 @@
+### API Review ###
 
-###API Review ###
-
-###SLogo - gkw (team 05), cm296 (team 07) 
+### SLogo - gkw (team 05), cm296 (team 07) 
 
 
 #####   Part 1: 
@@ -15,8 +14,9 @@
 	 - 
  - Why do you think your API/design is good (also define what your measure of good is)? 
 	 - We think it's good for two main reasons. First, it is very flexible, as we use a lot of classes. Because of this, small changes in one class can have a large impact on how the program operates. Second, it is encapsulated well, in that programs only share what is absolutely necessary for other classes to know.
-#####Part 2 
-Come up with at least five use cases for your part (it is absolutely fine if they are useful for both teams). 
+
+##### Part 2 
+* Come up with at least five use cases for your part (it is absolutely fine if they are useful for both teams). 
  - fd 50 - The front-end will have to pass the command to the back-end to be parsed. Once the back-end has parsed the command and decided what action to take, as well as update any necessary values, and then send that to the front-end which will display the new situation of the turtle moving forward 50 pixels. 
  - Clicking a previously run command - The front-end will register a button-click, send the information to the back end which will then parse the command and decide what action to take. Once it has done that it will transfer back to the front-end to display the new situation. 
  - User inputs a command that doesn't exist - The front-end will pass the command the back-end, which will recognize it as an error. Once this happens, the front-end will show the user the error in their command by highlighting the incorrect section of the command. 
