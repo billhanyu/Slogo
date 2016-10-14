@@ -5,6 +5,12 @@ import javafx.scene.Node;
 
 public class EnvironmentView implements Displayable {
 	
+	@Override
+	public void init(double x, double y, double width, double height) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private GlobalVarsView globalVarsView;
 	private UserCommandsView userCommandsView;
 	private CommandHistoryView commandHistoryView;

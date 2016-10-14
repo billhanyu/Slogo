@@ -5,6 +5,12 @@ import model.GlobalVars;
 
 public class GlobalVarsView implements Displayable {
 	
+	@Override
+	public void init(double x, double y, double width, double height) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void update(GlobalVars vars) {
 		
 	}

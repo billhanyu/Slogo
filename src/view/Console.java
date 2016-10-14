@@ -1,9 +1,23 @@
 package view;
 
-public class Console {
+import javafx.scene.Node;
+
+public class Console implements Displayable {
+	
+	@Override
+	public void init(double x, double y, double width, double height) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public void setText(String text) {
 		
+	}
+
+	@Override
+	public Node getUI() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
