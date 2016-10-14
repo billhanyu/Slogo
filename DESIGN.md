@@ -132,6 +132,9 @@ A UI mockup is shown in the picture below.
     * View.updateVariables(vars) : Controller
     * View.updateUserCommands(cmds) : Controller
 
++ Use case 'cx15' - Interpreter
+    + When the script text is passed to the interpreter, it should parse the script into a expression/command tree, then executor is going to execute the tree in order.
+
 + Use case 'cm296' - Changing background color
     + The view takes care of this as this is not something the backend has to worry about.
     + View updates the color in the scene by calling a method within it to do that.
