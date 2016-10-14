@@ -133,6 +133,9 @@ A UI mockup is shown in the picture below.
     * View.updateVariables(vars) : Controller
     * View.updateUserCommands(cmds) : Controller
 
++ cx15 Interpreter
+    * When the script text is passed to the interpreter, it should parse the script into a expression/command tree, then executor is going to execute the tree in order.
+
 ### Design Considerations 
 
 We want to emphasize the modularity of this design. The entire View as a frontend representation of model is saparated from model and interfaced with it using a controller. The Controller coordinates the workflow between each Model sub-components such as Interpreter, Executor, InstructionCache, etc. The Model components on the other hand are all unaware of the existence of either the Controller or the View. Modularity as such makes the each module reusable without coupling with many other classes and testable without having to create multiple mocks to isolate external dependents' behavior. 
