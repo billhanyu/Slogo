@@ -68,7 +68,6 @@ A UI mockup is shown in the picture below.
         * double setDirection(double degrees)
         * boolean setPen(boolean isDown)
         * boolean setVisible(boolean isVisible)
-        * void setImage(Graphics image)
         * void setAnimate(boolean animate)
         * double getPositionX()
         * double getPositionY()
@@ -123,7 +122,7 @@ A UI mockup is shown in the picture below.
 ### API Example Code
 
 + 'fd 50'
-
+    
     Note: class after colon is the one calling. class with '.' is the one executing.
     * Controller.runScript(script) : View
     * InstructionCache <- Interpreter.parseScript(script) : Controller
@@ -133,8 +132,23 @@ A UI mockup is shown in the picture below.
     * View.updateVariables(vars) : Controller
     * View.updateUserCommands(cmds) : Controller
 
-+ cx15 Interpreter
-    * When the script text is passed to the interpreter, it should parse the script into a expression/command tree, then executor is going to execute the tree in order.
++ Use case 'cx15' - Interpreter
+    + When the script text is passed to the interpreter, it should parse the script into a expression/command tree, then executor is going to execute the tree in order.
+
++ Use case 'cm296' - Changing background color
+    + The view takes care of this as this is not something the backend has to worry about.
+    + View updates the color in the scene by calling a method within it to do that.
+
++ Use case 'hy103' - changing the image of the turtle
+    + The image in TurtleView is updated with user's choice
+    + View.render is called to update the view shown to the user
+
++ Use case 'dra17' - User uses reset command
+    + Controller.runScript(script) : View
+    + InstructionCache <- Interpreter.parseScript(script) : Controller
+    + A TurtleState's reset boolean is set to 'True'
+    + The TurtleState is added to the TurtleLog
+    + When that state is read, the turtle will be set back to the center and the lines drawn will be cleared
 
 ### Design Considerations 
 
@@ -142,4 +156,6 @@ We want to emphasize the modularity of this design. The entire View as a fronten
 
 ### Team Responsibilities
 
+Front End: Chalena, Bill
 
+Back End: Ryan, Charles
