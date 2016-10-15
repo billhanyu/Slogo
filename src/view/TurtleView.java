@@ -1,17 +1,17 @@
 package view;
 
+import controller.Controller;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class TurtleView implements Displayable {
+public class TurtleView extends View {
 	
-	private ImageView turtleImage;
-	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
+	public TurtleView(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
+
+	private ImageView turtleImage;
 	
 	public void setImage(Image image) {
 		turtleImage.setImage(image);

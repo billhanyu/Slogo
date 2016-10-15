@@ -1,16 +1,15 @@
 package view;
 
+import controller.Controller;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public class EnvironmentView implements Displayable {
+public class EnvironmentView extends View {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	public EnvironmentView(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
-	
+
 	private GlobalVarsView globalVarsView;
 	private UserCommandsView userCommandsView;
 	private CommandHistoryView commandHistoryView;

@@ -1,16 +1,15 @@
 package view;
 
+import controller.Controller;
 import javafx.scene.Node;
 import model.TurtleLog;
 
-public class Canvas implements Displayable {
+public class Canvas extends View {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	public Canvas(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
-	
+
 	public void render(TurtleLog log) {
 		
 	}

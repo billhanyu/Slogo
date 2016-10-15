@@ -1,16 +1,15 @@
 package view;
 
+import controller.Controller;
 import javafx.scene.Node;
 import model.CommandHistory;
 
-public class CommandHistoryView implements Displayable {
+public class CommandHistoryView extends View {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	public CommandHistoryView(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
-	
+
 	public void update(CommandHistory history) {
 		
 	}

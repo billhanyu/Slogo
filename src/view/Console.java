@@ -1,15 +1,14 @@
 package view;
 
+import controller.Controller;
 import javafx.scene.Node;
 
-public class Console implements Displayable {
+public class Console extends View {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	public Console(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
-	
+
 	public void setText(String text) {
 		
 	}
