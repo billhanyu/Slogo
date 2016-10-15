@@ -2,6 +2,7 @@ package model;
 
 /**
  * @author billyu
+ * @author Charles Xu
  * API for executable commands
  */
 
@@ -12,4 +13,10 @@ public interface Executable {
 	 * @return
 	 */
 	double execute();
+	
+	/**
+	 * Return the name of this Executable
+	 * @return
+	 */
+	String getName();
 }

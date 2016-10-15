@@ -4,19 +4,21 @@ import model.Executable;
 
 public class Constant implements Executable {
 	
-	private double value;
+	protected String name;
+	protected double value;
 	
-	public Constant(double value) {
+	public Constant(String name, double value) {
+		this.name = name;
 		this.value = value;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override
 	public double execute() {
 		return value;
-	}
-	
-	@Override
-	public String toString() {
-		return value + "";
 	}
 }
