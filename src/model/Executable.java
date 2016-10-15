@@ -7,6 +7,9 @@ package model;
 
 public interface Executable {
 	
-	void execute();
-	
+	/**
+	 * Execute its procedure and return the result
+	 * @return
+	 */
+	double execute();
 }
