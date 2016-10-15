@@ -1,23 +1,13 @@
 package model.executable;
 
-import model.Executable;
-
-public class Variable implements Executable{
-	
-	private String name;
-	private double value;
+public class Variable extends Constant{
 	
 	public Variable(String name, double value) {
-		this.name = name;
-		this.value = value;
+		super(name, value);
 	}
 	
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public double execute() {
-		return value;
+	public Variable setValue(double value) {
+		this.value = value;
+		return this;
 	}
 }
