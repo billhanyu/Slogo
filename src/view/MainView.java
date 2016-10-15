@@ -27,6 +27,8 @@ public class MainView {
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
+		Canvas canvas = new Canvas(controller, 0,0,0,0);
+		root.setCenter(canvas.getUI());
 		return scn;
 	}
 	
