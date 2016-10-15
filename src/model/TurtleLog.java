@@ -9,19 +9,23 @@ import java.util.List;
  * Log of TurtleStates for frontend to update
  */
 
-public class TurtleLog implements Iterable<TurtleState> {
-	private List<TurtleState> states;
+public class TurtleLog implements Iterable<ActorState> {
+	private List<ActorState> states;
 	
 	public TurtleLog() {
-		states = new ArrayList<TurtleState>();
+		states = new ArrayList<ActorState>();
 	}
 	
-	public void append(TurtleState state) {
+	public void append(ActorState state) {
 		states.add(state);
 	}
 
 	@Override
-	public Iterator<TurtleState> iterator() {
+	public Iterator<ActorState> iterator() {
 		return states.iterator();
+	}
+	
+	public ActorState peekLast() {
+		return states.get(states.size() - 1);
 	}
 }

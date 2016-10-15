@@ -75,4 +75,13 @@ public class TurtleState implements ActorState {
 		return doesAnimate;
 	}
 
+	@Override
+	public void duplicateOnto(ActorState other) {
+		other.setPositionX(this.getPositionX());
+		other.setPositionY(this.getPositionY());
+		other.setPen(this.isPenDown());
+		other.setAnimate(this.doesAnimate());
+		other.setDirection(this.getHeading());
+		other.setVisible(this.isVisible());
+	}
 }
