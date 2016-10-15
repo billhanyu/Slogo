@@ -1,5 +1,7 @@
 package model;
 
+import model.executable.Variable;
+
 /**
  * @author billyu
  * to add a variable:
@@ -7,6 +9,6 @@ package model;
  * 		this.add(variable)
  */
 
-public class GlobalVars extends Environment<Variable<? extends Object>> {
+public class GlobalVars extends Environment<Variable> {
 
 }
