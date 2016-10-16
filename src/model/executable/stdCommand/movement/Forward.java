@@ -1,4 +1,4 @@
-package model.executable.stdCommand;
+package model.executable.stdCommand.movement;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import model.executable.StandardCommand;
 
 public class Forward extends StandardCommand{
 	
-	public static final int NUM_ARGUMENTS = 1;
 	public static final String NAME = "forward";
 
 	public Forward(List<Executable> argv) {
@@ -30,10 +29,5 @@ public class Forward extends StandardCommand{
 	@Override
 	public String getName() {
 		return NAME;
-	}
-
-	@Override
-	public int getExpectedNumArgs() {
-		return NUM_ARGUMENTS;
 	}
 }

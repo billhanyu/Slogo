@@ -14,7 +14,10 @@ public class Procedure extends Command{
 	private Stack<StackFrame> stack;
 	private List<Command> procedure;
 	
-	public Procedure(String name, List<Executable> argv, Stack<StackFrame> stack, List<Command> procedure) {
+	public Procedure(String name,
+					 List<Executable> argv,
+					 Stack<StackFrame> stack,
+					 List<Command> procedure) {
 		super(argv); // used the names only, to find value from stack
 		this.stack = stack;
 		this.name = name;
@@ -34,10 +37,5 @@ public class Procedure extends Command{
 	@Override
 	public String getName() {
 		return this.name;
-	}
-
-	@Override
-	public int getExpectedNumArgs() {
-		return argv.size();
 	}
 }
