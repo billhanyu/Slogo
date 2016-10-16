@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -17,6 +16,7 @@ public class TurtleView extends View {
 		turtleImage.setFitHeight(height);
 		setPositionX(x);
 		setPositionY(y);
+		this.getRoot().getChildren().add(turtleImage);
 	}
 	
 	public void setImage(Image image) {
@@ -34,10 +34,5 @@ public class TurtleView extends View {
 	public void setDirection(double degrees) {
 		turtleImage.setRotate(degrees);
 	}
-
-	@Override
-	public Node getUI() {
-		return turtleImage;
-	}
-
+	
 }

@@ -1,15 +1,12 @@
 package view;
 
 import controller.Controller;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.TurtleLog;
 
 public class Canvas extends View {
 	
-	private Group root;
 	private TurtleView turtleView;
 	private Rectangle background;
 	private double turtleWidth = 40;
@@ -19,10 +16,9 @@ public class Canvas extends View {
 	
 	public Canvas(Controller controller, double x, double y, double width, double height) {
 		super(controller, x, y, width, height);
-		root = new Group();
 		turtleView = new TurtleView(controller, translateX(0), translateY(0), turtleWidth, turtleHeight);
 		background = new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		root.getChildren().addAll(background, turtleView.getUI());
+		this.getRoot().getChildren().addAll(background, turtleView.getUI());
 	}
 
 	public void render(TurtleLog log) {
@@ -31,11 +27,6 @@ public class Canvas extends View {
 	
 	public void setBackgroundColor(Color color) {
 		background.setFill(color);
-	}
-
-	@Override
-	public Node getUI() {
-		return root;
 	}
 	
 	private double translateX(double x) {
