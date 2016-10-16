@@ -22,7 +22,7 @@ public class Canvas extends View {
 	}
 
 	public void render(TurtleLog log) {
-		
+		//TODO
 	}
 	
 	public void setBackgroundColor(Color color) {

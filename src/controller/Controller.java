@@ -25,4 +25,8 @@ public class Controller {
 		
 	}
 	
+	public void putScript(String script) {
+		mainView.getEditor().setText(script);
+	}
+	
 }

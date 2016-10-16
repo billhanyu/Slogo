@@ -22,7 +22,7 @@ public class Editor extends View {
 	}
 
 	public void setText(String text) {
-		
+		textArea.setText(text);
 	}
 	
 	private void init() {

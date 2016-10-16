@@ -10,6 +10,9 @@ public class MainView {
 	private Stage stage;
 	private Scene mainScene;
 	private Controller controller;
+	private Canvas canvas;
+	private Editor editor;
+	private Console console;
 	private static final String TITLE = "SLOGO";
 	
 	public MainView(Controller controller) {
@@ -25,13 +28,30 @@ public class MainView {
 		stage.show();
 	}
 	
+	public Canvas getCanvas() {
+		return canvas;
+	}
+	
+	public Editor getEditor() {
+		return editor;
+	}
+	
+	public Console getConsole() {
+		return console;
+	}
+	
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
-		Canvas canvas = new Canvas(controller, 0,0,0,0);
-		Editor editor = new Editor(controller, 0,0,0,0);
+		canvas = new Canvas(controller, 0,0,0,0);
+		editor = new Editor(controller, 0,0,0,0);
+		console = new Console(controller, 0,0,0,0);
+		CommandHistoryView historyView = new CommandHistoryView(controller, 0,0,300,0);
+		//TODO: set width and height here instead of setting in classes
 		root.setCenter(canvas.getUI());
 		root.setBottom(editor.getUI());
+		root.setLeft(console.getUI());
+		root.setRight(historyView.getUI());
 		return scn;
 	}
 	
