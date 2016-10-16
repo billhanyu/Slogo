@@ -20,6 +20,10 @@ public class Console extends View {
 		textArea.setText(text);
 	}
 	
+	public void appendText(String text) {
+		textArea.appendText(text);
+	}
+	
 	private void init() {
 		textArea = new TextArea();
 		textArea.setEditable(false);

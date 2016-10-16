@@ -25,6 +25,10 @@ public class Editor extends View {
 		textArea.setText(text);
 	}
 	
+	public void appendText(String text) {
+		textArea.appendText(text);
+	}
+	
 	private void init() {
 		textArea = new TextArea();
 		runButton = this.makeButton(RUN_TEXT, e -> {
@@ -44,6 +48,7 @@ public class Editor extends View {
 		
 		HBox all = new HBox();
 		all.setPadding(new Insets(5,5,5,5));
+		all.setPrefWidth(this.getWidth());
 		all.getChildren().addAll(textArea, buttons);
 		this.getRoot().getChildren().add(all);
 	}

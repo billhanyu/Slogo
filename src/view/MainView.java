@@ -13,6 +13,7 @@ public class MainView {
 	private Canvas canvas;
 	private Editor editor;
 	private Console console;
+	private EnvironmentView environmentView;
 	private static final String TITLE = "SLOGO";
 	
 	public MainView(Controller controller) {
@@ -44,14 +45,14 @@ public class MainView {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
 		canvas = new Canvas(controller, 0,0,0,0);
-		editor = new Editor(controller, 0,0,0,0);
+		editor = new Editor(controller, 0,0,900,0);
 		console = new Console(controller, 0,0,0,0);
-		CommandHistoryView historyView = new CommandHistoryView(controller, 0,0,300,0);
+		environmentView = new EnvironmentView(controller, 0,0,300,700);
 		//TODO: set width and height here instead of setting in classes
 		root.setCenter(canvas.getUI());
 		root.setBottom(editor.getUI());
 		root.setLeft(console.getUI());
-		root.setRight(historyView.getUI());
+		root.setRight(environmentView.getUI());
 		return scn;
 	}
 	
