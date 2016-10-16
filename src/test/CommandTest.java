@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import exception.SyntacticException;
 import exception.UnrecognizedIdentifierException;
+import exception.WrongNumberOfArguments;
 import model.ActorState;
 import model.Executable;
 import model.Interpreter;
@@ -17,7 +17,7 @@ import model.TurtleLog;
 import model.TurtleState;
 import model.executable.Command;
 import model.executable.Constant;
-import model.executable.stdCommand.Forward;
+import model.executable.stdCommand.movement.Forward;
 
 
 public class CommandTest {
@@ -44,15 +44,15 @@ public class CommandTest {
 	}
 	
 	@Test
-	public void interpreter() {
+	public void forwardForwardUsingInterpreter() {
 		Interpreter intr = new Interpreter();
 		try {
-			List<Command> main = intr.parseScript("fd 10");
+			List<Command> main = intr.parseScript("fd fd 10");
 			for (Command cmd : main) {
 				cmd.execute(log);
 			}
-			assertTrue(log.peekLast().getPositionX() - 10 < 0.1);
-		} catch (UnrecognizedIdentifierException | SyntacticException e) {
+			assertTrue(log.peekLast().getPositionX() - 20 < 0.1);
+		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments e) {
 			assertNull(e);
 		}
 	}

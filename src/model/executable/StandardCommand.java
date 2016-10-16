@@ -27,7 +27,4 @@ public abstract class StandardCommand extends Command{
 	
 	@Override
 	public abstract String getName();
-	
-	@Override
-	public abstract int getExpectedNumArgs();
 }

@@ -3,14 +3,14 @@ package model;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
 import exception.ReflectionFoundNoMatchesException;
-import exception.SyntacticException;
 import exception.UnrecognizedIdentifierException;
+import exception.WrongNumberOfArguments;
 import model.executable.Command;
 import model.executable.Constant;
 import util.ReflectionUtils;
@@ -19,6 +19,7 @@ public class Interpreter {
 	
 	public static final String TOKEN_DICT = "resources/tokens";
 	public static final String PROP_CLASS = ".class";
+	public static final String PROP_ARGC = ".argc";
 	public static final String SPACE_REGEX = "\\s+";
 	
 	private ResourceBundle lexicon;
@@ -28,7 +29,7 @@ public class Interpreter {
 	}
 	
 	public List<Command> parseScript(String script)
-			throws UnrecognizedIdentifierException, SyntacticException {
+			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
 		script = script.trim();
 		Stack<String> tokenStack = tokenize(script);
 		return buildMain(tokenStack);
@@ -42,47 +43,52 @@ public class Interpreter {
 		return tokenStack;
 	}
 	
-	// TODO (cx15): FIX THE CASE OF NESTED COMMANDS LIKE "FD FD 10"
 	private List<Command> buildMain(Stack<String> tokenStack)
-			throws UnrecognizedIdentifierException, SyntacticException {
-		Stack<Command> commandStack = new Stack<>();
-		List<Executable> argsTmp = new ArrayList<>();
+			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
+		List<Command> instructionCacheInReverse = new ArrayList<>();
+		List<Executable> pendingArgs = new ArrayList<>();
 		while (!tokenStack.isEmpty()) {
 			String token = tokenStack.pop().toLowerCase();
 			if (token.matches(lexicon.getString("constant.regex"))) {
-				argsTmp.add(new Constant(Double.parseDouble(token)));
+				pendingArgs.add(new Constant(Double.parseDouble(token)));
 			} else if (token.matches(lexicon.getString("variable.regex"))) {
 				// TODO (cx15): HANDLE VARS
 			} else {
 				try{
 					String className = lexicon.getString(token + PROP_CLASS);
+					int numArgs = Integer.parseInt(lexicon.getString(token + PROP_ARGC));
 					Class<?> c = Class.forName(className);
-					Constructor<?> constructor = ReflectionUtils.getConstructor(c, argsTmp);
-					Command cmd = (Command) constructor.newInstance(argsTmp);
-					commandStack.push(cmd);
-					argsTmp = new ArrayList<>();
-				} catch (MissingResourceException | ClassNotFoundException | InstantiationException
-						| IllegalAccessException | IllegalArgumentException | InvocationTargetException | ReflectionFoundNoMatchesException e) {
+					pendingArgs = argsGen(numArgs, c, pendingArgs, instructionCacheInReverse);
+					Constructor<?> constructor = ReflectionUtils.getConstructor(c, pendingArgs);
+					Command cmd = (Command) constructor.newInstance(pendingArgs);
+					instructionCacheInReverse.add(cmd);
+					pendingArgs = new ArrayList<>();
+				} catch (ClassNotFoundException | ReflectionFoundNoMatchesException
+						| InstantiationException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException e) {
 					throw new UnrecognizedIdentifierException();
-				} catch(SecurityException e) {
-					throw new SyntacticException();
+				} 
+			}
+		}
+		Collections.reverse(instructionCacheInReverse);
+		return instructionCacheInReverse;
+	}
+	
+	private List<Executable> argsGen(int numArgs, Class<?> c, 
+									 List<Executable> pendingArgs,
+									 List<Command> instructionCacheInReverse)
+											 throws WrongNumberOfArguments {
+		if (pendingArgs.size() > numArgs) {
+			throw new WrongNumberOfArguments(c.getName());
+		} else if (pendingArgs.size() < numArgs) {
+			if (instructionCacheInReverse.size() + pendingArgs.size() < numArgs) {
+				throw new WrongNumberOfArguments(c.getName());
+			} else {
+				for (int i = instructionCacheInReverse.size()-1; pendingArgs.size() < numArgs; i--) {
+					pendingArgs.add(instructionCacheInReverse.get(i));
 				}
 			}
 		}
-		return revertOrderToList(commandStack);
-	}
-	
-	private List<Command> revertOrderToList(Stack<Command> stk) {
-		List<Command> main = new ArrayList<>();
-		while (!stk.isEmpty()) {
-			main.add(stk.pop());
-		}
-		return main;
-	}
-	
-	public static void main(String[] args) {
-		String s = "1";
-		ResourceBundle l = ResourceBundle.getBundle(TOKEN_DICT);
-		System.out.println(s.matches(l.getString("constant.regex")));
+		return pendingArgs;
 	}
 }

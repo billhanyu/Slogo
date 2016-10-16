@@ -18,10 +18,4 @@ public abstract class Command implements Executable{
 	
 	@Override
 	public abstract String getName();
-	
-	/**
-	 * Return the expected number of arguments for this command to run
-	 * @return
-	 */
-	public abstract int getExpectedNumArgs();
 }
