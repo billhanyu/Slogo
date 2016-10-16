@@ -19,5 +19,5 @@ public interface ActorState {
 	boolean isPenDown();
 	boolean isVisible();
 	boolean doesAnimate();
-	
+	void duplicateOnto(ActorState other);
 }
