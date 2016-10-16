@@ -16,7 +16,6 @@ public abstract class StandardCommand extends Command{
 	
 	// TODO(cx15): define a final static name for each subclass
 	protected ActorState delta;
-	protected List<Executable> argv;
 	
 	public StandardCommand(List<Executable> argv) {
 		super(argv);
@@ -24,13 +23,10 @@ public abstract class StandardCommand extends Command{
 	}
 
 	@Override
-	public abstract double execute();
+	public abstract double execute(TurtleLog log);
 	
 	@Override
 	public abstract String getName();
-	
-	@Override
-	public abstract void appendToLog(TurtleLog log);
 	
 	@Override
 	public abstract int getExpectedNumArgs();

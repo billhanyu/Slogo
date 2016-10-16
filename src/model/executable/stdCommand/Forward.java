@@ -17,25 +17,19 @@ public class Forward extends StandardCommand{
 	}
 
 	@Override
-	public double execute() {
-		double ret = argv.get(0).execute();
-		delta.setPositionX(ret);
-		return ret;
-	}
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
-	@Override
-	public void appendToLog(TurtleLog log) {
-		double offset = delta.getPositionX();
+	public double execute(TurtleLog log) {
+		double offset = argv.get(0).execute(log);
 		ActorState prev = log.peekLast();
 		prev.duplicateOnto(delta);
 		delta.setPositionX(offset * Math.cos(prev.getHeading()));
 		delta.setPositionY(offset * Math.sin(prev.getHeading()));
 		log.append(delta);
+		return offset;
+	}
+
+	@Override
+	public String getName() {
+		return NAME;
 	}
 
 	@Override

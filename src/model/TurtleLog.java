@@ -5,8 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * An append-only log that records a sequence of ActorState so that
+ * frontend could render the effect of input script in order
  * @author billyu
- * Log of TurtleStates for frontend to update
  */
 
 public class TurtleLog implements Iterable<ActorState> {
