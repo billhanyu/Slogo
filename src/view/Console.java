@@ -1,23 +1,40 @@
 package view;
 
-import javafx.scene.Node;
+import controller.Controller;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 
-public class Console implements Displayable {
+public class Console extends View {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	private TextArea textArea;
+	private static final String LABEL = "Console";
+	
+	public Console(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
+		init();
 	}
-	
+
 	public void setText(String text) {
-		
+		textArea.setText(text);
 	}
-
-	@Override
-	public Node getUI() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void appendText(String text) {
+		textArea.appendText(text);
+	}
+	
+	private void init() {
+		textArea = new TextArea();
+		textArea.setEditable(false);
+		Label label = new Label(LABEL);
+		
+		VBox all = new VBox();
+		all.setPrefWidth(200);
+		all.setPadding(new Insets(5,5,5,5));
+		all.setSpacing(10);
+		all.getChildren().addAll(label, textArea);
+		this.getRoot().getChildren().add(all);
 	}
 
 }

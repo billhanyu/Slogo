@@ -1,24 +1,31 @@
 package view;
 
-import javafx.scene.Node;
+import controller.Controller;
+import javafx.beans.value.ChangeListener;
 import model.CommandHistory;
 
-public class CommandHistoryView implements Displayable {
+public class CommandHistoryView extends EnvironmentListView {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	private static final String LABEL = "Command History";
+	
+	public CommandHistoryView(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
-	
+
 	public void update(CommandHistory history) {
 		
 	}
 
 	@Override
-	public Node getUI() {
-		// TODO Auto-generated method stub
-		return null;
+	protected ChangeListener<String> getChangeListener() {
+		return (ov, oldVal, newVal) -> {
+			this.getController().putScript(newVal);
+		};
+	}
+
+	@Override
+	String getLabelString() {
+		return LABEL;
 	}
 
 }

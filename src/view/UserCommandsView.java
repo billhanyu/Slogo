@@ -1,24 +1,30 @@
 package view;
 
-import javafx.scene.Node;
+import controller.Controller;
+import javafx.beans.value.ChangeListener;
 import model.UserCommands;
 
-public class UserCommandsView implements Displayable {
+public class UserCommandsView extends EnvironmentListView {
 	
-	@Override
-	public void init(double x, double y, double width, double height) {
-		// TODO Auto-generated method stub
-		
+	private static final String LABEL = "Commands";
+	
+	public UserCommandsView(Controller controller, double x, double y, double width, double height) {
+		super(controller, x, y, width, height);
 	}
-	
+
 	public void update(UserCommands cmds) {
 		
 	}
 
 	@Override
-	public Node getUI() {
-		// TODO Auto-generated method stub
-		return null;
+	protected ChangeListener<String> getChangeListener() {
+		return (ov, oldVal, newVal) -> {
+			System.out.println("User Command selected: " + newVal);
+		};
 	}
 
+	@Override
+	String getLabelString() {
+		return LABEL;
+	}
 }
