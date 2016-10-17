@@ -2,6 +2,7 @@ package model.executable.stdCommand.movement;
 
 import java.util.List;
 
+import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
@@ -16,7 +17,8 @@ public class Forward extends StandardCommand{
 	}
 
 	@Override
-	public double execute(TurtleLog log) {
+	public double execute(TurtleLog log)
+			throws SyntacticErrorException {
 		double offset = argv.get(0).execute(log);
 		ActorState prev = log.peekLast();
 		prev.duplicateOnto(delta);

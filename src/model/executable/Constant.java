@@ -5,8 +5,8 @@ import model.TurtleLog;
 
 public class Constant implements Executable {
 	
-	protected String name;
-	protected double value;
+	private String name;
+	private double value;
 	
 	public Constant(double value) {
 		this(null, value);
