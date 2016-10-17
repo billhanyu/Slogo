@@ -11,22 +11,14 @@ public abstract class View implements Displayable {
 	
 	private Group root;
 	private Controller controller;
-	private double positionX;
-	private double positionY;
 	private double width;
 	private double height;
 	
-	public View(Controller controller, double x, double y, double width, double height) {
-		init(controller, x, y, width, height);
-		root = new Group();
-	}
-	
-	public void init(Controller controller, double x, double y, double width, double height) {
+	public View(Controller controller, double width, double height) {
 		this.controller = controller;
-		this.positionX = x;
-		this.positionY = y;
 		this.width = width;
 		this.height = height;
+		root = new Group();
 	}
 	
 	public Node getUI() {
@@ -35,14 +27,6 @@ public abstract class View implements Displayable {
 	
 	protected Controller getController() {
 		return controller;
-	}
-	
-	protected double getPositionX() {
-		return positionX;
-	}
-	
-	protected double getPositionY() {
-		return positionY;
 	}
 	
 	protected double getWidth() {

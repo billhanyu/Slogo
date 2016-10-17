@@ -21,11 +21,10 @@ public class Canvas extends View {
 	private static final double CANVAS_HEIGHT = 500;
 	private static final Color BACKGROUND_COLOR = Color.WHITE;
 	
-	public Canvas(Controller controller, double x, double y, double width, double height) {
-		super(controller, x, y, width, height);
+	public Canvas(Controller controller, double width, double height) {
+		super(controller, width, height);
 		currentState = new TurtleState();
 		turtleView = new TurtleView(controller, translateX(0), translateY(0), turtleWidth, turtleHeight);
-		turtleView.setDirection(0);
 		background = new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		background.setFill(BACKGROUND_COLOR);
 		this.getRoot().getChildren().addAll(background, turtleView.getUI());
@@ -72,6 +71,7 @@ public class Canvas extends View {
 
 		path.getElements().add(moveTo);
 		path.getElements().add(lineTo);
+		this.getRoot().getChildren().add(path);
 	}
 	
 }

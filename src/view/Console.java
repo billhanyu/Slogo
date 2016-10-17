@@ -11,8 +11,8 @@ public class Console extends View {
 	private TextArea textArea;
 	private static final String LABEL = "Console";
 	
-	public Console(Controller controller, double x, double y, double width, double height) {
-		super(controller, x, y, width, height);
+	public Console(Controller controller, double width, double height) {
+		super(controller, width, height);
 		init();
 	}
 

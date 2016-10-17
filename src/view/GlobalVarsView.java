@@ -8,8 +8,8 @@ public class GlobalVarsView extends EnvironmentListView {
 	
 	private static final String LABEL = "Variables";
 	
-	public GlobalVarsView(Controller controller, double x, double y, double width, double height) {
-		super(controller, x, y, width, height);
+	public GlobalVarsView(Controller controller, double width, double height) {
+		super(controller, width, height);
 	}
 
 	public void update(GlobalVars vars) {

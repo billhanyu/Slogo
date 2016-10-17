@@ -16,8 +16,8 @@ public class Editor extends View {
 	private static final String RUN_TEXT = "Run";
 	private static final String CLEAR_TEXT = "Clear";
 	
-	public Editor(Controller controller, double x, double y, double width, double height) {
-		super(controller, x, y, width, height);
+	public Editor(Controller controller, double width, double height) {
+		super(controller, width, height);
 		init();
 	}
 

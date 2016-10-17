@@ -10,12 +10,16 @@ public class TurtleView extends View {
 	private ImageView turtleImage;
 	
 	public TurtleView(Controller controller, double x, double y, double width, double height) {
-		super(controller, x, y, width, height);
+		this(controller, width, height);
+		setPositionX(x);
+		setPositionY(y);
+	}
+	
+	public TurtleView(Controller controller, double width, double height) {
+		super(controller, width, height);
 		turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(DEFAULT_IMAGEFILE)));
 		turtleImage.setFitWidth(width);
 		turtleImage.setFitHeight(height);
-		setPositionX(x);
-		setPositionY(y);
 		this.getRoot().getChildren().add(turtleImage);
 	}
 	

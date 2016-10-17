@@ -44,10 +44,10 @@ public class MainView {
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
-		canvas = new Canvas(controller, 0,0,0,0);
-		editor = new Editor(controller, 0,0,900,0);
-		console = new Console(controller, 0,0,0,0);
-		environmentView = new EnvironmentView(controller, 0,0,300,700);
+		canvas = new Canvas(controller, 0,0);
+		editor = new Editor(controller, 900,0);
+		console = new Console(controller, 0,0);
+		environmentView = new EnvironmentView(controller, 300,700);
 		//TODO: set width and height here instead of setting in classes
 		root.setCenter(canvas.getUI());
 		root.setBottom(editor.getUI());
