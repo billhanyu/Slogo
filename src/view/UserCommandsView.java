@@ -8,8 +8,8 @@ public class UserCommandsView extends EnvironmentListView {
 	
 	private static final String LABEL = "Commands";
 	
-	public UserCommandsView(Controller controller, double x, double y, double width, double height) {
-		super(controller, x, y, width, height);
+	public UserCommandsView(Controller controller, double width, double height) {
+		super(controller, width, height);
 	}
 
 	public void update(UserCommands cmds) {
