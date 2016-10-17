@@ -15,8 +15,8 @@ public class Canvas extends View {
 	private TurtleView turtleView;
 	private Rectangle background;
 	private TurtleState currentState;
-	private double turtleWidth = 40;
-	private double turtleHeight = 40;
+	private double turtleWidth = 20;
+	private double turtleHeight = 20;
 	private static final double CANVAS_WIDTH = 500;
 	private static final double CANVAS_HEIGHT = 500;
 	private static final Color BACKGROUND_COLOR = Color.WHITE;
@@ -44,6 +44,10 @@ public class Canvas extends View {
 				currentState = next;
 			}
 		}
+	}
+	
+	public TurtleView getTurtleView() {
+		return turtleView;
 	}
 	
 	public void setBackgroundColor(Color color) {

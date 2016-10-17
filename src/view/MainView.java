@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainView {
@@ -46,12 +47,16 @@ public class MainView {
 		Scene scn = new Scene(root);
 		canvas = new Canvas(controller, 0,0);
 		editor = new Editor(controller, 900,0);
-		console = new Console(controller, 0,0);
-		environmentView = new EnvironmentView(controller, 300,700);
-		//TODO: set width and height here instead of setting in classes
+		
+		VBox lefts = new VBox();
+		console = new Console(controller, 200,200);
+		UserControls controls = new UserControls(controller, 200, 200);
+		lefts.getChildren().addAll(console.getUI(), controls.getUI());
+		
+		environmentView = new EnvironmentView(controller, 300,500);
 		root.setCenter(canvas.getUI());
 		root.setBottom(editor.getUI());
-		root.setLeft(console.getUI());
+		root.setLeft(lefts);
 		root.setRight(environmentView.getUI());
 		return scn;
 	}

@@ -29,4 +29,8 @@ public class Controller {
 		mainView.getEditor().setText(script);
 	}
 	
+	public MainView getMainView() {
+		return mainView;
+	}
+	
 }
