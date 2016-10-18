@@ -18,7 +18,8 @@ public abstract class StandardCommand extends Command{
 	// TODO(cx15): define a final static name for each subclass
 	protected ActorState delta;
 	
-	public StandardCommand(List<Executable> argv) {
+	public StandardCommand(List<Executable> argv)
+			throws SyntacticErrorException {
 		super(argv);
 		delta = new TurtleState();
 	}
@@ -29,4 +30,10 @@ public abstract class StandardCommand extends Command{
 	
 	@Override
 	public abstract String getName();
+	
+	@Override
+	protected void validateArgv()
+			throws SyntacticErrorException {
+		// does nothing, by default takes any Executable as argument
+	}
 }

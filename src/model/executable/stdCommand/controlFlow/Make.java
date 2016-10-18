@@ -9,8 +9,9 @@ import model.executable.StandardCommand;
 import model.executable.Variable;
 
 public class Make extends StandardCommand{
-
-	public Make(List<Executable> argv) {
+	
+	public Make(List<Executable> argv)
+			throws SyntacticErrorException {
 		// argv == {constant, variable}
 		super(argv);
 	}
@@ -28,8 +29,6 @@ public class Make extends StandardCommand{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "make";
 	}
-
 }

@@ -30,11 +30,11 @@ public class InterpreterTest {
 		intr = new Interpreter();
 	}
 	
-//	@Test
-//	public void forwardForward() {
-//		parseAndExecute("fd fd fd 10");
-//		assertDoubleEqual(log.peekLast().getPositionX(), 30);
-//	}
+	@Test
+	public void forwardForward() {
+		parseAndExecute("fd fd fd 10");
+		assertDoubleEqual(log.peekLast().getPositionX(), 30);
+	}
 	
 	@Test
 	public void makeVar() {
