@@ -62,10 +62,14 @@ public class UserControls extends View {
 			File imageFile = fileChooser.showOpenDialog(null);
 			if (imageFile != null) {
 				Image newImage = new Image(imageFile.toURI().toString());
-				this.getController().getMainView().getCanvas().getTurtleView().setImage(newImage);
+				this.getController().getMainView().getCanvas().getTurtleView().
+					setImage(newImage);
+				this.getController().getMainView().getConsole().
+					appendText("Turtle Image updated!", TextType.Success);
 			}
 			else {
-				//TODO: error handling
+				this.getController().getMainView().getConsole().
+					appendText("No Image Chosen", TextType.Error);
 			}
 		});
 		return btn;

@@ -19,7 +19,7 @@ public class GlobalVarsView extends EnvironmentListView {
 	@Override
 	protected ChangeListener<String> getChangeListener() {
 		return (ov, oldVal, newVal) -> {
-			System.out.println("Variable selected: " + newVal);
+			this.getController().getMainView().getEditor().appendText(newVal);
 		};
 	}
 
