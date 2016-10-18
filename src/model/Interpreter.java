@@ -59,7 +59,7 @@ public class Interpreter {
 			if (token.matches(lexicon.getString("constant.regex"))) {
 				pendingArgs.add(new Constant(Double.parseDouble(token)));
 			} else if (token.matches(lexicon.getString("variable.regex"))) {
-				if (globalVars.get(token) != null) {
+				if (globalVars.get(token) == null) {
 					Variable var = new Variable(token);
 					globalVars.add(var);
 				}
@@ -96,7 +96,7 @@ public class Interpreter {
 				throw new WrongNumberOfArguments(className);
 			} else {
 				for (int i = instructionCacheInReverse.size()-1; pendingArgs.size() < numArgs; i--) {
-					pendingArgs.add(instructionCacheInReverse.get(i));
+					pendingArgs.add(instructionCacheInReverse.remove(i));
 				}
 			}
 		}
