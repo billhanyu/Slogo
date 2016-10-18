@@ -18,11 +18,13 @@ public class TurtleState implements ActorState {
 	private boolean doesAnimate;
 	private Color penColor;
 	
+	public static final Color DEFAULT_PEN_COLOR = Color.BLACK;
+	
 	public TurtleState() {
 		positionX = 0.0;
 		positionY = 0.0;
 		visible = true;
-		penColor = Color.BLACK;
+		penColor = DEFAULT_PEN_COLOR;
 		penDown = true;
 	}
 
@@ -104,5 +106,6 @@ public class TurtleState implements ActorState {
 		other.setAnimate(this.doesAnimate());
 		other.setDirection(this.getHeading());
 		other.setVisible(this.isVisible());
+		other.setPenColor(this.getPenColor());
 	}
 }

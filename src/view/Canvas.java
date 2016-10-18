@@ -19,7 +19,7 @@ public class Canvas extends View {
 	private double turtleHeight = 20;
 	private static final double CANVAS_WIDTH = 500;
 	private static final double CANVAS_HEIGHT = 500;
-	private static final Color BACKGROUND_COLOR = Color.WHITE;
+	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	
 	public Canvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -84,6 +84,7 @@ public class Canvas extends View {
 		path.getElements().add(moveTo);
 		path.getElements().add(lineTo);
 		path.setFill(currentState.getPenColor());
+		path.setStroke(currentState.getPenColor());
 		this.getRoot().getChildren().add(path);
 	}
 	
