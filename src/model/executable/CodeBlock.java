@@ -1,6 +1,5 @@
 package model.executable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import exception.SyntacticErrorException;
