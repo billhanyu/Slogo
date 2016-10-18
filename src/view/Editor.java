@@ -1,6 +1,9 @@
 package view;
 
 import controller.Controller;
+import exception.SyntacticErrorException;
+import exception.UnrecognizedIdentifierException;
+import exception.WrongNumberOfArguments;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -32,14 +35,8 @@ public class Editor extends View {
 	
 	private void init() {
 		textArea = new TextArea();
-		runButton = this.makeButton(RUN_TEXT, e -> {
-			this.getController().runScript(textArea.getText());
-		});
-		clearButton = this.makeButton(CLEAR_TEXT, e -> {
-			textArea.clear();
-		});
-		runButton.setPrefWidth(70);
-		clearButton.setPrefWidth(70);
+		makeRunButton();
+		makeClearButton();
 		
 		VBox buttons = new VBox();
 		buttons.setAlignment(Pos.CENTER);
@@ -53,6 +50,31 @@ public class Editor extends View {
 		all.getChildren().addAll(textArea, buttons);
 		HBox.setHgrow(textArea, Priority.ALWAYS);
 		this.getRoot().getChildren().add(all);
+	}
+
+	private void makeClearButton() {
+		clearButton = this.makeButton(CLEAR_TEXT, e -> {
+			textArea.clear();
+		});
+		clearButton.setPrefWidth(70);
+	}
+
+	private void makeRunButton() {
+		runButton = this.makeButton(RUN_TEXT, e -> {
+			try {
+				this.getController().runScript(textArea.getText());
+			} catch (UnrecognizedIdentifierException e1) {
+				this.getController().getMainView().getConsole().
+					appendText("UnrecognizedIdentifier", TextType.Error);
+			} catch (WrongNumberOfArguments e1) {
+				this.getController().getMainView().getConsole().
+				appendText("WrongNumberOfArguments", TextType.Error);
+			} catch (SyntacticErrorException e1) {
+				this.getController().getMainView().getConsole().
+				appendText("SyntacticError", TextType.Error);
+			}
+		});
+		runButton.setPrefWidth(70);
 	}
 
 }

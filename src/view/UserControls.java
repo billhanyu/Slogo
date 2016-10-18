@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import model.TurtleState;
 
 public class UserControls extends View {
 	
@@ -52,6 +53,7 @@ public class UserControls extends View {
 
 	private ColorPicker makeBackgroundPicker() {
 		ColorPicker picker = new ColorPicker();
+		picker.setValue(Canvas.BACKGROUND_COLOR);
 		picker.setOnAction(e -> {
 			this.getController().getMainView().
 				getCanvas().setBackgroundColor(picker.getValue());
@@ -61,6 +63,7 @@ public class UserControls extends View {
 	
 	private ColorPicker makePenPicker() {
 		ColorPicker picker = new ColorPicker();
+		picker.setValue(TurtleState.DEFAULT_PEN_COLOR);
 		picker.setOnAction(e -> {
 			this.getController().getMainView().
 				getCanvas().setPenColor(picker.getValue());
