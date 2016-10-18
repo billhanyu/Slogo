@@ -46,7 +46,7 @@ public class MainView {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
 		canvas = new Canvas(controller, 0,0);
-		editor = new Editor(controller, 900,0);
+		editor = new Editor(controller, 1000,0);
 		
 		VBox lefts = new VBox();
 		console = new Console(controller, 200,200);
