@@ -17,6 +17,14 @@ public class TurtleState implements ActorState {
 	private boolean visible;
 	private boolean doesAnimate;
 	private Color penColor;
+	
+	public TurtleState() {
+		positionX = 0.0;
+		positionY = 0.0;
+		visible = true;
+		penColor = Color.BLACK;
+		penDown = true;
+	}
 
 	@Override
 	public void setPositionX(double x) {

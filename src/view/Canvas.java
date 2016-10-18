@@ -58,6 +58,10 @@ public class Canvas extends View {
 		currentState.setPenColor(color);
 	}
 	
+	public TurtleState getCurrentState() {
+		return currentState;
+	}
+	
 	private double translateX(double x) {
 		return x + CANVAS_WIDTH / 2;
 	}
