@@ -49,7 +49,7 @@ public class MainView {
 		editor = new Editor(controller, 1000,0);
 		
 		VBox lefts = new VBox();
-		console = new Console(controller, 300,200);
+		console = new Console(controller, 300,250);
 		UserControls controls = new UserControls(controller, 300, 200);
 		lefts.getChildren().addAll(console.getUI(), controls.getUI());
 				

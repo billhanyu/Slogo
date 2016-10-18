@@ -54,6 +54,10 @@ public class Canvas extends View {
 		background.setFill(color);
 	}
 	
+	public void setPenColor(Color color) {
+		currentState.setPenColor(color);
+	}
+	
 	private double translateX(double x) {
 		return x + CANVAS_WIDTH / 2;
 	}
@@ -75,6 +79,7 @@ public class Canvas extends View {
 
 		path.getElements().add(moveTo);
 		path.getElements().add(lineTo);
+		path.setFill(currentState.getPenColor());
 		this.getRoot().getChildren().add(path);
 	}
 	

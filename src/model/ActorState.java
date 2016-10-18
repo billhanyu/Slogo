@@ -1,5 +1,7 @@
 package model;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author billyu
  * API for actor (probably turtle) in the project
@@ -13,11 +15,13 @@ public interface ActorState {
 	void setPen(boolean isDown);
 	void setVisible(boolean isVisible);
 	void setAnimate(boolean animate);
+	void setPenColor(Color color);
 	double getPositionX();
 	double getPositionY();
 	double getHeading();
 	boolean isPenDown();
 	boolean isVisible();
 	boolean doesAnimate();
+	Color getPenColor();
 	void duplicateOnto(ActorState other);
 }
