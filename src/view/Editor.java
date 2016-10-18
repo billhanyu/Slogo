@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class Editor extends View {
@@ -50,6 +51,7 @@ public class Editor extends View {
 		all.setPadding(new Insets(5,5,5,5));
 		all.setPrefWidth(this.getWidth());
 		all.getChildren().addAll(textArea, buttons);
+		HBox.setHgrow(textArea, Priority.ALWAYS);
 		this.getRoot().getChildren().add(all);
 	}
 
