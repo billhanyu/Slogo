@@ -16,6 +16,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class UserControls extends View {
 	
+	private static final String NO_IMAGE_CHOSEN = "No Image Chosen";
+	private static final String TURTLE_IMAGE_UPDATED = "Turtle Image updated!";
+	private static final String SELECT_TURTLE_IMAGE = "Select Turtle Image";
 	private static final String BACKGROUND_LABEL = "Background Color";
 	private static final String PEN_LABEL = "Pen Color";
 
@@ -74,10 +77,10 @@ public class UserControls extends View {
 	}
 
 	private Button makeChangeImageButton() {
-		Button btn = new Button("Select Turtle Image");
+		Button btn = new Button(SELECT_TURTLE_IMAGE);
 		btn.setOnAction(e -> {
 			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Open Resource File");
+			fileChooser.setTitle(SELECT_TURTLE_IMAGE);
 			fileChooser.getExtensionFilters().addAll(
 					new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 			File imageFile = fileChooser.showOpenDialog(null);
@@ -86,11 +89,11 @@ public class UserControls extends View {
 				this.getController().getMainView().getCanvas().getTurtleView().
 					setImage(newImage);
 				this.getController().getMainView().getConsole().
-					appendText("Turtle Image updated!", TextType.Success);
+					appendText(TURTLE_IMAGE_UPDATED, TextType.Success);
 			}
 			else {
 				this.getController().getMainView().getConsole().
-					appendText("No Image Chosen", TextType.Error);
+					appendText(NO_IMAGE_CHOSEN, TextType.Error);
 			}
 		});
 		return btn;
