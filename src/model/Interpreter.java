@@ -4,8 +4,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.Stack;
 
 import exception.ReflectionFoundNoMatchesException;
@@ -27,17 +29,19 @@ public class Interpreter {
 	public static final int VAR_EXPR_LEN = 1;
 	
 	private ResourceBundle lexicon;
-	private GlobalVars globalVars;
+	private StackFrame globalVars;
+	private Set<String> stdCmds;
 	
 	public Interpreter() {
 		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
-		globalVars = new GlobalVars();
+		globalVars = new StackFrame();
 	}
 	
 	public CodeBlock parseScript(String script)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
 		script = script.trim();
 		Stack<String> tokenStack = tokenize(script);
+		// TODO (cx15): preprocess to construct all procedure impl first since don't know param len
 		return buildMain(tokenStack);
 	}
 	
@@ -53,18 +57,17 @@ public class Interpreter {
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
 		List<Executable> instructionCacheInReverse = new ArrayList<>();
 		List<Executable> pendingArgs = new ArrayList<>();
-		List<Variable> varsBuffer = new ArrayList<>(); // TODO (cx15): FOR PRECEDURE PARAM LIST
 		while (!tokenStack.isEmpty()) {
 			String token = tokenStack.pop().toLowerCase();
-			if (token.matches(lexicon.getString("constant.regex"))) {
+			if (isConstant(token)) {
 				pendingArgs.add(new Constant(Double.parseDouble(token)));
-			} else if (token.matches(lexicon.getString("variable.regex"))) {
+			} else if (isVariable(token)) {
 				if (globalVars.get(token) == null) {
 					Variable var = new Variable(token);
 					globalVars.add(var);
 				}
 				pendingArgs.add(globalVars.get(token));
-			} else {
+			} else if (isStdCommand(token) || isCustomCommand(token)) {
 				try{
 					String className = lexicon.getString(token + PROP_CLASS);
 					int numArgs = Integer.parseInt(lexicon.getString(token + PROP_ARGC));
@@ -79,6 +82,8 @@ public class Interpreter {
 						| IllegalArgumentException | InvocationTargetException e) {
 					throw new UnrecognizedIdentifierException();
 				} 
+			} else {
+				throw new UnrecognizedIdentifierException();
 			}
 		}
 		Collections.reverse(instructionCacheInReverse);
@@ -101,5 +106,29 @@ public class Interpreter {
 			}
 		}
 		return pendingArgs;
+	}
+	
+	private boolean isStdCommand(String token) {
+		if (stdCmds == null) {
+			stdCmds = new HashSet<>();
+			lexicon.getString("stdcmd");
+			for (String stdToken : lexicon.getString("stdcmd").split(SPACE_REGEX)) {
+				stdCmds.add(stdToken);
+			}
+		}
+		return stdCmds.contains(token);
+	}
+	
+	private boolean isCustomCommand(String token) {
+		// TODO (cx15): IMPL
+		return true;
+	}
+	
+	private boolean isConstant(String token) {
+		return token.matches(lexicon.getString("constant.regex"));
+	}
+	
+	private boolean isVariable(String token) {
+		return token.matches(lexicon.getString("variable.regex"));
 	}
 }

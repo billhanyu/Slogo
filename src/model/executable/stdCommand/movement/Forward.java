@@ -11,9 +11,8 @@ import model.executable.StandardCommand;
 
 public class Forward extends StandardCommand{
 	
-	public static final String NAME = "forward";
-
-	public Forward(List<Executable> argv) {
+	public Forward(List<Executable> argv)
+			throws SyntacticErrorException {
 		super(argv);
 	}
 
@@ -32,6 +31,6 @@ public class Forward extends StandardCommand{
 
 	@Override
 	public String getName() {
-		return NAME;
+		return "forward";
 	}
 }

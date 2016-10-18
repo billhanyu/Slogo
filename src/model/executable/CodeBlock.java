@@ -37,5 +37,8 @@ public class CodeBlock implements Executable{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	public List<Executable> unravel(int index) {
+		return sequence;
+	}
 }
