@@ -55,6 +55,12 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void setHeading() {
+		parseAndExecute("seth 60.5");
+		assertDoubleEqual(log.peekLast().getHeading(), 60.5);
+	}
+	
+	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
