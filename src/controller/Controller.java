@@ -19,6 +19,7 @@ public class Controller {
 	private MainView mainView;
 	private TurtleLog log;
 	private final String UILabelFile = "resources/labels/EnglishLabels";
+	//TODO: initializing here because initializing in constructor makes object null somehow
 	private DisplayLabelReader valueReader = new DisplayLabelReader(UILabelFile);
 	
 	public Controller() {
@@ -35,6 +36,10 @@ public class Controller {
 		CodeBlock main = interpreter.parseScript(script);
 		main.execute(log);
 		mainView.getCanvas().render(log);
+	}
+	
+	public void setLanguage(String language){
+		//TO-DO: Connect to backend, set language there
 	}
 	
 	public void putScript(String script) {
