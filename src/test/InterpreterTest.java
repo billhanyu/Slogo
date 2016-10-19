@@ -61,6 +61,19 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void Towards() {
+		parseAndExecute("towards 1 0");
+		assertDoubleEqual(log.peekLast().getHeading(), 0);
+	}
+	
+	@Test
+	public void SetXY() {
+		parseAndExecute("setxy 10 5"); //fails when changed to goto?
+		assertDoubleEqual(log.peekLast().getPositionX(), 10);
+		assertDoubleEqual(log.peekLast().getPositionY(), 5);
+	}
+	
+	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
