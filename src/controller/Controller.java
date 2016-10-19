@@ -9,6 +9,7 @@ import model.Interpreter;
 import model.StackFrame;
 import model.TurtleLog;
 import model.executable.CodeBlock;
+import view.DisplayLabelReader;
 import view.MainView;
 public class Controller {
 	
@@ -17,6 +18,8 @@ public class Controller {
 	private Stack<StackFrame> stack;
 	private MainView mainView;
 	private TurtleLog log;
+	private final String UILabelFile = "resources/labels/EnglishLabels";
+	private DisplayLabelReader valueReader = new DisplayLabelReader(UILabelFile);
 	
 	public Controller() {
 		interpreter = new Interpreter();
@@ -25,6 +28,7 @@ public class Controller {
 		mainView = new MainView(this);
 		log = new TurtleLog();
 		log.append(mainView.getCanvas().getCurrentState());
+		//valueReader = new DisplayValueReader(UILabelFile);
 	}
 	
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
@@ -39,6 +43,10 @@ public class Controller {
 	
 	public MainView getMainView() {
 		return mainView;
+	}
+	
+	public DisplayLabelReader getValueReader(){
+		return valueReader;
 	}
 	
 }
