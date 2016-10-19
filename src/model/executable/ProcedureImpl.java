@@ -8,7 +8,7 @@ import model.TurtleLog;
 import model.Executable;
 import model.StackFrame;
 
-public class ProcedureImpl extends Command{
+public class ProcedureImpl{
 	
 	private String name;
 	// TODO (cx15): when called, push a new stackFrame onto stack, populate it using variables from previous stackframe, subsequent command access value from the new stackfrome 
@@ -16,34 +16,23 @@ public class ProcedureImpl extends Command{
 	private CodeBlock procedure;
 	
 	public ProcedureImpl(String name,
-						 List<Executable> argv,
-						 Stack<StackFrame> stack,
+						 List<Executable> paramNames,
 						 CodeBlock procedure) throws SyntacticErrorException {
-		super(argv); // used the names only, to find value from stack
-		this.stack = stack;
+		this.stack = new Stack<>();
 		this.name = name;
 		this.procedure = procedure;
 	}
 
-	@Override
-	public double execute(TurtleLog log) 
+	public double execute(TurtleLog log, StackFrame stackFrame) 
 			throws SyntacticErrorException {
+		// param assumed to be in stackFrame
 		// TODO (cx15): open up another stack frame
 		double ret = procedure.execute(log);
 		// TODO (cx15): collapse the stack frame
 		return ret;
 	}
 
-	@Override
 	public String getName() {
 		return this.name;
-	}
-
-	@Override
-	protected void validateArgv() throws SyntacticErrorException {
-		if (!(argv.get(0) instanceof CodeBlock)
-				|| !(argv.get(1) instanceof CodeBlock)) {
-			throw new SyntacticErrorException();
-		}		
 	}
 }
