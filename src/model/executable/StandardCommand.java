@@ -13,7 +13,7 @@ import model.TurtleState;
  * that contains its argv. It will never result in another stackFrame. If one
  * feels such need, use Procedure
  */
-public abstract class StandardCommand extends Command{
+public abstract class StandardCommand extends Command {
 	
 	// TODO(cx15): define a final static name for each subclass
 	protected ActorState delta;
