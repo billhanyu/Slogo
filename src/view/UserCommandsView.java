@@ -6,7 +6,6 @@ import model.UserCommands;
 
 public class UserCommandsView extends EnvironmentListView {
 	
-	private static final String LABEL = "Commands";
 	
 	public UserCommandsView(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -25,6 +24,6 @@ public class UserCommandsView extends EnvironmentListView {
 
 	@Override
 	String getLabelString() {
-		return LABEL;
+		return this.getController().getValueReader().getValue("Commands");
 	}
 }

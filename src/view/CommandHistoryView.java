@@ -6,8 +6,6 @@ import model.CommandHistory;
 
 public class CommandHistoryView extends EnvironmentListView {
 	
-	private static final String LABEL = "Command History";
-	
 	public CommandHistoryView(Controller controller, double width, double height) {
 		super(controller, width, height);
 	}
@@ -25,7 +23,7 @@ public class CommandHistoryView extends EnvironmentListView {
 
 	@Override
 	String getLabelString() {
-		return LABEL;
+		return this.getController().getValueReader().getValue("CommandHistoryLabel");
 	}
 
 }

@@ -17,8 +17,6 @@ public class Editor extends View {
 	private TextArea textArea;
 	private Button runButton;
 	private Button clearButton;
-	private static final String RUN_TEXT = "Run";
-	private static final String CLEAR_TEXT = "Clear";
 	
 	public Editor(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -53,17 +51,18 @@ public class Editor extends View {
 	}
 
 	private void makeClearButton() {
-		clearButton = this.makeButton(CLEAR_TEXT, e -> {
+		clearButton = this.makeButton(this.getController().getValueReader().getValue("ClearUserInput"), e -> {
 			textArea.clear();
 		});
 		clearButton.setPrefWidth(70);
 	}
 
 	private void makeRunButton() {
-		runButton = this.makeButton(RUN_TEXT, e -> {
+		runButton = this.makeButton(this.getController().getValueReader().getValue("RunUserInput"), e -> {
 			try {
 				this.getController().runScript(textArea.getText());
 			} catch (UnrecognizedIdentifierException e1) {
+				System.out.println("here");
 				this.getController().getMainView().getConsole().
 					appendText("UnrecognizedIdentifier", TextType.Error);
 			} catch (WrongNumberOfArguments e1) {
