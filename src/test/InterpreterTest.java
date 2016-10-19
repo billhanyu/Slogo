@@ -59,7 +59,7 @@ public class InterpreterTest {
 		parseAndExecute("seth 60.5");
 		assertDoubleEqual(log.peekLast().getHeading(), 60.5);
 	}
-	
+
 	@Test
 	public void Towards() {
 		parseAndExecute("towards 1 0");
