@@ -3,7 +3,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * @author billyu, Chalena Scholl
+ * @author billyu
  * Starter class for SLOGO project
  */
 

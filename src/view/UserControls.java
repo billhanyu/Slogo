@@ -1,12 +1,16 @@
 package view;
 
 import java.io.File;
+import java.util.Collections;
 
 import controller.Controller;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -16,9 +20,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import model.TurtleState;
 
 public class UserControls extends View {
-	
-	private static final String NO_IMAGE_CHOSEN = "No Image Chosen";
-	private static final String TURTLE_IMAGE_UPDATED = "Turtle Image updated!";
 
 	public UserControls(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -28,24 +29,33 @@ public class UserControls extends View {
 	private void init() {
 		HBox backgroundBox = makeBackgroundPickerBox();
 		HBox penBox = makePenPickerBox();
+		HBox languageBox = makeLanguagePickerBox();
 		Button changeImageButton = makeChangeImageButton();
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(5,5,5,5));
 		box.setSpacing(20);
 		box.setPrefWidth(this.getWidth());
-		box.getChildren().addAll(backgroundBox, penBox, changeImageButton);
+		box.getChildren().addAll(backgroundBox, penBox, languageBox, changeImageButton);
 		this.getRoot().getChildren().add(box);
 	}
 	
 	private HBox makeBackgroundPickerBox() {
 		ColorPicker picker = makeBackgroundPicker();
-		return makePickerBox(this.getController().getValueReader().getLabel("BackgroundLabel"), picker);
+		return makePickerBox(this.getLabelReader().getLabel("BackgroundLabel"), picker);
 	}
 	
 	private HBox makePenPickerBox() {
 		ColorPicker picker = makePenPicker();
-		return makePickerBox(this.getController().getValueReader().getLabel("PenLabel"), picker);
+		return makePickerBox(this.getLabelReader().getLabel("PenLabel"), picker);
+	}
+	
+	private HBox makeLanguagePickerBox() {
+		ObservableList<String> options = FXCollections.observableArrayList(
+				this.getLabelReader().getLabel("AvailableLanguages").split(","));
+		String defaultValue = this.getLabelReader().getLabel("DefaultLanguage");
+		ComboBox<String> selections = makeComboBox(options, defaultValue);
+		return makeSelectionBox(this.getLabelReader().getLabel("LanguageLabel"), selections);
 	}
 
 	private ColorPicker makeBackgroundPicker() {
@@ -75,12 +85,31 @@ public class UserControls extends View {
 		pickerBox.getChildren().addAll(pickerLabel, picker);
 		return pickerBox;
 	}
+	
+	private ComboBox<String> makeComboBox(ObservableList<String> options, String defaultValue){
+		Collections.sort(options);
+		ComboBox<String> selections = new ComboBox<String>(options);
+		selections.setValue(defaultValue);
+		selections.setOnAction((event) -> {
+		    this.getController().setLanguage(selections.getSelectionModel().getSelectedItem());
+		});
+		return selections;
+	}
+	
+	private HBox makeSelectionBox(String label, ComboBox<String> selections){
+		HBox selectionBox = new HBox();
+		selectionBox.setAlignment(Pos.CENTER);
+		Label selectionLabel = new Label(label);
+		selectionBox.getChildren().addAll(selectionLabel, selections);
+		return selectionBox;
+		
+	}
 
 	private Button makeChangeImageButton() {
-		Button btn = new Button(this.getController().getValueReader().getLabel("TurtleImageSelector"));
+		Button btn = new Button(this.getLabelReader().getLabel("TurtleImageSelector"));
 		btn.setOnAction(e -> {
 			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle(this.getController().getValueReader().getLabel("TurtleImageSelector"));
+			fileChooser.setTitle(this.getLabelReader().getLabel("TurtleImageSelector"));
 			fileChooser.getExtensionFilters().addAll(
 					new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 			File imageFile = fileChooser.showOpenDialog(null);
@@ -89,11 +118,11 @@ public class UserControls extends View {
 				this.getController().getMainView().getCanvas().getTurtleView().
 					setImage(newImage);
 				this.getController().getMainView().getConsole().
-					appendText(TURTLE_IMAGE_UPDATED, TextType.Success);
+					appendText(this.getLabelReader().getLabel("TurtleImageUpdated"), TextType.Success);
 			}
 			else {
 				this.getController().getMainView().getConsole().
-					appendText(NO_IMAGE_CHOSEN, TextType.Error);
+					appendText(this.getLabelReader().getLabel("NoImageChosen"), TextType.Error);
 			}
 		});
 		return btn;
