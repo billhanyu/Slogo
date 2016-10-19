@@ -38,8 +38,14 @@ public class InterpreterTest {
 	
 	@Test
 	public void backBack() {
-		parseAndExecute("bk bk 10");
+		parseAndExecute("bk back 10");
 		assertDoubleEqual(log.peekLast().getPositionX(), -20);
+	}
+	
+	@Test
+	public void leftLeft() {
+		parseAndExecute("lt left 10");
+		assertDoubleEqual(log.peekLast().getHeading(), 20);
 	}
 	
 	@Test
