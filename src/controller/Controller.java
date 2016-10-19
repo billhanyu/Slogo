@@ -18,18 +18,17 @@ public class Controller {
 	private Stack<StackFrame> stack;
 	private MainView mainView;
 	private TurtleLog log;
-	private final String UILabelFile = "resources/labels/EnglishLabels";
-	//TODO: initializing here because initializing in constructor makes object null somehow
-	private DisplayLabelReader valueReader = new DisplayLabelReader(UILabelFile);
+	private DisplayLabelReader valueReader;
+	private static final String UI_RESOURCES = "resources/labels/EnglishLabels";
 	
 	public Controller() {
 		interpreter = new Interpreter();
 		executor = new Executor();
 		stack = new Stack<>();
-		mainView = new MainView(this);
 		log = new TurtleLog();
+		valueReader = new DisplayLabelReader(UI_RESOURCES);
+		mainView = new MainView(this);
 		log.append(mainView.getCanvas().getCurrentState());
-		//valueReader = new DisplayValueReader(UILabelFile);
 	}
 	
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
@@ -39,7 +38,7 @@ public class Controller {
 	}
 	
 	public void setLanguage(String language){
-		//TO-DO: Connect to backend, set language there
+		//TODO: Connect to backend, set language there
 	}
 	
 	public void putScript(String script) {
