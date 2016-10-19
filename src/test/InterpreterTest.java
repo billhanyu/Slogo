@@ -74,10 +74,23 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void PenDown() {
+		parseAndExecute("pd");
+		assertTrue(log.peekLast().isPenDown());
+	}
+	
+	@Test
+	public void PenUp() {
+		parseAndExecute("pu");
+		assertTrue(!log.peekLast().isPenDown());
+	}
+	
+	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
 	}
+	
 	
 	private void parseAndExecute(String script) {
 		try {
