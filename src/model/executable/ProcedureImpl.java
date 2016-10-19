@@ -16,9 +16,9 @@ public class ProcedureImpl extends Command{
 	private CodeBlock procedure;
 	
 	public ProcedureImpl(String name,
-					 List<Executable> argv,
-					 Stack<StackFrame> stack,
-					 CodeBlock procedure) throws SyntacticErrorException {
+						 List<Executable> argv,
+						 Stack<StackFrame> stack,
+						 CodeBlock procedure) throws SyntacticErrorException {
 		super(argv); // used the names only, to find value from stack
 		this.stack = stack;
 		this.name = name;

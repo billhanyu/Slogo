@@ -4,13 +4,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.Stack;
 
 import exception.ReflectionFoundNoMatchesException;
+import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
 import model.executable.CodeBlock;
@@ -30,22 +29,26 @@ public class Interpreter {
 	
 	private ResourceBundle lexicon;
 	private StackFrame globalVars;
-	private Set<String> stdCmds;
+	private SemanticsRegistry semanticsRegistry;
 	
 	public Interpreter() {
 		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
 		globalVars = new StackFrame();
+		semanticsRegistry = new SemanticsRegistry();
 	}
 	
 	public CodeBlock parseScript(String script)
-			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
-		script = script.trim();
+			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
+				   SyntacticErrorException {
+		script = script.trim().replaceAll(" +", " ");
+		semanticsRegistry.register(script);
 		Stack<String> tokenStack = tokenize(script);
 		// TODO (cx15): preprocess to construct all procedure impl first since don't know param len
 		return buildMain(tokenStack);
 	}
 	
 	private Stack<String> tokenize(String script) {
+		script = script.toLowerCase();
 		String[] tokens = script.split(SPACE_REGEX);
 		Stack<String> tokenStack = new Stack<>();
 		for (String token : tokens)
@@ -58,16 +61,16 @@ public class Interpreter {
 		List<Executable> instructionCacheInReverse = new ArrayList<>();
 		List<Executable> pendingArgs = new ArrayList<>();
 		while (!tokenStack.isEmpty()) {
-			String token = tokenStack.pop().toLowerCase();
-			if (isConstant(token)) {
+			String token = tokenStack.pop();
+			if (semanticsRegistry.isConstant(token)) {
 				pendingArgs.add(new Constant(Double.parseDouble(token)));
-			} else if (isVariable(token)) {
+			} else if (semanticsRegistry.isVariable(token)) {
 				if (globalVars.get(token) == null) {
 					Variable var = new Variable(token);
 					globalVars.add(var);
 				}
 				pendingArgs.add(globalVars.get(token));
-			} else if (isStdCommand(token) || isCustomCommand(token)) {
+			} else if (semanticsRegistry.isStdCommand(token) || semanticsRegistry.isCustomCommand(token)) {
 				try{
 					String className = lexicon.getString(token + PROP_CLASS);
 					int numArgs = Integer.parseInt(lexicon.getString(token + PROP_ARGC));
@@ -106,29 +109,5 @@ public class Interpreter {
 			}
 		}
 		return pendingArgs;
-	}
-	
-	private boolean isStdCommand(String token) {
-		if (stdCmds == null) {
-			stdCmds = new HashSet<>();
-			lexicon.getString("stdcmd");
-			for (String stdToken : lexicon.getString("stdcmd").split(SPACE_REGEX)) {
-				stdCmds.add(stdToken);
-			}
-		}
-		return stdCmds.contains(token);
-	}
-	
-	private boolean isCustomCommand(String token) {
-		// TODO (cx15): IMPL
-		return true;
-	}
-	
-	private boolean isConstant(String token) {
-		return token.matches(lexicon.getString("constant.regex"));
-	}
-	
-	private boolean isVariable(String token) {
-		return token.matches(lexicon.getString("variable.regex"));
 	}
 }
