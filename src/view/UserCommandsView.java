@@ -24,6 +24,6 @@ public class UserCommandsView extends EnvironmentListView {
 
 	@Override
 	String getLabelString() {
-		return this.getController().getValueReader().getValue("Commands");
+		return this.getController().getValueReader().getLabel("Commands");
 	}
 }

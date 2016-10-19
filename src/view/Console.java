@@ -47,7 +47,7 @@ public class Console extends View {
 		scrollPane.setFitToWidth(true);
 		scrollPane.setStyle("-fx-background: rgb(255,255,255);");
 		scrollPane.setPrefHeight(this.getHeight());
-		Label label = new Label(this.getController().getValueReader().getValue("ConsoleLabel"));
+		Label label = new Label(this.getLabelReader().getLabel("Console"));
 		VBox all = new VBox();
 		all.setPrefWidth(this.getWidth());
 		all.setPrefHeight(this.getHeight());

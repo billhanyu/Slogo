@@ -23,7 +23,7 @@ public class CommandHistoryView extends EnvironmentListView {
 
 	@Override
 	String getLabelString() {
-		return this.getController().getValueReader().getValue("CommandHistoryLabel");
+		return this.getLabelReader().getLabel("CommandHistory");
 	}
 
 }

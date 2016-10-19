@@ -23,7 +23,7 @@ public class GlobalVarsView extends EnvironmentListView {
 
 	@Override
 	String getLabelString() {
-		return this.getController().getValueReader().getValue("Variables");
+		return this.getLabelReader().getLabel("Variables");
 	}
 	
 }

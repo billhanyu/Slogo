@@ -23,7 +23,7 @@ public class MainView {
 
 	public void init() {
 		stage = new Stage();
-		stage.setTitle(this.controller.getValueReader().getValue("Title"));
+		stage.setTitle(this.controller.getValueReader().getLabel("Title"));
 		mainScene = initScene();
 		stage.setScene(mainScene);
 		stage.show();

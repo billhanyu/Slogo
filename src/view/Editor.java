@@ -51,26 +51,25 @@ public class Editor extends View {
 	}
 
 	private void makeClearButton() {
-		clearButton = this.makeButton(this.getController().getValueReader().getValue("ClearUserInput"), e -> {
+		clearButton = this.makeButton(this.getLabelReader().getLabel("ClearUserInput"), e -> {
 			textArea.clear();
 		});
 		clearButton.setPrefWidth(70);
 	}
 
 	private void makeRunButton() {
-		runButton = this.makeButton(this.getController().getValueReader().getValue("RunUserInput"), e -> {
+		runButton = this.makeButton(this.getLabelReader().getLabel("RunUserInput"), e -> {
 			try {
 				this.getController().runScript(textArea.getText());
 			} catch (UnrecognizedIdentifierException e1) {
-				System.out.println("here");
 				this.getController().getMainView().getConsole().
-					appendText("UnrecognizedIdentifier", TextType.Error);
+					appendText(this.getLabelReader().getLabel("UnrecognizedIdentifier"), TextType.Error);
 			} catch (WrongNumberOfArguments e1) {
 				this.getController().getMainView().getConsole().
-				appendText("WrongNumberOfArguments", TextType.Error);
+				appendText(this.getLabelReader().getLabel("WrongNumberOfArguments"), TextType.Error);
 			} catch (SyntacticErrorException e1) {
 				this.getController().getMainView().getConsole().
-				appendText("SyntacticError", TextType.Error);
+				appendText(this.getLabelReader().getLabel("SyntacticError"), TextType.Error);
 			}
 		});
 		runButton.setPrefWidth(70);
