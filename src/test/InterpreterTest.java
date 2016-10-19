@@ -92,6 +92,13 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void Home() {
+		parseAndExecute("setxy 10 5 home");
+		assertDoubleEqual(log.peekLast().getPositionX(), 0);
+		assertDoubleEqual(log.peekLast().getPositionY(), 0);
+	}
+	
+	@Test
 	public void HideTurtle() {
 		parseAndExecute("ht");
 		assertTrue(!log.peekLast().isVisible());
