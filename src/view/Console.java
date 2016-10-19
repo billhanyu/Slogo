@@ -46,7 +46,7 @@ public class Console extends View {
 		textFlow.setMaxHeight(this.getHeight());
 		ScrollPane scrollPane = new ScrollPane(textFlow);
 		scrollPane.setFitToWidth(true);
-		scrollPane.setStyle("-fx-background-color: white;");
+		scrollPane.setStyle("-fx-background: rgb(255,255,255);");
 		scrollPane.setPrefHeight(this.getHeight());
 		Label label = new Label(LABEL);
 		VBox all = new VBox();
