@@ -49,6 +49,12 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void rightRight() {
+		parseAndExecute("rt right 10");
+		assertDoubleEqual(log.peekLast().getHeading(), -20);
+	}
+	
+	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
