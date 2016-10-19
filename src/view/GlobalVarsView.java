@@ -6,8 +6,6 @@ import model.StackFrame;
 
 public class GlobalVarsView extends EnvironmentListView {
 	
-	private static final String LABEL = "Variables";
-	
 	public GlobalVarsView(Controller controller, double width, double height) {
 		super(controller, width, height);
 	}
@@ -25,7 +23,7 @@ public class GlobalVarsView extends EnvironmentListView {
 
 	@Override
 	String getLabelString() {
-		return LABEL;
+		return this.getLabelReader().getLabel("Variables");
 	}
 	
 }

@@ -13,11 +13,13 @@ public abstract class View implements Displayable {
 	private Controller controller;
 	private double width;
 	private double height;
+	private DisplayLabelReader labelReader;
 	
 	public View(Controller controller, double width, double height) {
 		this.controller = controller;
 		this.width = width;
 		this.height = height;
+		this.labelReader = this.controller.getValueReader();
 		root = new Group();
 	}
 	
@@ -27,6 +29,10 @@ public abstract class View implements Displayable {
 	
 	protected Controller getController() {
 		return controller;
+	}
+	
+	protected DisplayLabelReader getLabelReader(){
+		return this.labelReader;
 	}
 	
 	protected double getWidth() {

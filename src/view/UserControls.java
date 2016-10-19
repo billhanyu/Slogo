@@ -19,9 +19,6 @@ public class UserControls extends View {
 	
 	private static final String NO_IMAGE_CHOSEN = "No Image Chosen";
 	private static final String TURTLE_IMAGE_UPDATED = "Turtle Image updated!";
-	private static final String SELECT_TURTLE_IMAGE = "Select Turtle Image";
-	private static final String BACKGROUND_LABEL = "Background Color";
-	private static final String PEN_LABEL = "Pen Color";
 
 	public UserControls(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -43,12 +40,12 @@ public class UserControls extends View {
 	
 	private HBox makeBackgroundPickerBox() {
 		ColorPicker picker = makeBackgroundPicker();
-		return makePickerBox(BACKGROUND_LABEL, picker);
+		return makePickerBox(this.getController().getValueReader().getLabel("BackgroundLabel"), picker);
 	}
 	
 	private HBox makePenPickerBox() {
 		ColorPicker picker = makePenPicker();
-		return makePickerBox(PEN_LABEL, picker);
+		return makePickerBox(this.getController().getValueReader().getLabel("PenLabel"), picker);
 	}
 
 	private ColorPicker makeBackgroundPicker() {
@@ -80,10 +77,10 @@ public class UserControls extends View {
 	}
 
 	private Button makeChangeImageButton() {
-		Button btn = new Button(SELECT_TURTLE_IMAGE);
+		Button btn = new Button(this.getController().getValueReader().getLabel("TurtleImageSelector"));
 		btn.setOnAction(e -> {
 			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle(SELECT_TURTLE_IMAGE);
+			fileChooser.setTitle(this.getController().getValueReader().getLabel("TurtleImageSelector"));
 			fileChooser.getExtensionFilters().addAll(
 					new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 			File imageFile = fileChooser.showOpenDialog(null);
