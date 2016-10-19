@@ -86,6 +86,18 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void ShowTurtle() {
+		parseAndExecute("st");
+		assertTrue(log.peekLast().isVisible());
+	}
+	
+	@Test
+	public void HideTurtle() {
+		parseAndExecute("ht");
+		assertTrue(!log.peekLast().isVisible());
+	}
+	
+	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
