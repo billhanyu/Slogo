@@ -9,9 +9,11 @@ import model.TurtleLog;
 import model.TurtleState;
 import model.executable.StandardCommand;
 
-public class Home extends StandardCommand{
+public class ClearScreen extends StandardCommand{
+	//TODO: Erase turtle's trails (front end?)
+	//this is the same as Home as far as back end is concerned
 	
-	public Home(List<Executable> argv)
+	public ClearScreen(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -32,6 +34,6 @@ public class Home extends StandardCommand{
 
 	@Override
 	public String getName() {
-		return "home";
+		return "clearscreen";
 	}
 }

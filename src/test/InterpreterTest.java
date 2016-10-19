@@ -99,6 +99,13 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void ClearScreen() { //same as home, no trail clearing implemented
+		parseAndExecute("setxy 10 5 cs");
+		assertDoubleEqual(log.peekLast().getPositionX(), 0);
+		assertDoubleEqual(log.peekLast().getPositionY(), 0);
+	}
+	
+	@Test
 	public void HideTurtle() {
 		parseAndExecute("ht");
 		assertTrue(!log.peekLast().isVisible());
