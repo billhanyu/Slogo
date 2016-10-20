@@ -13,7 +13,7 @@ public class SemanticsRegistry {
 	
 	public static final String TOKEN_DICT = "resources/tokens";
 	public static final String SPACE_REGEX = "\\s+";
-	public static final String TO = "to";
+	public static final String TO = "to ";
 	
 	private ResourceBundle lexicon;
 	private Set<String> stdCmds;
