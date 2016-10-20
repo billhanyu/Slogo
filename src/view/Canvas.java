@@ -11,16 +11,16 @@ import model.TurtleLog;
 import model.TurtleState;
 
 public class Canvas extends View {
-	
+
 	private TurtleView turtleView;
 	private Rectangle background;
-	private TurtleState currentState;
+	private ActorState currentState;
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
 	private static final double CANVAS_WIDTH = 500;
 	private static final double CANVAS_HEIGHT = 500;
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
-	
+
 	public Canvas(Controller controller, double width, double height) {
 		super(controller, width, height);
 		currentState = new TurtleState();
@@ -37,51 +37,48 @@ public class Canvas extends View {
 
 	public void render(TurtleLog log) {
 		boolean first = false;
-		for (ActorState nextState : log) {
+		for (ActorState next : log) {
 			if (!first) {
 				first = true;
 				continue;
 			}
-			if (nextState instanceof TurtleState) {
-				TurtleState next = (TurtleState) nextState;
-				turtleView.setPositionX(translateX(next.getPositionX()));
-				turtleView.setPositionY(translateY(next.getPositionY()));
-				turtleView.setDirection(next.getHeading());
-				turtleView.setVisible(next.isVisible());
-				if (currentState.isPenDown()) {
-					addPath(next);
-				}
-				currentState = next;
+			turtleView.setPositionX(translateX(next.getPositionX()));
+			turtleView.setPositionY(translateY(next.getPositionY()));
+			turtleView.setDirection(next.getHeading());
+			turtleView.setVisible(next.isVisible());
+			if (currentState.isPenDown()) {
+				addPath(next);
 			}
+			currentState = next;
 		}
 		log.didRender();
 	}
-	
+
 	public TurtleView getTurtleView() {
 		return turtleView;
 	}
-	
+
 	public void setBackgroundColor(Color color) {
 		background.setFill(color);
 	}
-	
+
 	public void setPenColor(Color color) {
 		currentState.setPenColor(color);
 	}
-	
-	public TurtleState getCurrentState() {
+
+	public ActorState getCurrentState() {
 		return currentState;
 	}
-	
+
 	private double translateX(double x) {
 		return x + CANVAS_WIDTH / 2;
 	}
-	
+
 	private double translateY(double y) {
 		return y + CANVAS_HEIGHT / 2;
 	}
-	
-	private void addPath(TurtleState nextState) {
+
+	private void addPath(ActorState nextState) {
 		Path path = new Path();
 
 		MoveTo moveTo = new MoveTo();
@@ -98,5 +95,5 @@ public class Canvas extends View {
 		path.setStroke(currentState.getPenColor());
 		this.getRoot().getChildren().add(path);
 	}
-	
+
 }
