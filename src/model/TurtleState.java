@@ -24,6 +24,7 @@ public class TurtleState implements ActorState {
 		positionX = 0.0;
 		positionY = 0.0;
 		visible = true;
+		direction = 0.0;
 		penColor = DEFAULT_PEN_COLOR;
 		penDown = true;
 	}
@@ -41,6 +42,7 @@ public class TurtleState implements ActorState {
 	@Override
 	public void setDirection(double degrees) {
 		direction = degrees;
+		System.out.println(direction);
 	}
 
 	@Override

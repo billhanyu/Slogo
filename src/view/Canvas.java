@@ -24,14 +24,24 @@ public class Canvas extends View {
 	public Canvas(Controller controller, double width, double height) {
 		super(controller, width, height);
 		currentState = new TurtleState();
-		turtleView = new TurtleView(controller, translateX(0), translateY(0), turtleWidth, turtleHeight);
+		turtleView = new TurtleView(controller, 
+				translateX(0), 
+				translateY(0), 
+				turtleWidth, 
+				turtleHeight,
+				currentState.getHeading());
 		background = new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		background.setFill(BACKGROUND_COLOR);
 		this.getRoot().getChildren().addAll(background, turtleView.getUI());
 	}
 
 	public void render(TurtleLog log) {
+		boolean first = false;
 		for (ActorState nextState : log) {
+			if (!first) {
+				first = true;
+				continue;
+			}
 			if (nextState instanceof TurtleState) {
 				TurtleState next = (TurtleState) nextState;
 				turtleView.setPositionX(translateX(next.getPositionX()));
@@ -44,6 +54,7 @@ public class Canvas extends View {
 				currentState = next;
 			}
 		}
+		log.didRender();
 	}
 	
 	public TurtleView getTurtleView() {
