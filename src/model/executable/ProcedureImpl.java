@@ -41,8 +41,8 @@ public class ProcedureImpl extends Command{
 
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
-		if (!(argv.get(0) instanceof CodeBlock)
-				|| !(argv.get(1) instanceof CodeBlock)) {
+		if (!(this.getArgs().get(0) instanceof CodeBlock)
+				|| !(this.getArgs().get(1) instanceof CodeBlock)) {
 			throw new SyntacticErrorException();
 		}		
 	}

@@ -103,9 +103,12 @@ public class Interpreter {
 			if (instructionCacheInReverse.size() + pendingArgs.size() < numArgs) {
 				throw new WrongNumberOfArguments(className);
 			} else {
-				for (int i = instructionCacheInReverse.size()-1; pendingArgs.size() < numArgs; i--) {
+				for (int i = instructionCacheInReverse.size()-1;
+						pendingArgs.size() < numArgs;
+						i--) {
 					pendingArgs.add(instructionCacheInReverse.remove(i));
 				}
+				Collections.reverse(pendingArgs);
 			}
 		}
 		return pendingArgs;
