@@ -7,28 +7,31 @@ import model.Executable;
 import model.TurtleLog;
 
 public class ProcedureStub extends Command {
+	
+	private String name;
+	private ProcedureImpl impl;
 
-	public ProcedureStub(List<Executable> argv)
+	public ProcedureStub(String name,
+						 List<Executable> argv,
+						 ProcedureImpl impl)
 			throws SyntacticErrorException {
 		super(argv);
+		this.name = name;
+		this.impl = impl;
 	}
 
 	@Override
 	public double execute(TurtleLog log) throws SyntacticErrorException {
-		// TODO Auto-generated method stub
-		return 0;
+		return impl.execute(log, getArgs());
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
-		// TODO Auto-generated method stub
 		
 	}
-
 }
