@@ -63,6 +63,36 @@ public class InterpreterTest {
 		}
 		assertTrue(thrown);
 		thrown = false;
+		result = parseAndExecute("% 15 / 16 + 2 ~ -2");
+		assertDoubleEqual(result, 3);
+		try {
+		    result = parseAndThrow("remainder 5 0");
+		} catch (SyntacticErrorException e) {
+			thrown = true;
+		}
+		assertTrue(thrown);
+		thrown = false;
+		try {
+		    result = parseAndThrow("random -1");
+		} catch (SyntacticErrorException e) {
+			thrown = true;
+		}
+		assertTrue(thrown);
+		thrown = false;
+		result = parseAndExecute("sin 30");
+		assertDoubleEqual(result, 0.5);
+		result = parseAndExecute("cos 60");
+		assertDoubleEqual(result, 0.5);
+		result = parseAndExecute("tan 45");
+		assertDoubleEqual(result, 1);
+		result = parseAndExecute("atan 1");
+		assertDoubleEqual(result, 45);
+		result = parseAndExecute("log 1");
+		assertDoubleEqual(result, 0);
+		result = parseAndExecute("pow 2 2");
+		assertDoubleEqual(result, 4);
+		result = parseAndExecute("pi");
+		assertDoubleEqual(result, Math.PI);
 	}
 	
 	private double parseAndExecute(String script) {
