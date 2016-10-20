@@ -11,6 +11,7 @@ import model.TurtleLog;
 import model.executable.CodeBlock;
 import view.DisplayLabelReader;
 import view.MainView;
+import view.TextType;
 public class Controller {
 	
 	private Interpreter interpreter;
@@ -33,8 +34,9 @@ public class Controller {
 	
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
 		CodeBlock main = interpreter.parseScript(script);
-		main.execute(log);
+		double result = main.execute(log);
 		mainView.getCanvas().render(log);
+		mainView.getConsole().appendText(""+result, TextType.Plain);
 	}
 	
 	public void setLanguage(String language){
