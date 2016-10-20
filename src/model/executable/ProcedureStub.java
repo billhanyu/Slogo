@@ -5,45 +5,41 @@ import java.util.Stack;
 
 import exception.SyntacticErrorException;
 import model.Executable;
-import model.SemanticsRegistry;
 import model.StackFrame;
 import model.TurtleLog;
 
 public class ProcedureStub extends Command {
 	
 	private String name;
-	private SemanticsRegistry semanticsRegistry;
+	private ProcedureImpl impl;
 	private StackFrame globalVars;
 
 	public ProcedureStub(String name,
 						 List<Executable> argv,
 						 StackFrame globalVars,
-						 SemanticsRegistry semanticsRegistry)
+						 ProcedureImpl impl)
 			throws SyntacticErrorException {
 		super(argv);
 		this.name = name;
 		this.globalVars = globalVars;
-		this.semanticsRegistry = semanticsRegistry;
+		this.impl = impl;
 	}
 
 	@Override
 	public double execute(TurtleLog log) throws SyntacticErrorException {
-		ProcedureImpl impl = semanticsRegistry.getImpl(name);
 		// TODO (cx15): put param in globalVars
-		double ret = impl.execute(log, globalVars);
+		double ret = impl.execute(log, globalVars, argv);
 		// TODO (cx15): remove param from globalVars
 		return ret;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
-		// TODO Auto-generated method stub
 		
 	}
 
