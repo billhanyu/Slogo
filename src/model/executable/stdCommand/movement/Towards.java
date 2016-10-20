@@ -19,8 +19,8 @@ public class Towards extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double x = argv.get(0).execute(log);
-		double y = argv.get(1).execute(log);
+		double x = this.getArgs().get(0).execute(log);
+		double y = this.getArgs().get(1).execute(log);
 		double newAngle = 0;
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
