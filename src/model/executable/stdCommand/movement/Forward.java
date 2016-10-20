@@ -19,7 +19,7 @@ public class Forward extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offset = argv.get(0).execute(log);
+		double offset = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
