@@ -9,10 +9,16 @@ public class TurtleView extends View {
 	private static final String DEFAULT_IMAGEFILE = "turtle.gif"; 
 	private ImageView turtleImageView;
 	
-	public TurtleView(Controller controller, double x, double y, double width, double height) {
+	public TurtleView(Controller controller, 
+			double x, 
+			double y, 
+			double width, 
+			double height,
+			double degrees) {
 		this(controller, width, height);
 		setPositionX(x);
 		setPositionY(y);
+		setDirection(degrees);
 	}
 	
 	public TurtleView(Controller controller, double width, double height) {
