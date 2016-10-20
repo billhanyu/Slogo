@@ -26,19 +26,19 @@ public class Towards extends StandardCommand{
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
 		if (x - prev.getPositionX() == 0) {
-			if (y - prev.getPositionY() < 0) {
-				newAngle = -90;
-			} else {
-				newAngle = 90;
-			}
-		} else if (y - prev.getPositionY() == 0) {
-			if (x - prev.getPositionX() < 0) {
+			if (y - prev.getPositionY() > 0) {
 				newAngle = 180;
 			} else {
 				newAngle = 0;
 			}
+		} else if (y - prev.getPositionY() == 0) {
+			if (x - prev.getPositionX() < 0) {
+				newAngle = -90;
+			} else {
+				newAngle = 90;
+			}
 		} else {
-			newAngle = Math.toDegrees(Math.atan2(y - prev.getPositionY(), x - prev.getPositionX()));
+			newAngle = 90 + Math.toDegrees(Math.atan2(y - prev.getPositionY(), x - prev.getPositionX()));
 		}
 		
 		delta.setDirection(newAngle);
