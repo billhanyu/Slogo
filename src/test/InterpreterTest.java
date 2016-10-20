@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,11 +14,10 @@ import model.Interpreter;
 import model.TurtleLog;
 import model.TurtleState;
 import model.executable.CodeBlock;
+import util.Utils;
 
 
 public class InterpreterTest {
-	
-	public static final double EPSILON = 0.1;
 	
 	private TurtleLog log;
 	private Interpreter intr;
@@ -117,18 +117,53 @@ public class InterpreterTest {
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
 	}
 	
+	@Test
+	public void checkMath() {
+		double result;
+		boolean thrown = false;
+		result = parseAndExecute("sum 100 100");
+		assertDoubleEqual(result, 200);
+		result = parseAndExecute("sum -100 -100");
+		assertDoubleEqual(result, -200);
+		result = parseAndExecute("difference -100 100");
+		assertDoubleEqual(result, -200);
+		result = parseAndExecute("product 15 15");
+		assertDoubleEqual(result, 225);
+		result = parseAndExecute("quotient 5 sum 1 1");
+		assertDoubleEqual(result, 2.5);
+		try {
+		    result = parseAndThrow("quotient 5 0");
+		} catch (SyntacticErrorException e) {
+			thrown = true;
+		}
+		assertTrue(thrown);
+		thrown = false;
+	}
 	
-	private void parseAndExecute(String script) {
+	private double parseAndExecute(String script) {
+		double result = 0;
 		try {
 			CodeBlock main = intr.parseScript(script);
-			main.execute(log);
+			result = main.execute(log);
 		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments
 				| SyntacticErrorException e) {
 			assertNull(e);
 		}
+		return result;
+	}
+	
+	private double parseAndThrow(String script) throws SyntacticErrorException {
+		double result = 0;
+		try {
+			CodeBlock main = intr.parseScript(script);
+			result = main.execute(log);
+		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments e) {
+			assertNull(e);
+		}
+		return result;
 	}
 	
 	private void assertDoubleEqual(double d1, double d2) {
-		assertTrue(Math.abs(d1 - d2) < EPSILON);
+		assertTrue(Utils.doubleEqual(d1, d2));
 	}
 }

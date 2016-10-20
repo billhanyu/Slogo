@@ -18,8 +18,8 @@ public class Make extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		Variable var = (Variable) argv.get(0);
-		var.setExpression(argv.get(1));
+		Variable var = (Variable) this.getArgs().get(0);
+		var.setExpression(this.getArgs().get(1));
 		return var.execute(log);
 	}
 
@@ -31,7 +31,7 @@ public class Make extends StandardCommand{
 	@Override
 	protected void validateArgv()
 			throws SyntacticErrorException {
-		if ( !(argv.get(0) instanceof Variable) )
+		if ( !(this.getArgs().get(0) instanceof Variable) )
 			throw new SyntacticErrorException();
 	}
 }
