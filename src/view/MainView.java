@@ -5,6 +5,7 @@ import controller.Controller;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -34,7 +35,6 @@ public class MainView {
 		mainScene.getStylesheets().add(this.controller.getValueReader().getLabel("StylesheetPath"));
 		stage.setScene(mainScene);
 		stage.show();
-		
 	}
 	
 	public Canvas getCanvas() {
@@ -65,6 +65,12 @@ public class MainView {
 		root.setBottom(editor.getUI());
 		root.setLeft(lefts);
 		root.setRight(environmentView.getUI());
+		
+		scn.setOnKeyPressed(e -> {
+			if (e.isShiftDown() && e.getCode() == KeyCode.ENTER) {
+				editor.runScript();
+			}
+		});
 		return scn;
 	}
 	
@@ -85,7 +91,6 @@ public class MainView {
         scene.setRoot(root);
         helpPage.setScene(scene);
         helpPage.show();
-        
 	}
 	
 }

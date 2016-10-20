@@ -42,7 +42,6 @@ public class TurtleState implements ActorState {
 	@Override
 	public void setDirection(double degrees) {
 		direction = degrees;
-		System.out.println(direction);
 	}
 
 	@Override

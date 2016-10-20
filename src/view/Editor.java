@@ -31,6 +31,25 @@ public class Editor extends View {
 		textArea.appendText(text);
 	}
 	
+	public void runScript() {
+		try {
+			this.getController().runScript(textArea.getText());
+		} catch (UnrecognizedIdentifierException e1) {
+			this.getController().getMainView().getConsole().
+				appendText(this.getLabelReader().getLabel("UnrecognizedIdentifier"), TextType.Error);
+		} catch (WrongNumberOfArguments e1) {
+			this.getController().getMainView().getConsole().
+			appendText(this.getLabelReader().getLabel("WrongNumberOfArguments"), TextType.Error);
+		} catch (SyntacticErrorException e1) {
+			this.getController().getMainView().getConsole().
+			appendText(this.getLabelReader().getLabel("SyntacticError"), TextType.Error);
+		}
+	}
+	
+	public void clearText() {
+		textArea.clear();
+	}
+	
 	private void init() {
 		textArea = new TextArea();
 		makeRunButton();
@@ -52,25 +71,14 @@ public class Editor extends View {
 
 	private void makeClearButton() {
 		clearButton = this.makeButton(this.getLabelReader().getLabel("ClearUserInput"), e -> {
-			textArea.clear();
+			clearText();
 		});
 		clearButton.setPrefWidth(70);
 	}
 
 	private void makeRunButton() {
 		runButton = this.makeButton(this.getLabelReader().getLabel("RunUserInput"), e -> {
-			try {
-				this.getController().runScript(textArea.getText());
-			} catch (UnrecognizedIdentifierException e1) {
-				this.getController().getMainView().getConsole().
-					appendText(this.getLabelReader().getLabel("UnrecognizedIdentifier"), TextType.Error);
-			} catch (WrongNumberOfArguments e1) {
-				this.getController().getMainView().getConsole().
-				appendText(this.getLabelReader().getLabel("WrongNumberOfArguments"), TextType.Error);
-			} catch (SyntacticErrorException e1) {
-				this.getController().getMainView().getConsole().
-				appendText(this.getLabelReader().getLabel("SyntacticError"), TextType.Error);
-			}
+			runScript();
 		});
 		runButton.setPrefWidth(70);
 	}
