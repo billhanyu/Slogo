@@ -12,8 +12,13 @@ import model.executable.ProcedureImpl;
 public class SemanticsRegistry {
 	
 	public static final String TOKEN_DICT = "resources/tokens";
+	public static final String PROP_CLASS = ".class";
+	public static final String PROP_ARGC = ".argc";
 	public static final String SPACE_REGEX = "\\s+";
+	
 	public static final String TO = "to ";
+	public static final String GOTO = "goto";
+	public static final int GOTO_DIFF_TO = 2;
 	
 	private ResourceBundle lexicon;
 	private Set<String> stdCmds;
@@ -35,18 +40,20 @@ public class SemanticsRegistry {
 			throws SyntacticErrorException {
 		int toIndex = -1;
 		while( (toIndex = script.indexOf(TO)) != -1) {
-			int argsOpen = script.indexOf("[", toIndex);
-			int argsClose = script.indexOf("]", toIndex);
-			if (argsOpen < 0 || argsClose < 0)
-				throw new SyntacticErrorException();
-			String token = script.substring(toIndex + TO.length(), argsOpen).trim();
-			if (isStdCommand(token) || isConstant(token) || isVariable(token))
-				throw new SyntacticErrorException();
-			String params = script.substring(argsOpen + 1, argsClose).trim().replaceAll("( )+", " ");
-			this.putNumParam(
-					token, 
-					params.isEmpty()? 0 : params.split(SPACE_REGEX).length
-			);
+			if (script.indexOf(GOTO) + GOTO_DIFF_TO != toIndex) {
+				int argsOpen = script.indexOf("[", toIndex);
+				int argsClose = script.indexOf("]", toIndex);
+				if (argsOpen < 0 || argsClose < 0)
+					throw new SyntacticErrorException();
+				String token = script.substring(toIndex + TO.length(), argsOpen).trim();
+				if (isStdCommand(token) || isConstant(token) || isVariable(token))
+					throw new SyntacticErrorException();
+				String params = script.substring(argsOpen + 1, argsClose).trim().replaceAll("( )+", " ");
+				this.putNumParam(
+						token, 
+						params.isEmpty()? 0 : params.split(SPACE_REGEX).length
+				);
+			}
 			script = script.substring(toIndex + 1);
 		}
 	}
@@ -57,7 +64,7 @@ public class SemanticsRegistry {
 	
 	public boolean isCustomCommand(String token) {
 		// TODO (cx15): IMPL
-		return true;
+		return false;
 	}
 	
 	public boolean isConstant(String token) {
@@ -78,10 +85,17 @@ public class SemanticsRegistry {
 	 * @return
 	 */
 	public int getNumParam(String token) {
+		if (isStdCommand(token)) {
+			return Integer.parseInt(lexicon.getString(token + PROP_ARGC));
+		}
 		if (name2Argc.get(token) == null) {
 			return -1;
 		}
 		return name2Argc.get(token);
+	}
+	
+	public String getClass(String token) {
+		return lexicon.getString(token + PROP_CLASS);
 	}
 	
 	public void putImpl(String token, ProcedureImpl impl) {
@@ -96,4 +110,6 @@ public class SemanticsRegistry {
 	public ProcedureImpl getImpl(String token) {
 		return name2Impl.get(token);
 	}
+	
+	
 }

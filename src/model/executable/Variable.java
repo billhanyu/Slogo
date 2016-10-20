@@ -24,6 +24,10 @@ public class Variable implements Executable {
 		return this;
 	}
 	
+	public Executable getExpression() {
+		return expression;
+	}
+	
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {

@@ -25,6 +25,7 @@ public class TurtleState implements ActorState {
 		positionY = 0.0;
 		direction = 0.0;
 		visible = true;
+		direction = 0.0;
 		penColor = DEFAULT_PEN_COLOR;
 		penDown = true;
 	}

@@ -31,12 +31,13 @@ public class UserControls extends View {
 		HBox penBox = makePenPickerBox();
 		HBox languageBox = makeLanguagePickerBox();
 		Button changeImageButton = makeChangeImageButton();
+		Button helpPageButton = makeHelpPageButton();
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(5,5,5,5));
 		box.setSpacing(20);
 		box.setPrefWidth(this.getWidth());
-		box.getChildren().addAll(backgroundBox, penBox, languageBox, changeImageButton);
+		box.getChildren().addAll(backgroundBox, penBox, languageBox, changeImageButton, helpPageButton);
 		this.getRoot().getChildren().add(box);
 	}
 	
@@ -103,6 +104,13 @@ public class UserControls extends View {
 		selectionBox.getChildren().addAll(selectionLabel, selections);
 		return selectionBox;
 		
+	}
+	
+	private Button makeHelpPageButton() {
+		Button btn = this.makeButton(this.getLabelReader().getLabel("HelpPageButton"), e -> {
+			this.getController().getMainView().showHelpPage();;
+		});
+		return btn;
 	}
 
 	private Button makeChangeImageButton() {

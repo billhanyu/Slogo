@@ -28,12 +28,12 @@ public class Interpreter {
 	public static final int VAR_EXPR_LEN = 1;
 	
 	private ResourceBundle lexicon;
-	private StackFrame globalVars;
+	private GlobalVariables globalVars;
 	private SemanticsRegistry semanticsRegistry;
 	
 	public Interpreter() {
 		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
-		globalVars = new StackFrame();
+		globalVars = new GlobalVariables();
 		semanticsRegistry = new SemanticsRegistry();
 	}
 	
@@ -65,6 +65,7 @@ public class Interpreter {
 			if (semanticsRegistry.isConstant(token)) {
 				pendingArgs.add(new Constant(Double.parseDouble(token)));
 			} else if (semanticsRegistry.isVariable(token)) {
+				//TODO cx15: USE addVarRef() HERE TO HANDLE CODEBLOCK
 				if (globalVars.get(token) == null) {
 					Variable var = new Variable(token);
 					globalVars.add(var);
@@ -72,8 +73,8 @@ public class Interpreter {
 				pendingArgs.add(globalVars.get(token));
 			} else if (semanticsRegistry.isStdCommand(token) || semanticsRegistry.isCustomCommand(token)) {
 				try{
-					String className = lexicon.getString(token + PROP_CLASS);
-					int numArgs = Integer.parseInt(lexicon.getString(token + PROP_ARGC));
+					String className = semanticsRegistry.getClass(token);
+					int numArgs = semanticsRegistry.getNumParam(token);
 					Class<?> c = Class.forName(className);
 					pendingArgs = argsGen(numArgs, className, pendingArgs, instructionCacheInReverse);
 					Constructor<?> constructor = ReflectionUtils.getConstructor(c, pendingArgs);
