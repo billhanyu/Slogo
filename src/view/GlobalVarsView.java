@@ -2,7 +2,7 @@ package view;
 
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
-import model.StackFrame;
+import model.GlobalVariables;
 
 public class GlobalVarsView extends EnvironmentListView {
 	
@@ -10,7 +10,7 @@ public class GlobalVarsView extends EnvironmentListView {
 		super(controller, width, height);
 	}
 
-	public void update(StackFrame vars) {
+	public void update(GlobalVariables vars) {
 		
 	}
 

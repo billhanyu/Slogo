@@ -6,7 +6,7 @@ import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
 import model.Executor;
 import model.Interpreter;
-import model.StackFrame;
+import model.GlobalVariables;
 import model.TurtleLog;
 import model.executable.CodeBlock;
 import view.DisplayLabelReader;
@@ -16,7 +16,7 @@ public class Controller {
 	
 	private Interpreter interpreter;
 	private Executor executor;
-	private Stack<StackFrame> stack;
+	private Stack<GlobalVariables> stack;
 	private MainView mainView;
 	private TurtleLog log;
 	private DisplayLabelReader valueReader;

@@ -1,18 +1,22 @@
 package model.executable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import exception.SyntacticErrorException;
 import exception.UseBeforeDefineException;
 import model.Executable;
 import model.TurtleLog;
+import model.executable.Variable;
 
 public class CodeBlock implements Executable{
 	
 	private List<Executable> sequence;
+	private List<Variable> varRefs;
 	
 	public CodeBlock(List<Executable> sequence) {
 		this.sequence = sequence;
+		varRefs = new ArrayList<>();
 	}
 
 	/**
@@ -38,7 +42,20 @@ public class CodeBlock implements Executable{
 		return null;
 	}
 	
-	public List<Executable> unravel(int index) {
+	public List<Executable> unravel() {
 		return sequence;
+	}
+	
+	/**
+	 * return the list of all the variables references included in this codeblock
+	 * @return
+	 */
+	public List<Variable> getVarRefs() {
+		return varRefs;
+	}
+	
+	// TODO cx15: USED THIS IN PARSER
+	public void addVarRef(Variable ref) {
+		varRefs.add(ref);
 	}
 }
