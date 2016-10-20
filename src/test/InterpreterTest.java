@@ -68,11 +68,7 @@ public class InterpreterTest {
 	
 	@Test
 	public void SetXY() {
-<<<<<<< HEAD
-		parseAndExecute("goto 10 5"); //fails when changed to goto?
-=======
 		parseAndExecute("setxy 10 5");
->>>>>>> d26ff0d91a0ddb8cc056f3762ae9ed6010681470
 		assertDoubleEqual(log.peekLast().getPositionX(), 10);
 		assertDoubleEqual(log.peekLast().getPositionY(), 5);
 		parseAndExecute("setxy 20 8");
