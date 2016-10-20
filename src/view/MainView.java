@@ -1,9 +1,15 @@
 package view;
 
+
 import controller.Controller;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class MainView {
@@ -25,8 +31,10 @@ public class MainView {
 		stage = new Stage();
 		stage.setTitle(this.controller.getValueReader().getLabel("Title"));
 		mainScene = initScene();
+		mainScene.getStylesheets().add(this.controller.getValueReader().getLabel("StylesheetPath"));
 		stage.setScene(mainScene);
 		stage.show();
+		
 	}
 	
 	public Canvas getCanvas() {
@@ -58,6 +66,26 @@ public class MainView {
 		root.setLeft(lefts);
 		root.setRight(environmentView.getUI());
 		return scn;
+	}
+	
+	public void showHelpPage(){
+		Stage helpPage = new Stage();
+        Scene scene = new Scene(new Group());
+        VBox root = new VBox();     
+        final WebView browser = new WebView();
+        final WebEngine webEngine = browser.getEngine();
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(browser); 
+        scrollPane.setFitToWidth(true);;
+        scrollPane.setFitToHeight(true);
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+		String url = MainView.class.getResource(this.controller.getValueReader().getLabel("HelpPagePath")).toExternalForm();
+        webEngine.load(url);
+        root.getChildren().addAll(scrollPane);
+        scene.setRoot(root);
+        helpPage.setScene(scene);
+        helpPage.show();
+        
 	}
 	
 }
