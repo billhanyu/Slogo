@@ -19,7 +19,7 @@ public class Right extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offsetAngle = argv.get(0).execute(log);
+		double offsetAngle = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);

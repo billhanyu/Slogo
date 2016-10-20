@@ -19,7 +19,7 @@ public class SetHeading extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double angle = argv.get(0).execute(log);
+		double angle = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
