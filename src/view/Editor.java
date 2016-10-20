@@ -35,14 +35,14 @@ public class Editor extends View {
 		try {
 			this.getController().runScript(textArea.getText());
 		} catch (UnrecognizedIdentifierException e1) {
-			this.getController().getMainView().getConsole().
-				appendText(this.getLabelReader().getLabel("UnrecognizedIdentifier"), TextType.Error);
+			this.getController().getMainView().getConsole().appendText(
+					this.getLabelReader().getLabel("UnrecognizedIdentifier"), TextType.Error);
 		} catch (WrongNumberOfArguments e1) {
-			this.getController().getMainView().getConsole().
-			appendText(this.getLabelReader().getLabel("WrongNumberOfArguments"), TextType.Error);
+			this.getController().getMainView().getConsole().appendText(
+					this.getLabelReader().getLabel("WrongNumberOfArguments"), TextType.Error);
 		} catch (SyntacticErrorException e1) {
-			this.getController().getMainView().getConsole().
-			appendText(this.getLabelReader().getLabel("SyntacticError"), TextType.Error);
+			this.getController().getMainView().getConsole().appendText(
+					this.getLabelReader().getLabel("SyntacticError"), TextType.Error);
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class Editor extends View {
 		VBox buttons = new VBox();
 		buttons.setAlignment(Pos.CENTER);
 		buttons.setPrefWidth(100);
-		buttons.setSpacing(50);
+		buttons.setSpacing(20);
 		buttons.getChildren().addAll(runButton, clearButton);
 		
 		HBox all = new HBox();
@@ -74,6 +74,7 @@ public class Editor extends View {
 			clearText();
 		});
 		clearButton.setPrefWidth(70);
+		clearButton.setPrefHeight(80);
 	}
 
 	private void makeRunButton() {
@@ -81,6 +82,7 @@ public class Editor extends View {
 			runScript();
 		});
 		runButton.setPrefWidth(70);
+		runButton.setPrefHeight(80);
 	}
 
 }
