@@ -29,9 +29,9 @@ public class To extends StandardCommand {
 	
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
-		if (!(argv.get(0) instanceof CodeBlock)
-				|| !(argv.get(1) instanceof CodeBlock)
-				|| !(argv.get(2) instanceof Constant)) {
+		if (!(this.getArgs().get(0) instanceof CodeBlock)
+				|| !(this.getArgs().get(1) instanceof CodeBlock)
+				|| !(this.getArgs().get(2) instanceof Constant)) {
 			throw new SyntacticErrorException();
 		}		
 	}

@@ -9,9 +9,9 @@ import model.TurtleLog;
 import model.TurtleState;
 import model.executable.StandardCommand;
 
-public class Forward extends StandardCommand{
+public class HideTurtle extends StandardCommand{
 	
-	public Forward(List<Executable> argv)
+	public HideTurtle(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -19,18 +19,17 @@ public class Forward extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offset = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setPositionX(prev.getPositionX() + offset * Math.cos(prev.getHeading()));
-		delta.setPositionY(prev.getPositionY() + offset * Math.sin(prev.getHeading()));
+		delta.setVisible(false);
 		log.append(delta);
-		return offset;
+		return 0;
 	}
 
 	@Override
 	public String getName() {
-		return "forward";
+		return "hideturtle";
 	}
 }
+

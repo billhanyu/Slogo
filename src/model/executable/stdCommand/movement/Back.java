@@ -9,9 +9,9 @@ import model.TurtleLog;
 import model.TurtleState;
 import model.executable.StandardCommand;
 
-public class Forward extends StandardCommand{
+public class Back extends StandardCommand{
 	
-	public Forward(List<Executable> argv)
+	public Back(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -23,14 +23,15 @@ public class Forward extends StandardCommand{
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setPositionX(prev.getPositionX() + offset * Math.cos(prev.getHeading()));
-		delta.setPositionY(prev.getPositionY() + offset * Math.sin(prev.getHeading()));
+		delta.setPositionX(prev.getPositionX() - offset * Math.cos(prev.getHeading()));
+		delta.setPositionY(prev.getPositionY() - offset * Math.sin(prev.getHeading()));
 		log.append(delta);
 		return offset;
 	}
 
 	@Override
 	public String getName() {
-		return "forward";
+		return "back";
 	}
 }
+

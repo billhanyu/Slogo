@@ -3,7 +3,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * @author billyu, Chalena Scholl
+ * @author billyu
  * Starter class for SLOGO project
  */
 
@@ -14,7 +14,7 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start (Stage s) {
-		Controller controller = new Controller();
+		new Controller();
 		
 	}
 	/**

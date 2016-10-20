@@ -12,7 +12,6 @@ import javafx.scene.text.TextFlow;
 public class Console extends View {
 	
 	private TextFlow textFlow;
-	private static final String LABEL = "Console";
 	
 	public Console(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -48,7 +47,7 @@ public class Console extends View {
 		scrollPane.setFitToWidth(true);
 		scrollPane.setStyle("-fx-background: rgb(255,255,255);");
 		scrollPane.setPrefHeight(this.getHeight());
-		Label label = new Label(LABEL);
+		Label label = new Label(this.getLabelReader().getLabel("Console"));
 		VBox all = new VBox();
 		all.setPrefWidth(this.getWidth());
 		all.setPrefHeight(this.getHeight());

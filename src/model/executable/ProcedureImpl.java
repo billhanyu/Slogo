@@ -35,4 +35,11 @@ public class ProcedureImpl{
 	public String getName() {
 		return this.name;
 	}
+
+	private void validateArgv() throws SyntacticErrorException {
+		if (!(this.getArgs().get(0) instanceof CodeBlock)
+				|| !(this.getArgs().get(1) instanceof CodeBlock)) {
+			throw new SyntacticErrorException();
+		}		
+	}
 }

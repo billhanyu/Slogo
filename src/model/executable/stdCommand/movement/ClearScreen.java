@@ -9,9 +9,11 @@ import model.TurtleLog;
 import model.TurtleState;
 import model.executable.StandardCommand;
 
-public class Forward extends StandardCommand{
+public class ClearScreen extends StandardCommand{
+	//TODO: Erase turtle's trails (front end?)
+	//this is the same as Home as far as back end is concerned
 	
-	public Forward(List<Executable> argv)
+	public ClearScreen(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -19,18 +21,19 @@ public class Forward extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offset = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setPositionX(prev.getPositionX() + offset * Math.cos(prev.getHeading()));
-		delta.setPositionY(prev.getPositionY() + offset * Math.sin(prev.getHeading()));
+		delta.setPositionX(0.0);
+		delta.setPositionY(0.0);
 		log.append(delta);
-		return offset;
+		double xDist = prev.getPositionX();
+		double yDist = prev.getPositionY();
+		return Math.sqrt((xDist*xDist) + (yDist*yDist));
 	}
 
 	@Override
 	public String getName() {
-		return "forward";
+		return "clearscreen";
 	}
 }

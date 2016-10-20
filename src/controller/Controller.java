@@ -9,7 +9,9 @@ import model.Interpreter;
 import model.StackFrame;
 import model.TurtleLog;
 import model.executable.CodeBlock;
+import view.DisplayLabelReader;
 import view.MainView;
+import view.TextType;
 public class Controller {
 	
 	private Interpreter interpreter;
@@ -17,20 +19,28 @@ public class Controller {
 	private Stack<StackFrame> stack;
 	private MainView mainView;
 	private TurtleLog log;
+	private DisplayLabelReader valueReader;
+	private static final String UI_RESOURCES = "resources/labels/EnglishLabels";
 	
 	public Controller() {
 		interpreter = new Interpreter();
 		executor = new Executor();
 		stack = new Stack<>();
-		mainView = new MainView(this);
 		log = new TurtleLog();
+		valueReader = new DisplayLabelReader(UI_RESOURCES);
+		mainView = new MainView(this);
 		log.append(mainView.getCanvas().getCurrentState());
 	}
 	
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
 		CodeBlock main = interpreter.parseScript(script);
-		main.execute(log);
+		double result = main.execute(log);
 		mainView.getCanvas().render(log);
+		mainView.getConsole().appendText(""+result, TextType.Plain);
+	}
+	
+	public void setLanguage(String language){
+		//TODO: Connect to backend, set language there
 	}
 	
 	public void putScript(String script) {
@@ -39,6 +49,10 @@ public class Controller {
 	
 	public MainView getMainView() {
 		return mainView;
+	}
+	
+	public DisplayLabelReader getValueReader(){
+		return valueReader;
 	}
 	
 }
