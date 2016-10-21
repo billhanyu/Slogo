@@ -31,24 +31,12 @@ public class InterpreterTest {
 		intr = new Interpreter();
 	}
 	
-//	@Test
-//	public void procedure() {
-//		try {
-//			List<Executable> sequence = new ArrayList<>();
-//			sequence.add(new Variable(":value"));
-//			CodeBlock  params = new CodeBlock(sequence);
-//			CodeBlock procedure = intr.parseScript("fd :value");
-//			ProcedureImpl impl = new ProcedureImpl("func", params, procedure, new GlobalVariables());
-//			List<Executable> argv = new ArrayList<>();
-//			argv.add(new Constant(10));
-//			ProcedureStub stub = new ProcedureStub("func", argv, impl);
-//			stub.execute(log);
-//			assertDoubleEqual(log.peekLast().getPositionX(), 10);
-//		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments | SyntacticErrorException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
+	@Test
+	public void procedure() {
+		parseAndExecute("to func [ :param ] [ fd :param ] func 10");
+		assertDoubleEqual(log.peekLast().getPositionX(), 10);
+	}
+	/*
 	@Test
 	public void forwardForward() {
 		parseAndExecute("fd fd fd 10");
@@ -191,7 +179,7 @@ public class InterpreterTest {
 		result = parseAndExecute("pi");
 		assertDoubleEqual(result, Math.PI);
 	}
-	
+	*/
 	private double parseAndExecute(String script) {
 		double result = 0;
 		try {

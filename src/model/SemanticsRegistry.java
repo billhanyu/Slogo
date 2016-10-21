@@ -21,6 +21,7 @@ public class SemanticsRegistry {
 	public static final String OPEN_BRACKET = "[";
 	public static final String CLOSE_BRACKET = "]";
 	public static final int GOTO_DIFF_TO = 2;
+	public static final String PROCEDURE_STUB = "procedureStub";
 	
 	private ResourceBundle lexicon;
 	private Set<String> stdCmds;
@@ -93,7 +94,8 @@ public class SemanticsRegistry {
 	}
 	
 	public String getClass(Token token) {
-		return lexicon.getString(token + PROP_CLASS);
+		String key = token.isStdCommand() ? token.toString() : PROCEDURE_STUB;
+		return lexicon.getString(key + PROP_CLASS);
 	}
 	
 	public void putImpl(Token token, ProcedureImpl impl) {
@@ -101,11 +103,14 @@ public class SemanticsRegistry {
 	}
 	
 	/**
-	 * return null if no mapping for key token
+	 * If not found, create entry on the fly to get a reference.
+	 * Assuming ProcedureImpl will be properly init later but before execution
 	 * @param token
 	 * @return
 	 */
-	public ProcedureImpl getImpl(Token token) {
-		return name2Impl.get(token.toString());
+	public ProcedureImpl getImpl(String name) {
+		if (!name2Impl.containsKey(name))
+			name2Impl.put(name, new ProcedureImpl());
+		return name2Impl.get(name);
 	}
 }

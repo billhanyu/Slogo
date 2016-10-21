@@ -16,10 +16,10 @@ public class ProcedureImpl{
 	private List<Variable> params;
 	private CodeBlock procedure;
 	
-	public ProcedureImpl(String name,
-						 CodeBlock params,
-						 CodeBlock procedure,
-						 GlobalVariables globalVars) throws SyntacticErrorException {
+	public void init(String name,
+			 CodeBlock params,
+			 CodeBlock procedure,
+			 GlobalVariables globalVars) throws SyntacticErrorException {
 		this.name = name;
 		validateInitParamList(params);
 		this.procedure = procedure;

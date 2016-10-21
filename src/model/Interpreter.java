@@ -20,6 +20,7 @@ import util.ReflectionUtils;
 public class Interpreter {
 	
 	public static final String SPACE_REGEX = "\\s+";
+	public static final String TO = "to";
 	
 	private GlobalVariables globalVars;
 	private SemanticsRegistry semanticsRegistry;
@@ -67,22 +68,29 @@ public class Interpreter {
 			} else if (token.isConstant()) {
 				pendingArgs.add(new Constant(token));
 			} else if (token.isVariable()) {
-				//TODO cx15: USE addVarRef() HERE TO HANDLE CODEBLOCK
 				Variable var;
-				if ( (var = vars.get(token.toString())) == null) {
-					if ( (var = globalVars.get(token.toString())) == null) {
+				if ( (var = vars.get(token)) == null) {
+					if ( (var = globalVars.get(token)) == null) {
 						vars.add(var = new Variable(token));
 					}
 				}
 				pendingArgs.add(var);
+			} else if (token.isCustomCommand()
+						&& !tokenStack.isEmpty()
+						&& tokenStack.peek().toString().equals(TO)) {
+					pendingArgs.add(new Constant(token.toString()));
+					continue; // skip over next branch
 			} else if (token.isStdCommand() || token.isCustomCommand()) {
 				try{
 					String className = semanticsRegistry.getClass(token);
 					int numArgs = semanticsRegistry.getNumParam(token);
+					if (numArgs == -1) throw new SyntacticErrorException();
 					Class<?> c = Class.forName(className);
 					pendingArgs = argsGen(numArgs, className, pendingArgs, instructionCacheInReverse);
 					Constructor<?> constructor = ReflectionUtils.getConstructor(c, pendingArgs);
-					Command cmd = (Command) constructor.newInstance(pendingArgs);
+					Command cmd = token.isStdCommand() ? 
+							(Command) constructor.newInstance(pendingArgs) :
+							(Command) constructor.newInstance(token, pendingArgs, semanticsRegistry);
 					instructionCacheInReverse.add(cmd);
 					contextStack.peek().clearPendingArgs();
 				} catch (ClassNotFoundException | ReflectionFoundNoMatchesException

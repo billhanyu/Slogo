@@ -4,25 +4,27 @@ import java.util.List;
 
 import exception.SyntacticErrorException;
 import model.Executable;
+import model.SemanticsRegistry;
+import model.Token;
 import model.TurtleLog;
 
 public class ProcedureStub extends Command {
 	
 	private String name;
-	private ProcedureImpl impl;
+	private SemanticsRegistry semanticsRegistry;
 
-	public ProcedureStub(String name,
+	public ProcedureStub(Token token,
 						 List<Executable> argv,
-						 ProcedureImpl impl)
+						 SemanticsRegistry semanticsRegistry)
 			throws SyntacticErrorException {
 		super(argv);
-		this.name = name;
-		this.impl = impl;
+		this.name = token.toString();
+		this.semanticsRegistry = semanticsRegistry;
 	}
 
 	@Override
 	public double execute(TurtleLog log) throws SyntacticErrorException {
-		return impl.execute(log, getArgs());
+		return semanticsRegistry.getImpl(name).execute(log, getArgs());
 	}
 
 	@Override

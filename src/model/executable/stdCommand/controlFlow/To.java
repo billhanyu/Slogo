@@ -17,7 +17,8 @@ public class To extends StandardCommand {
 	}
 
 	@Override
-	public double execute(TurtleLog log) throws SyntacticErrorException {
+	public double execute(TurtleLog log)
+			throws SyntacticErrorException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -29,9 +30,9 @@ public class To extends StandardCommand {
 	
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
-		if (!(this.getArgs().get(0) instanceof CodeBlock)
+		if (!(this.getArgs().get(0) instanceof Constant)
 				|| !(this.getArgs().get(1) instanceof CodeBlock)
-				|| !(this.getArgs().get(2) instanceof Constant)) {
+				|| !(this.getArgs().get(2) instanceof CodeBlock)) {
 			throw new SyntacticErrorException();
 		}		
 	}

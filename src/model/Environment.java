@@ -33,6 +33,10 @@ public abstract class Environment<E extends Executable> {
 		}
 		return null;
 	}
+	
+	public E get(Token token) {
+		return get(token.toString());
+	}
 
 	public void add(E e) {
 		elements.add(e);
