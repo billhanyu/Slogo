@@ -34,7 +34,7 @@ public class Canvas extends View {
 				turtleHeight,
 				currentState.getHeading());
 		background = new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		background.setFill(BACKGROUND_COLOR);
+		background.setId("canvas");
 		this.getRoot().getChildren().addAll(background, turtleView.getUI());
 	}
 
@@ -64,7 +64,12 @@ public class Canvas extends View {
 	public TurtleView getTurtleView() {
 		return turtleView;
 	}
-
+	
+	public boolean inCanvasBounds(double xPos, double yPos){
+		return (xPos <= CANVAS_WIDTH && xPos >= 0 
+			&& yPos <= CANVAS_HEIGHT && yPos >= 0);
+	}
+	
 	public void setBackgroundColor(Color color) {
 		background.setFill(color);
 	}

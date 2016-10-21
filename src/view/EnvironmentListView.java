@@ -34,6 +34,7 @@ public abstract class EnvironmentListView extends View {
 		all.setPrefWidth(this.getWidth());
 		all.setPrefHeight(this.getHeight());
 		all.getChildren().addAll(lbl, list);
+		list.setId("border");
 		this.getRoot().getChildren().add(all);
 	}
 	
