@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import exception.OutOfBoundsException;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -26,28 +27,38 @@ public class Canvas extends View {
 		currentState = new TurtleState();
 		turtleView = new TurtleView(controller, translateX(0), translateY(0), turtleWidth, turtleHeight);
 		background = new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		background.setFill(BACKGROUND_COLOR);
+		background.setId("canvas");
 		this.getRoot().getChildren().addAll(background, turtleView.getUI());
 	}
 
-	public void render(TurtleLog log) {
+	public void render(TurtleLog log) throws OutOfBoundsException {
 		for (ActorState nextState : log) {
 			if (nextState instanceof TurtleState) {
 				TurtleState next = (TurtleState) nextState;
-				turtleView.setPositionX(translateX(next.getPositionX()));
-				turtleView.setPositionY(translateY(next.getPositionY()));
-				turtleView.setDirection(next.getHeading());
-				turtleView.setVisible(next.isVisible());
-				if (currentState.isPenDown()) {
-					addPath(next);
+				if (!inCanvasBounds(translateX(next.getPositionX()), translateY(next.getPositionY()))){
+					throw new OutOfBoundsException();
 				}
-				currentState = next;
+				else{
+					turtleView.setPositionX(translateX(next.getPositionX()));
+					turtleView.setPositionY(translateY(next.getPositionY()));
+					turtleView.setDirection(next.getHeading());
+					turtleView.setVisible(next.isVisible());
+					if (currentState.isPenDown()) {
+						addPath(next);
+					}
+					currentState = next;
+				}
 			}
 		}
 	}
 	
 	public TurtleView getTurtleView() {
 		return turtleView;
+	}
+	
+	public boolean inCanvasBounds(double xPos, double yPos){
+		return (xPos <= CANVAS_WIDTH && xPos >= 0 
+			&& yPos <= CANVAS_HEIGHT && yPos >= 0);
 	}
 	
 	public void setBackgroundColor(Color color) {

@@ -47,6 +47,7 @@ public class Editor extends View {
 		all.setPrefWidth(this.getWidth());
 		all.getChildren().addAll(textArea, buttons);
 		HBox.setHgrow(textArea, Priority.ALWAYS);
+		textArea.setId("border");
 		this.getRoot().getChildren().add(all);
 	}
 

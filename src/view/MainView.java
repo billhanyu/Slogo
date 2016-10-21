@@ -56,9 +56,9 @@ public class MainView {
 		editor = new Editor(controller, 1000,0);
 		
 		VBox lefts = new VBox();
-		console = new Console(controller, 300,250);
+		console = new Console(controller, 300,260);
 		UserControls controls = new UserControls(controller, 300, 200);
-		lefts.getChildren().addAll(console.getUI(), controls.getUI());
+		lefts.getChildren().addAll(controls.getUI(), console.getUI());
 				
 		environmentView = new EnvironmentView(controller, 200,500);
 		root.setCenter(canvas.getUI());
