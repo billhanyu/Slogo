@@ -40,25 +40,25 @@ public class InterpreterTest {
 	@Test
 	public void forwardForward() {
 		parseAndExecute("fd fd fd 10");
-		assertDoubleEqual(log.peekLast().getPositionX(), 30);
+		assertDoubleEqual(log.peekLast().getPositionY(), -30);
 	}
 	
 	@Test
 	public void backBack() {
 		parseAndExecute("bk back 10");
-		assertDoubleEqual(log.peekLast().getPositionX(), -20);
+		assertDoubleEqual(log.peekLast().getPositionY(), 20);
 	}
 	
 	@Test
 	public void leftLeft() {
 		parseAndExecute("lt left 10");
-		assertDoubleEqual(log.peekLast().getHeading(), 20);
+		assertDoubleEqual(log.peekLast().getHeading(), -20);
 	}
 	
 	@Test
 	public void rightRight() {
 		parseAndExecute("rt right 10");
-		assertDoubleEqual(log.peekLast().getHeading(), -20);
+		assertDoubleEqual(log.peekLast().getHeading(), 20);
 	}
 	
 	@Test
@@ -124,7 +124,7 @@ public class InterpreterTest {
 	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
-		assertDoubleEqual(log.peekLast().getPositionX(), 10);
+		assertDoubleEqual(log.peekLast().getPositionY(), -10);
 	}
 	
 	@Test
@@ -180,6 +180,26 @@ public class InterpreterTest {
 		assertDoubleEqual(result, Math.PI);
 	}
 	*/
+	
+	@Test
+	public void checkBool() {
+		double result;
+		result = parseAndExecute("lessp 2 3");
+		assertDoubleEqual(result, 1);
+		result = parseAndExecute("greater? 3 2");
+		assertDoubleEqual(result, 1);
+		result = parseAndExecute("equal? 3 3");
+		assertDoubleEqual(result, 1);
+		result = parseAndExecute("notequal? 3 3");
+		assertDoubleEqual(result, 0);
+		result = parseAndExecute("and 3 3");
+		assertDoubleEqual(result, 1);
+		result = parseAndExecute("or 1 0");
+		assertDoubleEqual(result, 1);
+		result = parseAndExecute("not 0");
+		assertDoubleEqual(result, 1);
+	}
+	
 	private double parseAndExecute(String script) {
 		double result = 0;
 		try {

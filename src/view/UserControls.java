@@ -27,30 +27,40 @@ public class UserControls extends View {
 	}
 
 	private void init() {
-		HBox backgroundBox = makeBackgroundPickerBox();
-		HBox penBox = makePenPickerBox();
-		HBox languageBox = makeLanguagePickerBox();
-		Button changeImageButton = makeChangeImageButton();
+		VBox backgroundBox = makeBackgroundPickerBox();
+		VBox penBox = makePenPickerBox();
+		VBox languageBox = makeLanguagePickerBox();
+		HBox userButtons = makeUserButtons();
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(5,5,5,5));
 		box.setSpacing(20);
 		box.setPrefWidth(this.getWidth());
-		box.getChildren().addAll(backgroundBox, penBox, languageBox, changeImageButton);
+		box.getChildren().addAll(userButtons, backgroundBox, penBox, languageBox);
 		this.getRoot().getChildren().add(box);
 	}
 	
-	private HBox makeBackgroundPickerBox() {
+	private HBox makeUserButtons() {
+		HBox buttonBox = new HBox();
+		buttonBox.setSpacing(20);
+		Button changeImageButton = makeChangeImageButton();
+		Button helpPageButton = makeHelpPageButton();
+		buttonBox.getChildren().addAll(helpPageButton, changeImageButton);
+		return buttonBox;
+		
+	}
+
+	private VBox makeBackgroundPickerBox() {
 		ColorPicker picker = makeBackgroundPicker();
 		return makePickerBox(this.getLabelReader().getLabel("BackgroundLabel"), picker);
 	}
 	
-	private HBox makePenPickerBox() {
+	private VBox makePenPickerBox() {
 		ColorPicker picker = makePenPicker();
 		return makePickerBox(this.getLabelReader().getLabel("PenLabel"), picker);
 	}
 	
-	private HBox makeLanguagePickerBox() {
+	private VBox makeLanguagePickerBox() {
 		ObservableList<String> options = FXCollections.observableArrayList(
 				this.getLabelReader().getLabel("AvailableLanguages").split(","));
 		String defaultValue = this.getLabelReader().getLabel("DefaultLanguage");
@@ -78,9 +88,8 @@ public class UserControls extends View {
 		return picker;
 	}
 	
-	private HBox makePickerBox(String label, ColorPicker picker) {
-		HBox pickerBox = new HBox();
-		pickerBox.setAlignment(Pos.CENTER);
+	private VBox makePickerBox(String label, ColorPicker picker) {
+		VBox pickerBox = new VBox();
 		Label pickerLabel = new Label(label);
 		pickerBox.getChildren().addAll(pickerLabel, picker);
 		return pickerBox;
@@ -96,13 +105,20 @@ public class UserControls extends View {
 		return selections;
 	}
 	
-	private HBox makeSelectionBox(String label, ComboBox<String> selections){
-		HBox selectionBox = new HBox();
-		selectionBox.setAlignment(Pos.CENTER);
+	private VBox makeSelectionBox(String label, ComboBox<String> selections){
+		VBox selectionBox = new VBox();
+		//selectionBox.setAlignment(Pos.CENTER);
 		Label selectionLabel = new Label(label);
 		selectionBox.getChildren().addAll(selectionLabel, selections);
 		return selectionBox;
 		
+	}
+	
+	private Button makeHelpPageButton() {
+		Button btn = this.makeButton(this.getLabelReader().getLabel("HelpPageButton"), e -> {
+			this.getController().getMainView().showHelpPage();;
+		});
+		return btn;
 	}
 
 	private Button makeChangeImageButton() {

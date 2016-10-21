@@ -23,8 +23,10 @@ public class Back extends StandardCommand{
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setPositionX(prev.getPositionX() - offset * Math.cos(prev.getHeading()));
-		delta.setPositionY(prev.getPositionY() - offset * Math.sin(prev.getHeading()));
+		delta.setPositionX(prev.getPositionX() - 
+				offset * Math.sin(prev.getHeading() / 180 * Math.PI));
+		delta.setPositionY(prev.getPositionY() + 
+				offset * Math.cos(prev.getHeading() / 180 * Math.PI));
 		log.append(delta);
 		return offset;
 	}

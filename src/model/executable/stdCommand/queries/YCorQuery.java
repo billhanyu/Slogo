@@ -1,4 +1,4 @@
-package model.executable.stdCommand.movement;
+package model.executable.stdCommand.queries;
 
 import java.util.List;
 
@@ -6,12 +6,11 @@ import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
-import model.TurtleState;
 import model.executable.StandardCommand;
 
-public class Left extends StandardCommand{
+public class YCorQuery extends StandardCommand{
 	
-	public Left(List<Executable> argv)
+	public YCorQuery(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -19,17 +18,12 @@ public class Left extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offsetAngle = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
-		delta = new TurtleState();
-		prev.duplicateOnto(delta);
-		delta.setDirection(prev.getHeading() - offsetAngle);
-		log.append(delta);
-		return offsetAngle;
+		return prev.getPositionY();
 	}
 
 	@Override
 	public String getName() {
-		return "left";
+		return "ycor";
 	}
 }

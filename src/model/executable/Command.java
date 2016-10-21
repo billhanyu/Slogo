@@ -9,7 +9,7 @@ import model.TurtleLog;
 
 public abstract class Command implements Executable{
 	
-	private List<Executable> argv;
+	protected List<Executable> argv;
 	
 	public Command(List<Executable> argv)
 			throws SyntacticErrorException {

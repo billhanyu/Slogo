@@ -34,6 +34,7 @@ public class Controller {
 		double result = main.execute(log);
 		mainView.getCanvas().render(log);
 		mainView.getConsole().appendText(""+result, TextType.Plain);
+		
 	}
 	
 	public void setLanguage(String language){

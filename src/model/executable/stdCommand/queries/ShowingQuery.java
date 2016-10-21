@@ -1,4 +1,4 @@
-package model.executable.stdCommand.movement;
+package model.executable.stdCommand.queries;
 
 import java.util.List;
 
@@ -6,12 +6,13 @@ import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
-import model.TurtleState;
 import model.executable.StandardCommand;
 
-public class Left extends StandardCommand{
+public class ShowingQuery extends StandardCommand{
+	private static final double TRUE = 1.0;
+	private static final double FALSE = 0.0;
 	
-	public Left(List<Executable> argv)
+	public ShowingQuery(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -19,17 +20,13 @@ public class Left extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offsetAngle = this.getArgs().get(0).execute(log);
 		ActorState prev = log.peekLast();
-		delta = new TurtleState();
-		prev.duplicateOnto(delta);
-		delta.setDirection(prev.getHeading() - offsetAngle);
-		log.append(delta);
-		return offsetAngle;
+		if (prev.isVisible() == true) {return TRUE;}
+		else {return FALSE;}
 	}
 
 	@Override
 	public String getName() {
-		return "left";
+		return "showing?";
 	}
 }

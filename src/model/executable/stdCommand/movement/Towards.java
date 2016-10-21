@@ -10,6 +10,10 @@ import model.TurtleState;
 import model.executable.StandardCommand;
 
 public class Towards extends StandardCommand{
+	private static final double UP = 0;
+	private static final double DOWN = 180;
+	private static final double RIGHT = 90;
+	private static final double LEFT = -90;
 	
 	public Towards(List<Executable> argv)
 			throws SyntacticErrorException {
@@ -26,19 +30,20 @@ public class Towards extends StandardCommand{
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
 		if (x - prev.getPositionX() == 0) {
-			if (y - prev.getPositionY() < 0) {
-				newAngle = -90;
+			if (y - prev.getPositionY() > 0) {
+				newAngle = DOWN;
 			} else {
-				newAngle = 90;
+				newAngle = UP;
 			}
 		} else if (y - prev.getPositionY() == 0) {
 			if (x - prev.getPositionX() < 0) {
-				newAngle = 180;
+				newAngle = LEFT;
 			} else {
-				newAngle = 0;
+				newAngle = RIGHT;
 			}
 		} else {
-			newAngle = Math.toDegrees(Math.atan2(y - prev.getPositionY(), x - prev.getPositionX()));
+			newAngle = 90 + Math.toDegrees(Math.atan2(y - prev.getPositionY(), x - prev.getPositionX()));
+			//add extra 90deg to shift from Cartesian angle conventions to JavaFX angle conventions
 		}
 		
 		delta.setDirection(newAngle);
