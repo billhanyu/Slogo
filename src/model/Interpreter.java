@@ -25,7 +25,7 @@ public class Interpreter {
 	private SemanticsRegistry semanticsRegistry;
 	
 	public Interpreter() {
-		// TODO (cx15): passed a reference of globalVars
+		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
 		semanticsRegistry = new SemanticsRegistry();
 	}
@@ -36,7 +36,6 @@ public class Interpreter {
 		script = script.trim().replaceAll(" +", " ");
 		semanticsRegistry.register(script);
 		Stack<Token> tokenStack = tokenize(script);
-		// TODO (cx15): preprocess to construct all procedure impl first since don't know param len
 		return buildMain(tokenStack);
 	}
 	
@@ -50,28 +49,32 @@ public class Interpreter {
 	}
 	
 	private CodeBlock buildMain(Stack<Token> tokenStack)
-			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
+			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
+				   SyntacticErrorException {
 		Stack<ParserContext> contextStack = new Stack<>();
-		contextStack.push(new ParserContext());
+		contextStack.push(new ParserContext(globalVars));
 		while (!tokenStack.isEmpty()) {
 			Token token = tokenStack.pop();
 			List<Executable> pendingArgs = contextStack.peek().getPendingArgs();
-			List<Executable> instructionCacheInReverse = contextStack.peek().getInstructionCacheInReverse();
-//			if (token.isOpenBracket()) {
-//				codeBlocks.push(new ArrayList<>());
-//			} else if (token.isCloseBracket()) {
-//				CodeBlock cb = new CodeBlock(codeBlocks.pop());
-//				pendingArgs.add(cb);
-//			}
-			if (token.isConstant()) {
+			List<Executable> instructionCacheInReverse
+					= contextStack.peek().getInstructionCacheInReverse();
+			GlobalVariables vars = contextStack.peek().getVars();
+			if (token.isOpenBracket()) {
+				contextStack.push(new ParserContext());
+			} else if (token.isCloseBracket()) {
+				CodeBlock cb = contextStack.pop().export();
+				contextStack.peek().getPendingArgs().add(cb);
+			} else if (token.isConstant()) {
 				pendingArgs.add(new Constant(token));
 			} else if (token.isVariable()) {
 				//TODO cx15: USE addVarRef() HERE TO HANDLE CODEBLOCK
-				if (globalVars.get(token.toString()) == null) {
-					Variable var = new Variable(token);
-					globalVars.add(var);
+				Variable var;
+				if ( (var = vars.get(token.toString())) == null) {
+					if ( (var = globalVars.get(token.toString())) == null) {
+						vars.add(var = new Variable(token));
+					}
 				}
-				pendingArgs.add(globalVars.get(token.toString()));
+				pendingArgs.add(var);
 			} else if (token.isStdCommand() || token.isCustomCommand()) {
 				try{
 					String className = semanticsRegistry.getClass(token);
@@ -91,8 +94,10 @@ public class Interpreter {
 				throw new UnrecognizedIdentifierException();
 			}
 		}
-		Collections.reverse(contextStack.peek().getInstructionCacheInReverse());
-		return new CodeBlock(contextStack.peek().getInstructionCacheInReverse());
+		if (contextStack.size() != 1) {
+			throw new SyntacticErrorException("Miss matched brackets");
+		}
+		return contextStack.peek().export();
 	}
 	
 	private List<Executable> argsGen(int numArgs, String className, 

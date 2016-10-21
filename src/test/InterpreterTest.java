@@ -3,8 +3,6 @@ package test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,16 +11,10 @@ import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
 import model.ActorState;
-import model.Executable;
-import model.GlobalVariables;
 import model.Interpreter;
 import model.TurtleLog;
 import model.TurtleState;
 import model.executable.CodeBlock;
-import model.executable.Constant;
-import model.executable.ProcedureImpl;
-import model.executable.ProcedureStub;
-import model.executable.Variable;
 import util.Utils;
 
 

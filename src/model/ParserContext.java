@@ -1,15 +1,24 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import model.executable.CodeBlock;
 
 public class ParserContext {
 
 	private List<Executable> instructionCacheInReverse;
 	private List<Executable> pendingArgs;
 	private List<Executable> codeBlock;
+	private GlobalVariables vars;
 	
 	public ParserContext() {
+		this(null);
+	}
+	
+	public ParserContext(GlobalVariables gVars) {
+		vars = gVars == null ? new GlobalVariables() : gVars;
 		instructionCacheInReverse = new ArrayList<>();
 		pendingArgs = new ArrayList<>();
 		codeBlock =  new ArrayList<>();
@@ -27,16 +36,16 @@ public class ParserContext {
 		return codeBlock;
 	}
 
-	public void setInstructionCacheInReverse(List<Executable> instructionCacheInReverse) {
-		this.instructionCacheInReverse = instructionCacheInReverse;
-	}
-
 	public void clearPendingArgs() {
 		this.pendingArgs = new ArrayList<>();
 	}
-
-	public void setCodeBlock(List<Executable> codeBlock) {
-		this.codeBlock = codeBlock;
+	
+	public GlobalVariables getVars() {
+		return vars;
 	}
 	
+	public CodeBlock export() {
+		Collections.reverse(instructionCacheInReverse);
+		return new CodeBlock(instructionCacheInReverse);
+	}
 }
