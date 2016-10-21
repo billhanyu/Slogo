@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,6 +19,8 @@ public class SemanticsRegistry {
 	
 	public static final String TO = "to ";
 	public static final String GOTO = "goto";
+	public static final String OPEN_BRACKET = "[";
+	public static final String CLOSE_BRACKET = "]";
 	public static final int GOTO_DIFF_TO = 2;
 	
 	private ResourceBundle lexicon;
@@ -41,16 +44,17 @@ public class SemanticsRegistry {
 		int toIndex = -1;
 		while( (toIndex = script.indexOf(TO)) != -1) {
 			if (script.indexOf(GOTO) + GOTO_DIFF_TO != toIndex) {
-				int argsOpen = script.indexOf("[", toIndex);
-				int argsClose = script.indexOf("]", toIndex);
+				int argsOpen = script.indexOf(OPEN_BRACKET, toIndex);
+				int argsClose = script.indexOf(CLOSE_BRACKET, toIndex);
 				if (argsOpen < 0 || argsClose < 0)
 					throw new SyntacticErrorException();
-				String token = script.substring(toIndex + TO.length(), argsOpen).trim();
-				if (isStdCommand(token) || isConstant(token) || isVariable(token))
+				String tokenString = script.substring(toIndex + TO.length(), argsOpen).trim();
+				Token token = new Token(tokenString, this);
+				if (token.isStdCommand() || token.isConstant() || token.isVariable())
 					throw new SyntacticErrorException();
 				String params = script.substring(argsOpen + 1, argsClose).trim().replaceAll("( )+", " ");
 				this.putNumParam(
-						token, 
+						tokenString, 
 						params.isEmpty()? 0 : params.split(SPACE_REGEX).length
 				);
 			}
@@ -58,34 +62,20 @@ public class SemanticsRegistry {
 		}
 	}
 	
-	public boolean isStdCommand(String token) {
-		return stdCmds.contains(token);
+	public Set<String> getStandardCommands() {
+		return stdCmds;
 	}
 	
-	public boolean isCustomCommand(String token) {
-		// TODO (cx15): IMPL
-		return false;
+	public ResourceBundle getLexicon() {
+		return lexicon;
 	}
 	
-	public boolean isConstant(String token) {
-		return token.matches(lexicon.getString("constant.regex"));
-	}
-	
-	public boolean isVariable(String token) {
-		return token.matches(lexicon.getString("variable.regex"));
-	}
-	
-	public void putNumParam(String token, int argc) {
+	private void putNumParam(String token, int argc) {
 		name2Argc.put(token, argc);
 	}
 	
-	/**
-	 * return -1 if no mapping for key token
-	 * @param token
-	 * @return
-	 */
 	public int getNumParam(String token) {
-		if (isStdCommand(token)) {
+		if (stdCmds.contains(token)) {
 			return Integer.parseInt(lexicon.getString(token + PROP_ARGC));
 		}
 		if (name2Argc.get(token) == null) {
@@ -94,12 +84,21 @@ public class SemanticsRegistry {
 		return name2Argc.get(token);
 	}
 	
-	public String getClass(String token) {
+	/**
+	 * return -1 if no mapping for key token
+	 * @param token
+	 * @return
+	 */
+	public int getNumParam(Token token) {
+		return getNumParam(token.toString());
+	}
+	
+	public String getClass(Token token) {
 		return lexicon.getString(token + PROP_CLASS);
 	}
 	
-	public void putImpl(String token, ProcedureImpl impl) {
-		name2Impl.put(token, impl);
+	public void putImpl(Token token, ProcedureImpl impl) {
+		name2Impl.put(token.toString(), impl);
 	}
 	
 	/**
@@ -107,9 +106,7 @@ public class SemanticsRegistry {
 	 * @param token
 	 * @return
 	 */
-	public ProcedureImpl getImpl(String token) {
-		return name2Impl.get(token);
+	public ProcedureImpl getImpl(Token token) {
+		return name2Impl.get(token.toString());
 	}
-	
-	
 }

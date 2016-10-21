@@ -1,6 +1,7 @@
 package model.executable;
 
 import model.Executable;
+import model.Token;
 import model.TurtleLog;
 
 public class Constant implements Executable {
@@ -8,8 +9,8 @@ public class Constant implements Executable {
 	private String name;
 	private double value;
 	
-	public Constant(double value) {
-		this(null, value);
+	public Constant(Token token) {
+		this(null, Double.parseDouble(token.toString()));
 	}
 	
 	public Constant(String name) {

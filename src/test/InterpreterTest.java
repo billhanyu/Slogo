@@ -3,6 +3,9 @@ package test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,10 +13,16 @@ import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
 import model.ActorState;
+import model.Executable;
+import model.GlobalVariables;
 import model.Interpreter;
 import model.TurtleLog;
 import model.TurtleState;
 import model.executable.CodeBlock;
+import model.executable.Constant;
+import model.executable.ProcedureImpl;
+import model.executable.ProcedureStub;
+import model.executable.Variable;
 import util.Utils;
 
 
@@ -29,6 +38,24 @@ public class InterpreterTest {
 		log.append(state);
 		intr = new Interpreter();
 	}
+	
+//	@Test
+//	public void procedure() {
+//		try {
+//			List<Executable> sequence = new ArrayList<>();
+//			sequence.add(new Variable(":value"));
+//			CodeBlock  params = new CodeBlock(sequence);
+//			CodeBlock procedure = intr.parseScript("fd :value");
+//			ProcedureImpl impl = new ProcedureImpl("func", params, procedure, new GlobalVariables());
+//			List<Executable> argv = new ArrayList<>();
+//			argv.add(new Constant(10));
+//			ProcedureStub stub = new ProcedureStub("func", argv, impl);
+//			stub.execute(log);
+//			assertDoubleEqual(log.peekLast().getPositionX(), 10);
+//		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments | SyntacticErrorException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Test
 	public void forwardForward() {

@@ -52,6 +52,7 @@ public class ProcedureImpl{
 	
 	private void validateInitParamList(CodeBlock params)
 			throws SyntacticErrorException {
+		this.params = new ArrayList<>();
 		for (Executable e : params.unravel()) {
 			if ( !(e instanceof Variable) )
 				throw new SyntacticErrorException();

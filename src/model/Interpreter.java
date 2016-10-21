@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
 import exception.ReflectionFoundNoMatchesException;
@@ -20,19 +19,13 @@ import util.ReflectionUtils;
 
 public class Interpreter {
 	
-	public static final String TOKEN_DICT = "resources/tokens";
-	public static final String PROP_CLASS = ".class";
-	public static final String PROP_ARGC = ".argc";
 	public static final String SPACE_REGEX = "\\s+";
 	
-	public static final int VAR_EXPR_LEN = 1;
-	
-	private ResourceBundle lexicon;
 	private GlobalVariables globalVars;
 	private SemanticsRegistry semanticsRegistry;
 	
 	public Interpreter() {
-		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
+		// TODO (cx15): passed a reference of globalVars
 		globalVars = new GlobalVariables();
 		semanticsRegistry = new SemanticsRegistry();
 	}
@@ -42,36 +35,44 @@ public class Interpreter {
 				   SyntacticErrorException {
 		script = script.trim().replaceAll(" +", " ");
 		semanticsRegistry.register(script);
-		Stack<String> tokenStack = tokenize(script);
+		Stack<Token> tokenStack = tokenize(script);
 		// TODO (cx15): preprocess to construct all procedure impl first since don't know param len
 		return buildMain(tokenStack);
 	}
 	
-	private Stack<String> tokenize(String script) {
+	private Stack<Token> tokenize(String script) {
 		script = script.toLowerCase();
 		String[] tokens = script.split(SPACE_REGEX);
-		Stack<String> tokenStack = new Stack<>();
+		Stack<Token> tokenStack = new Stack<>();
 		for (String token : tokens)
-			tokenStack.push(token);
+			tokenStack.push(new Token(token, semanticsRegistry));
 		return tokenStack;
 	}
 	
-	private CodeBlock buildMain(Stack<String> tokenStack)
+	private CodeBlock buildMain(Stack<Token> tokenStack)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
-		List<Executable> instructionCacheInReverse = new ArrayList<>();
-		List<Executable> pendingArgs = new ArrayList<>();
+		Stack<ParserContext> contextStack = new Stack<>();
+		contextStack.push(new ParserContext());
 		while (!tokenStack.isEmpty()) {
-			String token = tokenStack.pop();
-			if (semanticsRegistry.isConstant(token)) {
-				pendingArgs.add(new Constant(Double.parseDouble(token)));
-			} else if (semanticsRegistry.isVariable(token)) {
+			Token token = tokenStack.pop();
+			List<Executable> pendingArgs = contextStack.peek().getPendingArgs();
+			List<Executable> instructionCacheInReverse = contextStack.peek().getInstructionCacheInReverse();
+//			if (token.isOpenBracket()) {
+//				codeBlocks.push(new ArrayList<>());
+//			} else if (token.isCloseBracket()) {
+//				CodeBlock cb = new CodeBlock(codeBlocks.pop());
+//				pendingArgs.add(cb);
+//			}
+			if (token.isConstant()) {
+				pendingArgs.add(new Constant(token));
+			} else if (token.isVariable()) {
 				//TODO cx15: USE addVarRef() HERE TO HANDLE CODEBLOCK
-				if (globalVars.get(token) == null) {
+				if (globalVars.get(token.toString()) == null) {
 					Variable var = new Variable(token);
 					globalVars.add(var);
 				}
-				pendingArgs.add(globalVars.get(token));
-			} else if (semanticsRegistry.isStdCommand(token) || semanticsRegistry.isCustomCommand(token)) {
+				pendingArgs.add(globalVars.get(token.toString()));
+			} else if (token.isStdCommand() || token.isCustomCommand()) {
 				try{
 					String className = semanticsRegistry.getClass(token);
 					int numArgs = semanticsRegistry.getNumParam(token);
@@ -80,7 +81,7 @@ public class Interpreter {
 					Constructor<?> constructor = ReflectionUtils.getConstructor(c, pendingArgs);
 					Command cmd = (Command) constructor.newInstance(pendingArgs);
 					instructionCacheInReverse.add(cmd);
-					pendingArgs = new ArrayList<>();
+					contextStack.peek().clearPendingArgs();
 				} catch (ClassNotFoundException | ReflectionFoundNoMatchesException
 						| InstantiationException | IllegalAccessException
 						| IllegalArgumentException | InvocationTargetException e) {
@@ -90,8 +91,8 @@ public class Interpreter {
 				throw new UnrecognizedIdentifierException();
 			}
 		}
-		Collections.reverse(instructionCacheInReverse);
-		return new CodeBlock(instructionCacheInReverse);
+		Collections.reverse(contextStack.peek().getInstructionCacheInReverse());
+		return new CodeBlock(contextStack.peek().getInstructionCacheInReverse());
 	}
 	
 	private List<Executable> argsGen(int numArgs, String className, 
