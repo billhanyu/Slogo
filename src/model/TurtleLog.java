@@ -26,6 +26,12 @@ public class TurtleLog implements Iterable<ActorState> {
 		return states.iterator();
 	}
 	
+	public void didRender() {
+		for (int i = 0; i < states.size() - 1; i++) {
+			states.remove(0);
+		}
+	}
+	
 	public ActorState peekLast() {
 		return states.get(states.size() - 1);
 	}

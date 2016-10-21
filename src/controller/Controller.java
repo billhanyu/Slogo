@@ -1,7 +1,6 @@
 package controller;
 import java.util.Stack;
 
-import exception.OutOfBoundsException;
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
@@ -36,13 +35,8 @@ public class Controller {
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
 		CodeBlock main = interpreter.parseScript(script);
 		double result = main.execute(log);
-		try {
-			mainView.getCanvas().render(log);
-			mainView.getConsole().appendText(""+result, TextType.Plain);
-		} catch (OutOfBoundsException e) {
-			this.getMainView().getConsole().appendText
-				(this.getValueReader().getLabel("OutOfBounds"), TextType.Error);
-		}
+		mainView.getCanvas().render(log);
+		mainView.getConsole().appendText(""+result, TextType.Plain);
 		
 	}
 	

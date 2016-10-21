@@ -23,7 +23,7 @@ public class Right extends StandardCommand{
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setDirection(prev.getHeading() - offsetAngle);
+		delta.setDirection(prev.getHeading() + offsetAngle);
 		log.append(delta);
 		return offsetAngle;
 	}
