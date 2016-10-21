@@ -88,9 +88,8 @@ public class Interpreter {
 					Class<?> c = Class.forName(className);
 					pendingArgs = argsGen(numArgs, className, pendingArgs, instructionCacheInReverse);
 					Constructor<?> constructor = ReflectionUtils.getConstructor(c, pendingArgs);
-					Command cmd = token.isStdCommand() ? 
-							(Command) constructor.newInstance(pendingArgs) :
-							(Command) constructor.newInstance(token, pendingArgs, semanticsRegistry);
+					Command cmd = (Command) constructor.newInstance(pendingArgs);
+					cmd.setName(token.toString());
 					instructionCacheInReverse.add(cmd);
 					contextStack.peek().clearPendingArgs();
 				} catch (ClassNotFoundException | ReflectionFoundNoMatchesException
@@ -105,6 +104,7 @@ public class Interpreter {
 		if (contextStack.size() != 1) {
 			throw new SyntacticErrorException("Miss matched brackets");
 		}
+		// TODO cx15: CONNECT ALL STUB TO IMPL
 		return contextStack.peek().export();
 	}
 	

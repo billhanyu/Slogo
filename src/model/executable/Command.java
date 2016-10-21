@@ -10,6 +10,7 @@ import model.TurtleLog;
 public abstract class Command implements Executable{
 	
 	protected List<Executable> argv;
+	protected String name;
 	
 	public Command(List<Executable> argv)
 			throws SyntacticErrorException {
@@ -23,7 +24,14 @@ public abstract class Command implements Executable{
 			throws SyntacticErrorException;
 	
 	@Override
-	public abstract String getName();
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public void setName(String newName) {
+		name = newName;
+	}
 	
 	protected abstract void validateArgv()
 			throws SyntacticErrorException;

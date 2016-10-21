@@ -41,4 +41,9 @@ public class Variable implements Executable {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public void setName(String newName) {
+		name = newName;		
+	}
 }

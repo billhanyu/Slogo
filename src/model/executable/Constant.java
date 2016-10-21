@@ -34,4 +34,9 @@ public class Constant implements Executable {
 	public double execute(TurtleLog log) {
 		return value;
 	}
+
+	@Override
+	public void setName(String newName) {
+		name = newName;
+	}
 }

@@ -13,6 +13,7 @@ public class CodeBlock implements Executable{
 	
 	private List<Executable> sequence;
 	private List<Variable> varRefs;
+	private String name;
 	
 	public CodeBlock(List<Executable> sequence) {
 		this.sequence = sequence;
@@ -38,8 +39,7 @@ public class CodeBlock implements Executable{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 	
 	public List<Executable> unravel() {
@@ -57,5 +57,10 @@ public class CodeBlock implements Executable{
 	// TODO cx15: USED THIS IN PARSER
 	public void addVarRef(Variable ref) {
 		varRefs.add(ref);
+	}
+
+	@Override
+	public void setName(String newName) {
+		name = newName;		
 	}
 }
