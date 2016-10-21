@@ -24,6 +24,7 @@ public class Home extends StandardCommand{
 		prev.duplicateOnto(delta);
 		delta.setPositionX(0.0);
 		delta.setPositionY(0.0);
+		delta.setDirection(0);
 		log.append(delta);
 		double xDist = prev.getPositionX();
 		double yDist = prev.getPositionY();
