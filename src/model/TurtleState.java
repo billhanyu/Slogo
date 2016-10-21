@@ -16,6 +16,7 @@ public class TurtleState implements ActorState {
 	private boolean penDown;
 	private boolean visible;
 	private boolean doesAnimate;
+	private boolean clearsScreen;
 	private Color penColor;
 	
 	public static final Color DEFAULT_PEN_COLOR = Color.BLACK;
@@ -27,6 +28,7 @@ public class TurtleState implements ActorState {
 		direction = 0.0;
 		penColor = DEFAULT_PEN_COLOR;
 		penDown = true;
+		clearsScreen = false;
 	}
 
 	@Override
@@ -61,7 +63,12 @@ public class TurtleState implements ActorState {
 	
 	@Override
 	public void setPenColor(Color color) {
-		this.penColor = color;
+		penColor = color;
+	}
+	
+	@Override
+	public void setClearScreen(boolean clear) {
+		clearsScreen = clear;
 	}
 
 	@Override
@@ -95,6 +102,11 @@ public class TurtleState implements ActorState {
 	}
 	
 	@Override
+	public boolean clearsScreen() {
+		return clearsScreen;
+	}
+	
+	@Override
 	public Color getPenColor() {
 		return penColor;
 	}
@@ -107,6 +119,8 @@ public class TurtleState implements ActorState {
 		other.setAnimate(this.doesAnimate());
 		other.setDirection(this.getHeading());
 		other.setVisible(this.isVisible());
+		other.setClearScreen(this.clearsScreen());
 		other.setPenColor(this.getPenColor());
 	}
+	
 }
