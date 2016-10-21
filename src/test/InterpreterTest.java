@@ -173,6 +173,7 @@ public class InterpreterTest {
 		assertDoubleEqual(result, Math.PI);
 	}
 	
+	
 	private double parseAndExecute(String script) {
 		double result = 0;
 		try {
