@@ -3,8 +3,8 @@ package model.executable;
 import exception.SyntacticErrorException;
 import exception.UseBeforeDefineException;
 import model.Executable;
-import model.Token;
 import model.TurtleLog;
+import model.token.Token;
 
 public class Variable implements Executable {
 	

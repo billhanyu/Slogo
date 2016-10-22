@@ -11,7 +11,7 @@ import model.executable.StandardCommand;
 
 public class To extends StandardCommand {
 	
-	private Constant stubName;
+	private String stubName;
 	private CodeBlock varList;
 	private CodeBlock body;
 
@@ -23,7 +23,7 @@ public class To extends StandardCommand {
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		body.getSemantics().getImpl(stubName.getName())
+		body.getSemantics().getImpl(stubName)
 						   .init(varList, body);
 		return 1;
 	}
@@ -40,7 +40,7 @@ public class To extends StandardCommand {
 				|| !(this.getArgs().get(2) instanceof CodeBlock)) {
 			throw new SyntacticErrorException();
 		}
-		stubName = (Constant) this.getArgs().get(0);
+		stubName = this.getArgs().get(0).getName();
 		varList = (CodeBlock) this.getArgs().get(1);
 		body = (CodeBlock) this.getArgs().get(2);
 	}
