@@ -1,10 +1,20 @@
 package util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import exception.ReflectionFoundNoMatchesException;
 
 public class ReflectionUtils {
+	
+	public static Object newInstanceOf(String className, Object... params)
+			throws InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException,
+			ClassNotFoundException, ReflectionFoundNoMatchesException {
+		Class<?> c = Class.forName(className);
+		Constructor<?> constructor = ReflectionUtils.getConstructor(c, params);
+		return constructor.newInstance(params);
+	}
 
 	public static Constructor<?> getConstructor(Class<?> c, Object... params)
 			throws ReflectionFoundNoMatchesException {

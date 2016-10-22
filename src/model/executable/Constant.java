@@ -1,8 +1,8 @@
 package model.executable;
 
 import model.Executable;
-import model.Token;
 import model.TurtleLog;
+import model.token.Token;
 
 public class Constant implements Executable {
 	

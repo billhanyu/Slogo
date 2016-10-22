@@ -11,7 +11,6 @@ import model.GlobalVariables;
 
 public class ProcedureImpl{
 	
-	// TODO (cx15): when called, push a new stackFrame onto stack, populate it using variables from previous stackframe, subsequent command access value from the new stackfrome 
 	private List<Variable> params;
 	private CodeBlock procedure;
 	

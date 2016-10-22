@@ -15,7 +15,6 @@ import model.TurtleState;
  */
 public abstract class StandardCommand extends Command {
 	
-	// TODO(cx15): define a final static name for each subclass
 	protected ActorState delta;
 	
 	public StandardCommand(List<Executable> argv)

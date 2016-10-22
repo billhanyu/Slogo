@@ -8,6 +8,7 @@ import java.util.Set;
 
 import exception.SyntacticErrorException;
 import model.executable.ProcedureImpl;
+import model.token.Token;
 
 public class SemanticsRegistry {
 	
@@ -49,8 +50,7 @@ public class SemanticsRegistry {
 				if (argsOpen < 0 || argsClose < 0)
 					throw new SyntacticErrorException();
 				String tokenString = script.substring(toIndex + TO.length(), argsOpen).trim();
-				Token token = new Token(tokenString, this);
-				if (token.isStdCommand() || token.isConstant() || token.isVariable())
+				if (!isCustomCmd(tokenString))
 					throw new SyntacticErrorException();
 				String params = script.substring(argsOpen + 1, argsClose).trim().replaceAll("( )+", " ");
 				this.putNumParam(
@@ -95,7 +95,7 @@ public class SemanticsRegistry {
 	}
 	
 	public String getClass(Token token) {
-		String key = token.isStdCommand() ? token.toString() : PROCEDURE_STUB;
+		String key = stdCmds.contains(token.toString())? token.toString() : PROCEDURE_STUB;
 		return lexicon.getString(key + PROP_CLASS);
 	}
 	
@@ -111,5 +111,11 @@ public class SemanticsRegistry {
 	 */
 	public ProcedureImpl getImpl(String name) {
 		return name2Impl.get(name);
+	}
+	
+	public boolean isCustomCmd(String cmd) {
+		return !cmd.matches(lexicon.getString("constant.regex"))
+				&& !cmd.matches(lexicon.getString("variable.regex"))
+				&& !stdCmds.contains(cmd);
 	}
 }
