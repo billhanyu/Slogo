@@ -16,6 +16,7 @@ public interface ActorState {
 	void setVisible(boolean isVisible);
 	void setAnimate(boolean animate);
 	void setPenColor(Color color);
+	void setClearScreen(boolean clear);
 	double getPositionX();
 	double getPositionY();
 	double getHeading();
@@ -23,5 +24,6 @@ public interface ActorState {
 	boolean isVisible();
 	boolean doesAnimate();
 	Color getPenColor();
+	boolean clearsScreen();
 	void duplicateOnto(ActorState other);
 }

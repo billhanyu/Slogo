@@ -10,8 +10,6 @@ import model.TurtleState;
 import model.executable.StandardCommand;
 
 public class ClearScreen extends StandardCommand{
-	//TODO: Erase turtle's trails (front end?)
-	//this is the same as Home as far as back end is concerned
 	
 	public ClearScreen(List<Executable> argv)
 			throws SyntacticErrorException {
@@ -26,6 +24,8 @@ public class ClearScreen extends StandardCommand{
 		prev.duplicateOnto(delta);
 		delta.setPositionX(0.0);
 		delta.setPositionY(0.0);
+		delta.setDirection(0);
+		delta.setClearScreen(true);
 		log.append(delta);
 		double xDist = prev.getPositionX();
 		double yDist = prev.getPositionY();

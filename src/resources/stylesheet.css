@@ -1,34 +1,63 @@
-.root{
+.root {
     -fx-font-size: 10pt;
-    -fx-background: #51A39D;
+    -fx-background: #bfd7ff;
 }
 
 
-#border{
+#editor {
 	-fx-border-color: #330000;
-        -fx-border-insets: 0;
-        -fx-border-width: 1;
-        -fx-border-style: solid;
+    -fx-border-insets: 0;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    -fx-font: 15px Courier;
 }
 
-.label{
-       -fx-font-weight: bold;
-
+.label {
+    -fx-font-weight: bold;
 }
 
-.button, .combo-box, .color-picker{
-	-fx-background-color: rgb(204, 204, 204);
+.button, .color-picker {
 	-fx-text-fill: black;
 	-fx-font-weight: bold;
 }
 
-.color-picker .color-picker-label .text, .combo-box .text{
+.color-picker .color-picker-label .text, .text {
     -fx-fill: black;
     -fx-weight: normal;
 }
 
-#canvas{
+#canvas {
     -fx-fill: white;
     -fx-stroke: #330000;
     -fx-stroke-width: 1;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #0093ff;
+    -fx-text-fill: white;
+}
+
+.runButton {
+    -fx-background-color: #4bc970;
+    -fx-stroke: #3ac162;
+    -fx-stroke-width: 1;
+    -fx-font: 20px Courier;
+    -fx-text-fill: white;
+}
+
+.runButton:hover {
+    -fx-background-color: #49cc6f;
+}
+
+.clearButton {
+    -fx-background-color: #d85656;
+    -fx-stroke: #c94e4e;
+    -fx-stroke-width: 1;
+    -fx-font: 17px Courier;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+}
+
+.clearButton:hover {
+    -fx-background-color: #e25858;
 }

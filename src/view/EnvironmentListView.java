@@ -1,5 +1,7 @@
 package view;
 
+import java.util.stream.Collectors;
+
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -8,6 +10,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import model.Environment;
+import model.Executable;
 
 public abstract class EnvironmentListView extends View {
 	
@@ -19,13 +23,22 @@ public abstract class EnvironmentListView extends View {
 		init();
 	}
 	
+	abstract public String getLabelString();
+	
+	public void update(Environment<Executable> environment) {
+		items = (ObservableList<String>) 
+				environment.getImmutableValues().stream()
+					.map(exec -> exec.getName())
+					.collect(Collectors.toList());
+		list.setItems(items);
+	}
+	
 	abstract protected ChangeListener<String> getChangeListener();
 	
-	abstract String getLabelString();
-	
 	private void init() {
-		items = FXCollections.observableArrayList (
-				"Single", "Double", "Suite", "Family App");
+		items = FXCollections.observableArrayList(
+			"apple", "pear", "peach", "banana"
+		);
 		list = makeList(getChangeListener());
 		Label lbl = new Label(getLabelString());
 		
@@ -34,7 +47,6 @@ public abstract class EnvironmentListView extends View {
 		all.setPrefWidth(this.getWidth());
 		all.setPrefHeight(this.getHeight());
 		all.getChildren().addAll(lbl, list);
-		list.setId("border");
 		this.getRoot().getChildren().add(all);
 	}
 	

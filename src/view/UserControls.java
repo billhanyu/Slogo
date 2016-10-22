@@ -13,7 +13,6 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -30,19 +29,19 @@ public class UserControls extends View {
 		VBox backgroundBox = makeBackgroundPickerBox();
 		VBox penBox = makePenPickerBox();
 		VBox languageBox = makeLanguagePickerBox();
-		HBox userButtons = makeUserButtons();
+		VBox userButtons = makeUserButtons();
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
-		box.setPadding(new Insets(5,5,5,5));
+		box.setPadding(new Insets(5,5,5,30));
 		box.setSpacing(20);
 		box.setPrefWidth(this.getWidth());
 		box.getChildren().addAll(userButtons, backgroundBox, penBox, languageBox);
 		this.getRoot().getChildren().add(box);
 	}
 	
-	private HBox makeUserButtons() {
-		HBox buttonBox = new HBox();
-		buttonBox.setSpacing(20);
+	private VBox makeUserButtons() {
+		VBox buttonBox = new VBox();
+		buttonBox.setSpacing(10);
 		Button changeImageButton = makeChangeImageButton();
 		Button helpPageButton = makeHelpPageButton();
 		buttonBox.getChildren().addAll(helpPageButton, changeImageButton);

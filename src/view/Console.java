@@ -12,6 +12,7 @@ import javafx.scene.text.TextFlow;
 public class Console extends View {
 	
 	private TextFlow textFlow;
+	private ScrollPane scrollPane;
 	
 	public Console(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -38,12 +39,13 @@ public class Console extends View {
 		}
 		textFlow.getChildren().add(newText);
 		textFlow.requestLayout();
+		scrollPane.setVvalue(1.0);
 	}
 	
 	private void init() {
 		textFlow = new TextFlow();
 		textFlow.setMaxHeight(this.getHeight());
-		ScrollPane scrollPane = new ScrollPane(textFlow);
+		scrollPane = new ScrollPane(textFlow);
 		scrollPane.setFitToWidth(true);
 		scrollPane.setStyle("-fx-background: rgb(255,255,255);");
 		scrollPane.setPrefHeight(this.getHeight());

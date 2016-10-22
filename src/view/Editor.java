@@ -56,7 +56,7 @@ public class Editor extends View {
 		makeClearButton();
 		
 		VBox buttons = new VBox();
-		buttons.setAlignment(Pos.CENTER);
+		buttons.setAlignment(Pos.CENTER_RIGHT);
 		buttons.setPrefWidth(100);
 		buttons.setSpacing(20);
 		buttons.getChildren().addAll(runButton, clearButton);
@@ -66,7 +66,7 @@ public class Editor extends View {
 		all.setPrefWidth(this.getWidth());
 		all.getChildren().addAll(textArea, buttons);
 		HBox.setHgrow(textArea, Priority.ALWAYS);
-		textArea.setId("border");
+		textArea.setId("editor");
 		this.getRoot().getChildren().add(all);
 	}
 
@@ -74,16 +74,19 @@ public class Editor extends View {
 		clearButton = this.makeButton(this.getLabelReader().getLabel("ClearUserInput"), e -> {
 			clearText();
 		});
-		clearButton.setPrefWidth(70);
+		clearButton.setPrefWidth(90);
 		clearButton.setPrefHeight(80);
+		clearButton.getStyleClass().add("clearButton");
 	}
 
 	private void makeRunButton() {
 		runButton = this.makeButton(this.getLabelReader().getLabel("RunUserInput"), e -> {
 			runScript();
 		});
-		runButton.setPrefWidth(70);
+		runButton.setAlignment(Pos.CENTER);
+		runButton.setPrefWidth(90);
 		runButton.setPrefHeight(80);
+		runButton.getStyleClass().add("runButton");
 	}
 
 }

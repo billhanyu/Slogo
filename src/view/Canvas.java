@@ -1,6 +1,9 @@
 package view;
 
+import java.util.Iterator;
+
 import controller.Controller;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -46,7 +49,11 @@ public class Canvas extends View {
 			turtleView.setPositionY(translateY(next.getPositionY()));
 			turtleView.setDirection(next.getHeading());
 			turtleView.setVisible(next.isVisible());
-			if (currentState.isPenDown()) {
+			if (next.clearsScreen()) {
+				clearScreen();
+				next.setClearScreen(false);
+			}
+			else if (currentState.isPenDown()) {
 				addPath(next);
 			}
 			currentState = next;
@@ -99,6 +106,16 @@ public class Canvas extends View {
 		path.setFill(currentState.getPenColor());
 		path.setStroke(currentState.getPenColor());
 		this.getRoot().getChildren().add(path);
+	}
+	
+	private void clearScreen() {
+		for (Iterator<Node> iter = this.getRoot().getChildren().listIterator(); 
+				iter.hasNext(); ) {
+		    Node node = iter.next();
+		    if (node instanceof Path) {
+		        iter.remove();
+		    }
+		}
 	}
 
 }
