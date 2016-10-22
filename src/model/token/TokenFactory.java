@@ -17,14 +17,14 @@ public class TokenFactory {
 	public static final String PROP_REGEX = ".regex";
 	
 	private SemanticsRegistry semanticsRegistry;
-	private List<String> types;
+	private List<String> regexMatchable;
 	
 	public TokenFactory(SemanticsRegistry semanticsRegistry) {
 		this.semanticsRegistry = semanticsRegistry;
-		types = new ArrayList<>();
-		types = Arrays.asList(
+		regexMatchable = new ArrayList<>();
+		regexMatchable = Arrays.asList(
 				semanticsRegistry.getLexicon()
-				.getString("tokenTypes").trim().split(SPACE_REGEX)
+				.getString("regexMatchable").trim().split(SPACE_REGEX)
 		);
 	}
 
@@ -46,7 +46,6 @@ public class TokenFactory {
 	}
 	
 	private String getType(String primitive) {
-		String[] regexMatchable = {"constant", "variable", "openBracket", "closeBracket"};
 		for (String type : regexMatchable) {
 			if (matches(primitive, type)) {
 				return type;
@@ -55,20 +54,9 @@ public class TokenFactory {
 		if (semanticsRegistry.getStandardCommands().contains(primitive)) 
 			return "standardCommand";
 		else return "customCommand";
-//		for (String type : types) {
-//			if (matches(primitive, type)) {
-//				return type;
-//			}
-//		}
-//		return null;
 	}
 	
 	private boolean matches(String primitive, String query) {
-//		if (primitive.matches(semanticsRegistry.getLexicon().getString(query + PROP_REGEX))) {
-//			return true;
-//		} else if (query.equals("standardCommand")) {
-//			return semanticsRegistry.getStandardCommands().contains(primitive);
-//		} else return semanticsRegistry.isCustomCmd(primitive);
 		return primitive.matches(semanticsRegistry.getLexicon().getString(query + PROP_REGEX));
 	}
 }
