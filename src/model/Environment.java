@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  * @param <E>
  */
 
-public abstract class Environment<E extends Executable> {
+public abstract class Environment<E extends Executable> implements Iterable<E>{
 	
 	private List<E> elements;
 	
@@ -33,6 +34,10 @@ public abstract class Environment<E extends Executable> {
 		}
 		return null;
 	}
+	
+	public E get(Token token) {
+		return get(token.toString());
+	}
 
 	public void add(E e) {
 		elements.add(e);
@@ -44,6 +49,11 @@ public abstract class Environment<E extends Executable> {
 	
 	public void remove(E e) {
 		elements.remove(e);
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return elements.iterator();
 	}
 	
 }
