@@ -11,19 +11,15 @@ import model.GlobalVariables;
 
 public class ProcedureImpl{
 	
-	private String name;
 	// TODO (cx15): when called, push a new stackFrame onto stack, populate it using variables from previous stackframe, subsequent command access value from the new stackfrome 
 	private List<Variable> params;
 	private CodeBlock procedure;
 	
-	public void init(String name,
-			 CodeBlock params,
-			 CodeBlock procedure,
-			 GlobalVariables globalVars) throws SyntacticErrorException {
-		this.name = name;
+	public ProcedureImpl init(CodeBlock params, CodeBlock procedure)
+			throws SyntacticErrorException {
 		validateInitParamList(params);
 		this.procedure = procedure;
-		haveVarRefsPointToRightObjs(globalVars);
+		return this;
 	}
 
 	public double execute(TurtleLog log, List<Executable> argument) 
@@ -35,15 +31,13 @@ public class ProcedureImpl{
 		// overwrite args
 		for (int i = 0; i < argument.size(); i++)
 			params.get(i).setExpression(argument.get(i));
+		// execute
+		haveVarRefsPointToRightObjs();
 		double ret = procedure.execute(log);
 		// $sp up
 		for (int i = 0; i < calleeSaved.size(); i++)
 			params.get(i).setExpression(calleeSaved.get(i));
 		return ret;
-	}
-
-	public String getName() {
-		return this.name;
 	}
 	
 	public List<Variable> getParams() {
@@ -53,19 +47,26 @@ public class ProcedureImpl{
 	private void validateInitParamList(CodeBlock params)
 			throws SyntacticErrorException {
 		this.params = new ArrayList<>();
-		for (Executable e : params.unravel()) {
+		for (Executable e : params.getLocalVarRefs()) {
 			if ( !(e instanceof Variable) )
 				throw new SyntacticErrorException();
 			this.params.add( (Variable)e );
 		}
 	}
 	
-	private void haveVarRefsPointToRightObjs(GlobalVariables globalVars) {
-		for (Variable var : procedure.getVarRefs()) {
-			Variable arg = Utils.listContains(params, var.getName());
-			var.setExpression(
-					(arg != null)? arg : globalVars.get(var.getName())
-			);
+	/**
+	 * Only resolve local parameters passed in by caller.
+	 * Global Variables are resolved when codeblock is executed
+	 */
+	private void haveVarRefsPointToRightObjs() {
+		for (Variable var : procedure.getLocalVarRefs()) {
+			Variable arg;
+			if ( (arg = Utils.listContains(params, var.getName())) != null) {
+				var.setExpression(arg);
+			} else if ( var.getExpression() == null
+					&& (arg = Utils.listContains(procedure.getGlobalVarRefs(), var.getName())) != null) {
+				var.setExpression(arg);
+			}
 		}
 	}
 }

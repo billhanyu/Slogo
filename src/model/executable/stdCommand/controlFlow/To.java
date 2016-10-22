@@ -10,6 +10,10 @@ import model.executable.Constant;
 import model.executable.StandardCommand;
 
 public class To extends StandardCommand {
+	
+	private Constant stubName;
+	private CodeBlock varList;
+	private CodeBlock body;
 
 	public To(List<Executable> argv)
 			throws SyntacticErrorException {
@@ -19,8 +23,9 @@ public class To extends StandardCommand {
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		// TODO Auto-generated method stub
-		return 0;
+		body.getSemantics().getImpl(stubName.getName())
+						   .init(varList, body);
+		return 1;
 	}
 
 	@Override
@@ -34,6 +39,9 @@ public class To extends StandardCommand {
 				|| !(this.getArgs().get(1) instanceof CodeBlock)
 				|| !(this.getArgs().get(2) instanceof CodeBlock)) {
 			throw new SyntacticErrorException();
-		}		
+		}
+		stubName = (Constant) this.getArgs().get(0);
+		varList = (CodeBlock) this.getArgs().get(1);
+		body = (CodeBlock) this.getArgs().get(2);
 	}
 }

@@ -18,7 +18,7 @@ public class ParserContext {
 	}
 	
 	public ParserContext(GlobalVariables gVars) {
-		vars = gVars == null ? new GlobalVariables() : gVars;
+		vars = (gVars == null) ? new GlobalVariables() : gVars;
 		instructionCacheInReverse = new ArrayList<>();
 		pendingArgs = new ArrayList<>();
 		codeBlock =  new ArrayList<>();

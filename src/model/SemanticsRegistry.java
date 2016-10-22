@@ -57,6 +57,7 @@ public class SemanticsRegistry {
 						tokenString, 
 						params.isEmpty()? 0 : params.split(SPACE_REGEX).length
 				);
+				name2Impl.put(tokenString, new ProcedureImpl());
 			}
 			script = script.substring(toIndex + 1);
 		}
@@ -109,8 +110,6 @@ public class SemanticsRegistry {
 	 * @return
 	 */
 	public ProcedureImpl getImpl(String name) {
-		if (!name2Impl.containsKey(name))
-			name2Impl.put(name, new ProcedureImpl());
 		return name2Impl.get(name);
 	}
 }

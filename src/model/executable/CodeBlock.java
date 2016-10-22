@@ -6,18 +6,22 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import exception.UseBeforeDefineException;
 import model.Executable;
+import model.GlobalVariables;
+import model.SemanticsRegistry;
 import model.TurtleLog;
 import model.executable.Variable;
+import util.Utils;
 
 public class CodeBlock implements Executable{
 	
 	private List<Executable> sequence;
-	private List<Variable> varRefs;
+	private GlobalVariables localVarRefs;
+	private GlobalVariables globalVarRefs;
+	private SemanticsRegistry semantics;
 	private String name;
 	
 	public CodeBlock(List<Executable> sequence) {
 		this.sequence = sequence;
-		varRefs = new ArrayList<>();
 	}
 
 	/**
@@ -30,6 +34,13 @@ public class CodeBlock implements Executable{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
+		Variable match;
+		for (Variable var : localVarRefs) {
+			if (var.getExpression() == null &&
+					(match = Utils.listContains(globalVarRefs, var.getName())) != null) {
+				var.setExpression(match.getExpression());
+			}
+		}
 		double ret = 0;
 		for (Executable cmd : sequence) {
 			ret = cmd.execute(log);
@@ -50,13 +61,27 @@ public class CodeBlock implements Executable{
 	 * return the list of all the variables references included in this codeblock
 	 * @return
 	 */
-	public List<Variable> getVarRefs() {
-		return varRefs;
+	public GlobalVariables getLocalVarRefs() {
+		return localVarRefs;
 	}
 	
-	// TODO cx15: USED THIS IN PARSER
-	public void addVarRef(Variable ref) {
-		varRefs.add(ref);
+	public GlobalVariables getGlobalVarRefs() {
+		return globalVarRefs;
+	}
+	
+	public CodeBlock setVarRefs(GlobalVariables localVars, GlobalVariables globalVars) {
+		this.localVarRefs = localVars;
+		this.globalVarRefs = globalVars;
+		return this;
+	}
+	
+	public SemanticsRegistry getSemantics() {
+		return semantics;
+	}
+	
+	public CodeBlock setSemantics(SemanticsRegistry semantics) {
+		this.semantics = semantics;
+		return this;
 	}
 
 	@Override

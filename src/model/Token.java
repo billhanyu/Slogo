@@ -15,8 +15,7 @@ public class Token {
 	}
 	
 	public boolean isCustomCommand() {
-		// TODO (cx15): IMPL
-		return false;
+		return !isStdCommand() && semanticsRegistry.getNumParam(this) >= 0;
 	}
 	
 	public boolean isConstant() {

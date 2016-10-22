@@ -5,21 +5,15 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.SemanticsRegistry;
-import model.Token;
 import model.TurtleLog;
 
 public class ProcedureStub extends Command {
 	
-	private String name;
 	private SemanticsRegistry semanticsRegistry;
 
-	public ProcedureStub(Token token,
-						 List<Executable> argv,
-						 SemanticsRegistry semanticsRegistry)
+	public ProcedureStub(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
-		this.name = token.toString();
-		this.semanticsRegistry = semanticsRegistry;
 	}
 
 	@Override
@@ -35,5 +29,9 @@ public class ProcedureStub extends Command {
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
 		
+	}
+	
+	public void setSemantics(SemanticsRegistry semanticsRegistry) {
+		this.semanticsRegistry = semanticsRegistry;
 	}
 }
