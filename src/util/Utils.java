@@ -38,7 +38,7 @@ public class Utils {
 	}
 	
 	public static Variable listContains(GlobalVariables gvars, String name) {
-		return listContains(gvars.getAll(), name);
+		return listContains(gvars.getImmutableValues(), name);
 	}
 
 }
