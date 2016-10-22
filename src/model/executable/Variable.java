@@ -3,6 +3,7 @@ package model.executable;
 import exception.SyntacticErrorException;
 import exception.UseBeforeDefineException;
 import model.Executable;
+import model.Token;
 import model.TurtleLog;
 
 public class Variable implements Executable {
@@ -10,8 +11,8 @@ public class Variable implements Executable {
 	private String name;
 	private Executable expression;
 	
-	public Variable(String name) {
-		this(name, null);
+	public Variable(Token token) {
+		this(token.toString(), null);
 	}
 	
 	public Variable(String name, Executable expression) {
@@ -39,5 +40,10 @@ public class Variable implements Executable {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void setName(String newName) {
+		name = newName;		
 	}
 }

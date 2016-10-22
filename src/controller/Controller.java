@@ -4,7 +4,6 @@ import java.util.Stack;
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
-import model.Executor;
 import model.Interpreter;
 import model.GlobalVariables;
 import model.TurtleLog;
@@ -15,7 +14,6 @@ import view.TextType;
 public class Controller {
 	
 	private Interpreter interpreter;
-	private Executor executor;
 	private Stack<GlobalVariables> stack;
 	private MainView mainView;
 	private TurtleLog log;
@@ -24,7 +22,6 @@ public class Controller {
 	
 	public Controller() {
 		interpreter = new Interpreter();
-		executor = new Executor();
 		stack = new Stack<>();
 		log = new TurtleLog();
 		valueReader = new DisplayLabelReader(UI_RESOURCES);

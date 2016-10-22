@@ -2,10 +2,8 @@ package model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
 import exception.ReflectionFoundNoMatchesException;
@@ -15,24 +13,20 @@ import exception.WrongNumberOfArguments;
 import model.executable.CodeBlock;
 import model.executable.Command;
 import model.executable.Constant;
+import model.executable.ProcedureStub;
 import model.executable.Variable;
 import util.ReflectionUtils;
 
 public class Interpreter {
 	
-	public static final String TOKEN_DICT = "resources/tokens";
-	public static final String PROP_CLASS = ".class";
-	public static final String PROP_ARGC = ".argc";
 	public static final String SPACE_REGEX = "\\s+";
+	public static final String TO = "to";
 	
-	public static final int VAR_EXPR_LEN = 1;
-	
-	private ResourceBundle lexicon;
 	private GlobalVariables globalVars;
 	private SemanticsRegistry semanticsRegistry;
 	
 	public Interpreter() {
-		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
+		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
 		semanticsRegistry = new SemanticsRegistry();
 	}
@@ -42,36 +36,52 @@ public class Interpreter {
 				   SyntacticErrorException {
 		script = script.trim().replaceAll(" +", " ");
 		semanticsRegistry.register(script);
-		Stack<String> tokenStack = tokenize(script);
-		// TODO (cx15): preprocess to construct all procedure impl first since don't know param len
+		Stack<Token> tokenStack = tokenize(script);
 		return buildMain(tokenStack);
 	}
 	
-	private Stack<String> tokenize(String script) {
+	private Stack<Token> tokenize(String script) {
 		script = script.toLowerCase();
 		String[] tokens = script.split(SPACE_REGEX);
-		Stack<String> tokenStack = new Stack<>();
+		Stack<Token> tokenStack = new Stack<>();
 		for (String token : tokens)
-			tokenStack.push(token);
+			tokenStack.push(new Token(token, semanticsRegistry));
 		return tokenStack;
 	}
 	
-	private CodeBlock buildMain(Stack<String> tokenStack)
-			throws UnrecognizedIdentifierException, WrongNumberOfArguments {
-		List<Executable> instructionCacheInReverse = new ArrayList<>();
-		List<Executable> pendingArgs = new ArrayList<>();
+	private CodeBlock buildMain(Stack<Token> tokenStack)
+			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
+				   SyntacticErrorException {
+		// TODO cx15: extends Token to have different subclasses
+		Stack<ParserContext> contextStack = new Stack<>();
+		contextStack.push(new ParserContext(globalVars));
 		while (!tokenStack.isEmpty()) {
-			String token = tokenStack.pop();
-			if (semanticsRegistry.isConstant(token)) {
-				pendingArgs.add(new Constant(Double.parseDouble(token)));
-			} else if (semanticsRegistry.isVariable(token)) {
-				//TODO cx15: USE addVarRef() HERE TO HANDLE CODEBLOCK
-				if (globalVars.get(token) == null) {
-					Variable var = new Variable(token);
-					globalVars.add(var);
+			Token token = tokenStack.pop();
+			List<Executable> pendingArgs = contextStack.peek().getPendingArgs();
+			List<Executable> instructionCacheInReverse
+					= contextStack.peek().getInstructionCacheInReverse();
+			GlobalVariables vars = contextStack.peek().getVars();
+			if (token.isOpenBracket()) {
+				CodeBlock cb = contextStack.pop().export();
+				cb.setVarRefs(vars, globalVars)
+				  .setSemantics(semanticsRegistry);
+				contextStack.peek().getPendingArgs().add(cb);
+			} else if (token.isCloseBracket()) {
+				contextStack.push(new ParserContext());
+			} else if (token.isConstant()) {
+				pendingArgs.add(new Constant(token));
+			} else if (token.isVariable()) {
+				Variable var;
+				if ( (var = vars.get(token)) == null) {
+					vars.add(var = new Variable(token));
 				}
-				pendingArgs.add(globalVars.get(token));
-			} else if (semanticsRegistry.isStdCommand(token) || semanticsRegistry.isCustomCommand(token)) {
+				pendingArgs.add(var);
+			} else if (token.isCustomCommand()
+						&& !tokenStack.isEmpty()
+						&& tokenStack.peek().toString().equals(TO)) {
+					pendingArgs.add(new Constant(token.toString()));
+					continue; // skip over next branch
+			} else if (token.isStdCommand() || token.isCustomCommand()) {
 				try{
 					String className = semanticsRegistry.getClass(token);
 					int numArgs = semanticsRegistry.getNumParam(token);
@@ -79,8 +89,12 @@ public class Interpreter {
 					pendingArgs = argsGen(numArgs, className, pendingArgs, instructionCacheInReverse);
 					Constructor<?> constructor = ReflectionUtils.getConstructor(c, pendingArgs);
 					Command cmd = (Command) constructor.newInstance(pendingArgs);
+					if (token.isCustomCommand()) {
+						((ProcedureStub)cmd).setSemantics(semanticsRegistry);
+					}
+					cmd.setName(token.toString());
 					instructionCacheInReverse.add(cmd);
-					pendingArgs = new ArrayList<>();
+					contextStack.peek().clearPendingArgs();
 				} catch (ClassNotFoundException | ReflectionFoundNoMatchesException
 						| InstantiationException | IllegalAccessException
 						| IllegalArgumentException | InvocationTargetException e) {
@@ -90,8 +104,12 @@ public class Interpreter {
 				throw new UnrecognizedIdentifierException();
 			}
 		}
-		Collections.reverse(instructionCacheInReverse);
-		return new CodeBlock(instructionCacheInReverse);
+		if (contextStack.size() != 1) {
+			throw new SyntacticErrorException("Miss matched brackets");
+		}
+		return contextStack.peek().export()
+				  .setVarRefs(globalVars, globalVars)
+				  .setSemantics(semanticsRegistry);
 	}
 	
 	private List<Executable> argsGen(int numArgs, String className, 

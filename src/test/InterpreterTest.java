@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,6 +31,24 @@ public class InterpreterTest {
 		intr = new Interpreter();
 	}
 	
+	@Test
+	public void procedureUsesGlobalVars() {
+		parseAndExecute("make :param 20 to func [ ] [ bk :param ] func");
+		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+	}
+	
+	@Test
+	public void procedureWithParam() {
+		parseAndExecute("to func [ :param ] [ bk :param ] func 10");
+		assertDoubleEqual(log.peekLast().getPositionY(), 10);
+	}
+	
+	@Test
+	public void procedureParamWithSameNameButDiffScope() {
+		parseAndExecute("make :param 20 to func [ :param ] [ bk :param ] func 10 bk :param");
+		assertDoubleEqual(log.peekLast().getPositionY(), 30);
+	}
+
 	@Test
 	public void forwardForward() {
 		parseAndExecute("fd fd fd 10");
@@ -63,7 +82,7 @@ public class InterpreterTest {
 	@Test
 	public void Towards() {
 		parseAndExecute("towards 1 0");
-		assertDoubleEqual(log.peekLast().getHeading(), 0);
+		assertDoubleEqual(log.peekLast().getHeading(), 90);
 	}
 	
 	@Test
@@ -171,25 +190,6 @@ public class InterpreterTest {
 		assertDoubleEqual(result, 4);
 		result = parseAndExecute("pi");
 		assertDoubleEqual(result, Math.PI);
-	}
-	
-	@Test
-	public void checkBool() {
-		double result;
-		result = parseAndExecute("lessp 2 3");
-		assertDoubleEqual(result, 1);
-		result = parseAndExecute("greater? 3 2");
-		assertDoubleEqual(result, 1);
-		result = parseAndExecute("equal? 3 3");
-		assertDoubleEqual(result, 1);
-		result = parseAndExecute("notequal? 3 3");
-		assertDoubleEqual(result, 0);
-		result = parseAndExecute("and 3 3");
-		assertDoubleEqual(result, 1);
-		result = parseAndExecute("or 1 0");
-		assertDoubleEqual(result, 1);
-		result = parseAndExecute("not 0");
-		assertDoubleEqual(result, 1);
 	}
 	
 	private double parseAndExecute(String script) {

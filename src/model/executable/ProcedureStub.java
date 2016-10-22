@@ -4,25 +4,21 @@ import java.util.List;
 
 import exception.SyntacticErrorException;
 import model.Executable;
+import model.SemanticsRegistry;
 import model.TurtleLog;
 
 public class ProcedureStub extends Command {
 	
-	private String name;
-	private ProcedureImpl impl;
+	private SemanticsRegistry semanticsRegistry;
 
-	public ProcedureStub(String name,
-						 List<Executable> argv,
-						 ProcedureImpl impl)
+	public ProcedureStub(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
-		this.name = name;
-		this.impl = impl;
 	}
 
 	@Override
 	public double execute(TurtleLog log) throws SyntacticErrorException {
-		return impl.execute(log, getArgs());
+		return semanticsRegistry.getImpl(name).execute(log, getArgs());
 	}
 
 	@Override
@@ -33,5 +29,9 @@ public class ProcedureStub extends Command {
 	@Override
 	protected void validateArgv() throws SyntacticErrorException {
 		
+	}
+	
+	public void setSemantics(SemanticsRegistry semanticsRegistry) {
+		this.semanticsRegistry = semanticsRegistry;
 	}
 }

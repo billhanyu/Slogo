@@ -26,4 +26,6 @@ public interface Executable {
 	 * @return
 	 */
 	String getName();
+	
+	void setName(String newName);
 }
