@@ -2,7 +2,6 @@ package view;
 
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
-import model.UserCommands;
 
 public class UserCommandsView extends EnvironmentListView {
 	
@@ -10,9 +9,10 @@ public class UserCommandsView extends EnvironmentListView {
 	public UserCommandsView(Controller controller, double width, double height) {
 		super(controller, width, height);
 	}
-
-	public void update(UserCommands cmds) {
-		
+	
+	@Override
+	public String getLabelString() {
+		return this.getController().getValueReader().getLabel("Commands");
 	}
 
 	@Override
@@ -21,9 +21,5 @@ public class UserCommandsView extends EnvironmentListView {
 			System.out.println("User Command selected: " + newVal);
 		};
 	}
-
-	@Override
-	String getLabelString() {
-		return this.getController().getValueReader().getLabel("Commands");
-	}
+	
 }

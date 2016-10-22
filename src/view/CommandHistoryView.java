@@ -2,16 +2,11 @@ package view;
 
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
-import model.CommandHistory;
 
 public class CommandHistoryView extends EnvironmentListView {
 	
 	public CommandHistoryView(Controller controller, double width, double height) {
 		super(controller, width, height);
-	}
-
-	public void update(CommandHistory history) {
-		
 	}
 
 	@Override
@@ -22,7 +17,7 @@ public class CommandHistoryView extends EnvironmentListView {
 	}
 
 	@Override
-	String getLabelString() {
+	public String getLabelString() {
 		return this.getLabelReader().getLabel("CommandHistory");
 	}
 
