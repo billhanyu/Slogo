@@ -1,6 +1,5 @@
 package model.executable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import exception.SyntacticErrorException;
@@ -9,7 +8,6 @@ import model.Executable;
 import model.GlobalVariables;
 import model.SemanticsRegistry;
 import model.TurtleLog;
-import model.executable.Variable;
 import util.Utils;
 
 public class CodeBlock implements Executable{
