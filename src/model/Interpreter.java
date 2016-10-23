@@ -20,12 +20,14 @@ public class Interpreter {
 	private GlobalVariables globalVars;
 	private SemanticsRegistry semanticsRegistry;
 	private TokenFactory tokenFactory;
+	private Translator translator;
 	
 	public Interpreter() {
 		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
 		semanticsRegistry = new SemanticsRegistry();
 		tokenFactory = new TokenFactory(semanticsRegistry);
+		translator = new Translator();
 	}
 	
 	public CodeBlock parseScript(String script)
@@ -39,7 +41,7 @@ public class Interpreter {
 	}
 	
 	public void setLanguage(String language) {
-		semanticsRegistry.setLanguage(language);
+		translator.setLanguage(language);
 	}
 	
 	private Stack<Token> tokenize(String script)
@@ -75,7 +77,7 @@ public class Interpreter {
 	private String translateScript(String script) {
 		List<String> tokens = Arrays.asList(script.split(SPACE_REGEX));
 		return tokens.stream()
-				.map(token -> semanticsRegistry.translateToken(token))
+				.map(token -> translator.translateToken(token))
 				.collect(Collectors.joining(" "));
 	}
 	
