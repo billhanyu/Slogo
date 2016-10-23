@@ -1,6 +1,9 @@
 package model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
@@ -29,9 +32,14 @@ public class Interpreter {
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
 		script = script.trim().replaceAll(" +", " ");
+		script = translateScript(script);
 		semanticsRegistry.register(script);
 		Stack<Token> tokenStack = tokenize(script);
 		return buildMain(tokenStack);
+	}
+	
+	public void setLanguage(String language) {
+		semanticsRegistry.setLanguage(language);
 	}
 	
 	private Stack<Token> tokenize(String script)
@@ -63,4 +71,12 @@ public class Interpreter {
 				  .setVarRefs(globalVars, globalVars)
 				  .setSemantics(semanticsRegistry);
 	}
+	
+	private String translateScript(String script) {
+		List<String> tokens = Arrays.asList(script.split(SPACE_REGEX));
+		return tokens.stream()
+				.map(token -> semanticsRegistry.translateToken(token))
+				.collect(Collectors.joining(" "));
+	}
+	
 }

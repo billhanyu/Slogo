@@ -7,7 +7,6 @@ import exception.SyntacticErrorException;
 import model.TurtleLog;
 import util.Utils;
 import model.Executable;
-import model.GlobalVariables;
 
 public class ProcedureImpl{
 	

@@ -37,8 +37,8 @@ public class Controller {
 		
 	}
 	
-	public void setLanguage(String language){
-		//TODO: Connect to backend, set language there
+	public void setLanguage(String language) {
+		interpreter.setLanguage(language);
 	}
 	
 	public void putScript(String script) {

@@ -16,6 +16,7 @@ public class SemanticsRegistry {
 	public static final String PROP_CLASS = ".class";
 	public static final String PROP_ARGC = ".argc";
 	public static final String SPACE_REGEX = "\\s+";
+	public static final String LANGUAGES_PATH = "resources.languages/";
 	
 	public static final String TO = "to ";
 	public static final String GOTO = "goto";
@@ -28,9 +29,12 @@ public class SemanticsRegistry {
 	private Set<String> stdCmds;
 	private Map<String, ProcedureImpl> name2Impl;
 	private Map<String, Integer> name2Argc;
+	private Map<String, String> lang2Eng;
+	private ResourceBundle englishBundle;
 	
 	public SemanticsRegistry() {
 		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
+		englishBundle = ResourceBundle.getBundle(LANGUAGES_PATH + "English");
 		stdCmds = new HashSet<>();
 		lexicon.getString("stdcmd");
 		for (String stdToken : lexicon.getString("stdcmd").split(SPACE_REGEX)) {
@@ -38,6 +42,8 @@ public class SemanticsRegistry {
 		}
 		name2Impl = new HashMap<>();
 		name2Argc = new HashMap<>();
+		lang2Eng = new HashMap<>();
+		setLanguage("English");
 	}
 	
 	public void register(String script)
@@ -60,6 +66,27 @@ public class SemanticsRegistry {
 				name2Impl.put(tokenString, new ProcedureImpl());
 			}
 			script = script.substring(toIndex + 1);
+		}
+	}
+	
+	/**
+	 * from a multi-language token, use lang2Std to get the standard name
+	 * then use the English resource bundle to translate to English
+	 * since our tokens.properties is written with English
+	 * @param language
+	 */
+	public void setLanguage(String language) {
+		ResourceBundle langBank = ResourceBundle.getBundle(LANGUAGES_PATH + language);
+		lang2Eng = new HashMap<>();
+		for (String cmdName : langBank.keySet()) {
+			String cmdTokens = langBank.getString(cmdName);
+			cmdTokens = cmdTokens.replace("\\", "");
+			String[] tokens = cmdTokens.split("\\|");
+			String englishToken = englishBundle.getString(cmdName).split("\\|")[0];
+			englishToken = englishToken.replace("\\", "");
+			for (String token : tokens) {
+				lang2Eng.put(token, englishToken);
+			}
 		}
 	}
 	
@@ -95,7 +122,7 @@ public class SemanticsRegistry {
 	}
 	
 	public String getClass(Token token) {
-		String key = stdCmds.contains(token.toString())? token.toString() : PROCEDURE_STUB;
+		String key = stdCmds.contains(token.toString()) ? token.toString() : PROCEDURE_STUB;
 		return lexicon.getString(key + PROP_CLASS);
 	}
 	
@@ -118,4 +145,12 @@ public class SemanticsRegistry {
 				&& !cmd.matches(lexicon.getString("variable.regex"))
 				&& !stdCmds.contains(cmd);
 	}
+	
+	public String translateToken(String tokenString) {
+		if (!lang2Eng.containsKey(tokenString)) {
+			return tokenString;
+		}
+		return lang2Eng.get(tokenString);
+	}
+
 }
