@@ -58,7 +58,7 @@ public class MainView {
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
-		canvas = new ToroidalCanvas(controller, 0,0);
+		canvas = new Canvas(controller, 0,0);
 		editor = new Editor(controller, 1000,0);
 		
 		VBox lefts = new VBox();
