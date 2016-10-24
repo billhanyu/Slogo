@@ -13,6 +13,7 @@ import util.Utils;
 public class CodeBlock implements Executable{
 	
 	private List<Executable> sequence;
+	private List<Executable> pendingArgs;
 	private GlobalVariables localVarRefs;
 	private GlobalVariables globalVarRefs;
 	private SemanticsRegistry semantics;
@@ -80,6 +81,15 @@ public class CodeBlock implements Executable{
 	public CodeBlock setSemantics(SemanticsRegistry semantics) {
 		this.semantics = semantics;
 		return this;
+	}
+	
+	public CodeBlock setPendingArgs(List<Executable> args) {
+		pendingArgs = args;
+		return this;
+	}
+	
+	public List<Executable> getPendingArgs() {
+		return pendingArgs;
 	}
 
 	@Override
