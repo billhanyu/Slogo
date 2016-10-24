@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import view.canvas.Canvas;
+import view.canvas.ToroidalCanvas;
 
 public class MainView {
 	
