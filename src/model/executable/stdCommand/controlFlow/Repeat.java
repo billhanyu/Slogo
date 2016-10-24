@@ -1,6 +1,5 @@
 package model.executable.stdCommand.controlFlow;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import exception.SyntacticErrorException;
@@ -12,8 +11,8 @@ import model.executable.StandardCommand;
 import model.executable.Variable;
 
 public class Repeat extends StandardCommand {
-	//TODO: make a variable ":repcount" assigned to each succeeding loop value
-	//so that it can be accessed by commands
+	
+	public static final String REPCOUNT = ":repcount";
 	
 	private Executable expr;
 	private CodeBlock body;
@@ -26,23 +25,14 @@ public class Repeat extends StandardCommand {
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
+		int times = (int) expr.execute(log);
+		Variable repcount = body.getLocalVarRefs().get(REPCOUNT);
 		double ret = 0;
-		double repCt = expr.execute(log);
-		List<Executable> makeRepCt = new ArrayList<Executable>();
-		Variable var = new Variable(":repcount", null);
-		Constant ct = new Constant("RepCount", 1);
-		for (double i = 1; i <= repCt; i++) {
-			ct.setValue(i);
-			var.setExpression(ct);
-			makeRepCt.add(ct);
-			makeRepCt.add(var);
-			Make myMake = new Make(makeRepCt);
-			myMake.execute(log);
-			makeRepCt.clear();
-			var.execute(log);
+		for (int i = 1; i <= times; i++) {
+			if (repcount != null)
+				repcount.setExpression(new Constant(null, i));
 			ret = body.execute(log);
 		}
-		
 		return ret;
 	}
 

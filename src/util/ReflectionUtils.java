@@ -7,13 +7,25 @@ import exception.ReflectionFoundNoMatchesException;
 
 public class ReflectionUtils {
 	
-	public static Object newInstanceOf(String className, Object... params)
+	public static Object newInstanceOf(String className, Object... params) 
 			throws InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException,
 			ClassNotFoundException, ReflectionFoundNoMatchesException {
 		Class<?> c = Class.forName(className);
 		Constructor<?> constructor = ReflectionUtils.getConstructor(c, params);
-		return constructor.newInstance(params);
+		try {
+			return constructor.newInstance(params);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.getCause().printStackTrace();
+//			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static Constructor<?> getConstructor(Class<?> c, Object... params)
