@@ -21,8 +21,10 @@ public class OpenBracketToken extends Token {
 			GlobalVariables globalVars,
 			Stack<Token> tokenStack) {
 		GlobalVariables localVars = contextStack.peek().getVars();
+		List<Executable> pendingArgs = contextStack.peek().getPendingArgs();
 		CodeBlock cb = contextStack.pop().export();
 		cb.setVarRefs(localVars, globalVars)
+		  .setPendingArgs(pendingArgs)
 		  .setSemantics(semanticsRegistry);
 		contextStack.peek().getPendingArgs().add(cb);
 	}

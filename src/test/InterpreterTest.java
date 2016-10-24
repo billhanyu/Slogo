@@ -32,6 +32,38 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void ifBranches() {
+		parseAndExecute("if 0 [ bk 20 ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), 0);
+		parseAndExecute("if 1 [ bk 20 ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+	}
+	
+	@Test
+	public void ifElse() {
+		parseAndExecute("ifelse 1 [ bk 20 ] [ bk 10 ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+	}
+	
+	@Test
+	public void repeat() {
+		parseAndExecute("repeat 2 [ bk :repcount ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), 3);
+	}
+	
+	@Test
+	public void dotimes() {
+		parseAndExecute("dotimes [ :i 2 ] [ bk :i ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), 3);
+	}
+	
+	@Test
+	public void forloop() {
+		parseAndExecute("for [ :i 1 3 1 ] [ bk :i ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), 6);
+	}
+	
+	@Test
 	public void procedureUsesGlobalVars() {
 		parseAndExecute("make :param 20 to func [ ] [ bk :param ] func");
 		assertDoubleEqual(log.peekLast().getPositionY(), 20);
