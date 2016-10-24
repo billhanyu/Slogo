@@ -4,8 +4,9 @@ import java.util.Stack;
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
-import model.Interpreter;
+import model.CommandHistory;
 import model.GlobalVariables;
+import model.Interpreter;
 import model.TurtleLog;
 import model.executable.CodeBlock;
 import view.DisplayLabelReader;
@@ -18,6 +19,7 @@ public class Controller {
 	private MainView mainView;
 	private TurtleLog log;
 	private DisplayLabelReader valueReader;
+	private CommandHistory commandHistory;
 	private static final String UI_RESOURCES = "resources/labels/EnglishLabels";
 	
 	public Controller() {
@@ -27,6 +29,7 @@ public class Controller {
 		valueReader = new DisplayLabelReader(UI_RESOURCES);
 		mainView = new MainView(this);
 		log.append(mainView.getCanvas().getCurrentState());
+		commandHistory = new CommandHistory();
 	}
 	
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
@@ -34,7 +37,8 @@ public class Controller {
 		double result = main.execute(log);
 		mainView.getCanvas().render(log);
 		mainView.getConsole().appendText(""+result, TextType.Plain);
-		
+		commandHistory.add(main);
+		mainView.getEnvironmentView().getCommandHistoryView().update(commandHistory);
 	}
 	
 	public void setLanguage(String language) {
