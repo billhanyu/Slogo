@@ -95,7 +95,7 @@ public class SemanticsRegistry {
 	}
 	
 	public String getClass(Token token) {
-		String key = stdCmds.contains(token.toString())? token.toString() : PROCEDURE_STUB;
+		String key = stdCmds.contains(token.toString()) ? token.toString() : PROCEDURE_STUB;
 		return lexicon.getString(key + PROP_CLASS);
 	}
 	
@@ -118,4 +118,5 @@ public class SemanticsRegistry {
 				&& !cmd.matches(lexicon.getString("variable.regex"))
 				&& !stdCmds.contains(cmd);
 	}
+
 }

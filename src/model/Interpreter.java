@@ -1,6 +1,9 @@
 package model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
@@ -17,21 +20,30 @@ public class Interpreter {
 	private GlobalVariables globalVars;
 	private SemanticsRegistry semanticsRegistry;
 	private TokenFactory tokenFactory;
+	private Translator translator;
 	
 	public Interpreter() {
 		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
 		semanticsRegistry = new SemanticsRegistry();
 		tokenFactory = new TokenFactory(semanticsRegistry);
+		translator = new Translator();
 	}
 	
 	public CodeBlock parseScript(String script)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
 		script = script.trim().replaceAll(" +", " ");
-		semanticsRegistry.register(script);
-		Stack<Token> tokenStack = tokenize(script);
-		return buildMain(tokenStack);
+		String translated = translateScript(script);
+		semanticsRegistry.register(translated);
+		Stack<Token> tokenStack = tokenize(translated);
+		CodeBlock block = buildMain(tokenStack);
+		block.setName(script);
+		return block;
+	}
+	
+	public void setLanguage(String language) {
+		translator.setLanguage(language);
 	}
 	
 	private Stack<Token> tokenize(String script)
@@ -62,4 +74,12 @@ public class Interpreter {
 				  .setVarRefs(globalVars, globalVars)
 				  .setSemantics(semanticsRegistry);
 	}
+	
+	private String translateScript(String script) {
+		List<String> tokens = Arrays.asList(script.split(SPACE_REGEX));
+		return tokens.stream()
+				.map(token -> translator.translateToken(token))
+				.collect(Collectors.joining(" "));
+	}
+	
 }

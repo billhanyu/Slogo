@@ -39,4 +39,8 @@ public class Constant implements Executable {
 	public void setName(String newName) {
 		name = newName;
 	}
+	
+	public void setValue(double val) {
+		this.value = val;
+	}
 }

@@ -1,7 +1,5 @@
 package model;
 
-import model.executable.Command;
-
-public class CommandHistory extends Environment<Command> {
+public class CommandHistory extends Environment<Executable> {
 
 }
