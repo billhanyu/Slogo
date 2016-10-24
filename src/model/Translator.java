@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * @author billyu
+ * translate the tokens from other languages to English
+ * set current language
+ */
 public class Translator {
 	
 	public static final String LANGUAGES_PATH = "resources.languages/";
@@ -37,6 +42,11 @@ public class Translator {
 		}
 	}
 	
+	/**
+	 * @param tokenString the token to be translated
+	 * @return token translated to English
+	 * if the token is not found in the lang2eng library, return the original token
+	 */
 	public String translateToken(String tokenString) {
 		if (!lang2Eng.containsKey(tokenString)) {
 			return tokenString;

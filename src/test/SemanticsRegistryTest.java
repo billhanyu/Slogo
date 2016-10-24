@@ -1,12 +1,14 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import exception.SyntacticErrorException;
 import model.SemanticsRegistry;
+import model.UserCommands;
 
 public class SemanticsRegistryTest {
 	
@@ -14,7 +16,8 @@ public class SemanticsRegistryTest {
 	
 	@Before
 	public void executedOnceBeforeEach() {
-		semanticsRegistry = new SemanticsRegistry(); 
+		UserCommands userCommands = new UserCommands();
+		semanticsRegistry = new SemanticsRegistry(userCommands); 
 	}
 
 	@Test
