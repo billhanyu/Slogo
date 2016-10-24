@@ -1,5 +1,6 @@
 package model.executable.stdCommand.controlFlow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import exception.SyntacticErrorException;
@@ -34,7 +35,15 @@ public class For extends StandardCommand{
 		this.increment = varStartEndInc.get(3).execute(log);
 		
 		double ret = 0;
+		List<Executable> makeRepCt = new ArrayList<Executable>();
+		Constant ct = new Constant("RepCount", start);
 		for (double i = start; i <= end; i += increment){
+			ct.setValue(i);
+			makeRepCt.add(ct);
+			makeRepCt.add(var);
+			Make myMake = new Make(makeRepCt);
+			myMake.execute(log);
+			makeRepCt.clear();
 			ret = body.execute(log);
 		}
 		

@@ -29,14 +29,17 @@ public class Repeat extends StandardCommand {
 		double ret = 0;
 		double repCt = expr.execute(log);
 		List<Executable> makeRepCt = new ArrayList<Executable>();
+		Variable var = new Variable(":repcount", null);
+		Constant ct = new Constant("RepCount", 1);
 		for (double i = 1; i <= repCt; i++) {
-			Constant ct = new Constant("RepCount", i);
-			Variable var = new Variable(":repcount", ct);
+			ct.setValue(i);
+			var.setExpression(ct);
 			makeRepCt.add(ct);
 			makeRepCt.add(var);
 			Make myMake = new Make(makeRepCt);
 			myMake.execute(log);
 			makeRepCt.clear();
+			var.execute(log);
 			ret = body.execute(log);
 		}
 		
