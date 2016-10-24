@@ -11,12 +11,14 @@ import model.executable.StandardCommand;
 import model.executable.Variable;
 
 public class For extends StandardCommand{
-	
+	//TODO: make a variable assigned to each succeeding loop value
+	//so that it can be accessed by commands
 	private Variable var;
 	private double start;
 	private double end;
 	private double increment;
 	private CodeBlock body;
+	private List<Executable> varStartEndInc;
 	
 	public For(List<Executable> argv)
 			throws SyntacticErrorException {
@@ -26,6 +28,10 @@ public class For extends StandardCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
+		
+		this.start = varStartEndInc.get(1).execute(log);
+		this.end = varStartEndInc.get(2).execute(log);
+		this.increment = varStartEndInc.get(3).execute(log);
 		
 		double ret = 0;
 		for (double i = start; i <= end; i += increment){
@@ -48,7 +54,7 @@ public class For extends StandardCommand{
 			throw new SyntacticErrorException();
 		}
 		CodeBlock varStartEndIncBlock = (CodeBlock) this.getArgs().get(0);
-		List<Executable> varStartEndInc = varStartEndIncBlock.unravel();
+		this.varStartEndInc = varStartEndIncBlock.unravel();
 		
 		try {
 			if (!(varStartEndInc.get(0) instanceof Variable)
@@ -61,10 +67,7 @@ public class For extends StandardCommand{
 			throw new SyntacticErrorException();
 		}
 		
-		this.var = (Variable) varStartEndInc.get(0);
-		this.start = Double.parseDouble(varStartEndInc.get(1).getName());
-		this.end = Double.parseDouble(varStartEndInc.get(2).getName());
-		this.increment = Double.parseDouble(varStartEndInc.get(3).getName());	
+		this.var = (Variable) varStartEndInc.get(0);	
 		this.body = (CodeBlock) this.getArgs().get(1);
 	}
 
