@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.Iterator;
 
 import controller.Controller;
+import exception.OutOfBoundsException;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
@@ -41,26 +42,32 @@ public class Canvas extends View {
 		this.getRoot().getChildren().addAll(background, turtleView.getUI());
 	}
 
-	public void render(TurtleLog log) {
+	public void render(TurtleLog log) throws OutOfBoundsException {
 		boolean first = false;
 		for (ActorState next : log) {
 			if (!first) {
 				first = true;
 				continue;
 			}
-			Point nextPoint = findNextPoints(next);
-			turtleView.setPositionX(nextPoint.getX());
-			turtleView.setPositionY(nextPoint.getY());
-			turtleView.setDirection(next.getHeading());
-			turtleView.setVisible(next.isVisible());
-			if (next.clearsScreen()) {
-				clearScreen();
-				next.setClearScreen(false);
+			if (!inCanvasBounds(translateX(next.getPositionX()), translateY(next.getPositionY()))){
+					log.noRender();
+					throw new OutOfBoundsException();
 			}
-			else if (currentState.isPenDown()) {
-				addPath(next);
+			else{
+				Point nextPoint = findNextPoints(next);
+				turtleView.setPositionX(nextPoint.getX());
+				turtleView.setPositionY(nextPoint.getY());
+				turtleView.setDirection(next.getHeading());
+				turtleView.setVisible(next.isVisible());
+				if (next.clearsScreen()) {
+					clearScreen();
+					next.setClearScreen(false);
+				}
+				else if (currentState.isPenDown()) {
+					addPath(next);
+				}
+				currentState = next;
 			}
-			currentState = next;
 		}
 		log.didRender();
 	}	
