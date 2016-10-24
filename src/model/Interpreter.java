@@ -18,6 +18,7 @@ public class Interpreter {
 	public static final String TO = "to";
 	
 	private GlobalVariables globalVars;
+	private UserCommands userCommands;
 	private SemanticsRegistry semanticsRegistry;
 	private TokenFactory tokenFactory;
 	private Translator translator;
@@ -25,7 +26,8 @@ public class Interpreter {
 	public Interpreter() {
 		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
-		semanticsRegistry = new SemanticsRegistry();
+		userCommands = new UserCommands();
+		semanticsRegistry = new SemanticsRegistry(userCommands);
 		tokenFactory = new TokenFactory(semanticsRegistry);
 		translator = new Translator();
 	}
@@ -44,6 +46,14 @@ public class Interpreter {
 	
 	public void setLanguage(String language) {
 		translator.setLanguage(language);
+	}
+	
+	public UserCommands getUserCommands() {
+		return userCommands;
+	}
+	
+	public GlobalVariables getGlobalVars() {
+		return globalVars;
 	}
 	
 	private Stack<Token> tokenize(String script)

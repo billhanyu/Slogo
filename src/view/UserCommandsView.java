@@ -18,7 +18,7 @@ public class UserCommandsView extends EnvironmentListView {
 	@Override
 	protected ChangeListener<String> getChangeListener() {
 		return (ov, oldVal, newVal) -> {
-			System.out.println("User Command selected: " + newVal);
+			this.getController().putScript(newVal);
 		};
 	}
 	

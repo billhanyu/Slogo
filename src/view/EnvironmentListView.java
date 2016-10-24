@@ -25,7 +25,7 @@ public abstract class EnvironmentListView extends View {
 	
 	abstract public String getLabelString();
 	
-	public void update(Environment<Executable> environment) {
+	public void update(Environment<? extends Executable> environment) {
 		items = FXCollections.observableArrayList(
 					environment.getImmutableValues().stream()
 					.map(exec -> exec.getName())

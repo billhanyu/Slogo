@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import exception.SyntacticErrorException;
+import model.executable.Constant;
 import model.executable.ProcedureImpl;
 import model.token.Token;
 
@@ -28,8 +29,9 @@ public class SemanticsRegistry {
 	private Set<String> stdCmds;
 	private Map<String, ProcedureImpl> name2Impl;
 	private Map<String, Integer> name2Argc;
+	private UserCommands userCommands;
 	
-	public SemanticsRegistry() {
+	public SemanticsRegistry(UserCommands userCommands) {
 		lexicon = ResourceBundle.getBundle(TOKEN_DICT);
 		stdCmds = new HashSet<>();
 		lexicon.getString("stdcmd");
@@ -38,6 +40,7 @@ public class SemanticsRegistry {
 		}
 		name2Impl = new HashMap<>();
 		name2Argc = new HashMap<>();
+		this.userCommands = userCommands;
 	}
 	
 	public void register(String script)
@@ -58,6 +61,9 @@ public class SemanticsRegistry {
 						params.isEmpty()? 0 : params.split(SPACE_REGEX).length
 				);
 				name2Impl.put(tokenString, new ProcedureImpl());
+				
+				Constant func = new Constant(tokenString);
+				userCommands.add(func);
 			}
 			script = script.substring(toIndex + 1);
 		}
