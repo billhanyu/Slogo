@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import view.canvas.Canvas;
+import view.canvas.ToroidalCanvas;
 
 public class MainView {
 	
@@ -52,7 +54,7 @@ public class MainView {
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
-		canvas = new Canvas(controller, 0,0);
+		canvas = new ToroidalCanvas(controller, 0,0);
 		editor = new Editor(controller, 1000,0);
 		
 		VBox lefts = new VBox();

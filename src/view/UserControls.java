@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.TurtleState;
+import view.canvas.Canvas;
 
 public class UserControls extends View {
 
