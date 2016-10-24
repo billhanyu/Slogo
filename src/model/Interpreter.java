@@ -34,10 +34,12 @@ public class Interpreter {
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
 		script = script.trim().replaceAll(" +", " ");
-		script = translateScript(script);
-		semanticsRegistry.register(script);
-		Stack<Token> tokenStack = tokenize(script);
-		return buildMain(tokenStack);
+		String translated = translateScript(script);
+		semanticsRegistry.register(translated);
+		Stack<Token> tokenStack = tokenize(translated);
+		CodeBlock block = buildMain(tokenStack);
+		block.setName(script);
+		return block;
 	}
 	
 	public void setLanguage(String language) {

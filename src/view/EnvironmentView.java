@@ -15,6 +15,18 @@ public class EnvironmentView extends View {
 		init();
 	}
 	
+	public GlobalVarsView getGlobalVarsView() {
+		return globalVarsView;
+	}
+	
+	public UserCommandsView getUserCommandsView() {
+		return userCommandsView;
+	}
+	
+	public CommandHistoryView getCommandHistoryView() {
+		return commandHistoryView;
+	}
+	
 	private void init() {
 		globalVarsView = new GlobalVarsView(this.getController(), this.getWidth(), this.getHeight() / 3);
 		commandHistoryView = new CommandHistoryView(this.getController(), this.getWidth(), this.getHeight() / 3);
