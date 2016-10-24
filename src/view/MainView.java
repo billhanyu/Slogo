@@ -51,6 +51,10 @@ public class MainView {
 		return console;
 	}
 	
+	public EnvironmentView getEnvironmentView() {
+		return environmentView;
+	}
+	
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);

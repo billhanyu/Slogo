@@ -26,19 +26,17 @@ public abstract class EnvironmentListView extends View {
 	abstract public String getLabelString();
 	
 	public void update(Environment<Executable> environment) {
-		items = (ObservableList<String>) 
-				environment.getImmutableValues().stream()
+		items = FXCollections.observableArrayList(
+					environment.getImmutableValues().stream()
 					.map(exec -> exec.getName())
-					.collect(Collectors.toList());
+					.collect(Collectors.toList())); 
 		list.setItems(items);
 	}
 	
 	abstract protected ChangeListener<String> getChangeListener();
 	
 	private void init() {
-		items = FXCollections.observableArrayList(
-			"apple", "pear", "peach", "banana"
-		);
+		items = FXCollections.observableArrayList();
 		list = makeList(getChangeListener());
 		Label lbl = new Label(getLabelString());
 		
