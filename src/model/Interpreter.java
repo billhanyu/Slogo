@@ -71,7 +71,6 @@ public class Interpreter {
 	private CodeBlock buildMain(Stack<Token> tokenStack)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
-		// TODO cx15: extends Token to have different subclasses
 		Stack<ParserContext> contextStack = new Stack<>();
 		contextStack.push(new ParserContext(globalVars));
 		while (!tokenStack.isEmpty()) {

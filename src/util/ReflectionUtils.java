@@ -13,19 +13,7 @@ public class ReflectionUtils {
 			ClassNotFoundException, ReflectionFoundNoMatchesException {
 		Class<?> c = Class.forName(className);
 		Constructor<?> constructor = ReflectionUtils.getConstructor(c, params);
-		try {
-			return constructor.newInstance(params);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.getCause().printStackTrace();
-//			e.printStackTrace();
-		}
-		return null;
+		return constructor.newInstance(params);
 	}
 
 	public static Constructor<?> getConstructor(Class<?> c, Object... params)
