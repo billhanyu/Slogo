@@ -136,13 +136,13 @@ public class InterpreterTest {
 	@Test
 	public void PenDown() {
 		parseAndExecute("pd");
-		assertTrue(log.peekLast().isPenDown());
+		assertTrue(log.peekLast().getPen().isDown());
 	}
 	
 	@Test
 	public void PenUp() {
 		parseAndExecute("pu");
-		assertTrue(!log.peekLast().isPenDown());
+		assertTrue(!log.peekLast().getPen().isDown());
 	}
 	
 	@Test

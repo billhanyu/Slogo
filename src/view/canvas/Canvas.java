@@ -63,7 +63,7 @@ public class Canvas extends View {
 					clearScreen();
 					next.setClearScreen(false);
 				}
-				else if (currentState.isPenDown()) {
+				else if (currentState.getPen().isDown()) {
 					addPath(next);
 				}
 				currentState = next;
@@ -92,7 +92,7 @@ public class Canvas extends View {
 	}
 
 	public void setPenColor(Color color) {
-		currentState.setPenColor(color);
+		currentState.getPen().setColor(color);;
 	}
 
 	public ActorState getCurrentState() {
@@ -120,8 +120,8 @@ public class Canvas extends View {
 
 		path.getElements().add(moveTo);
 		path.getElements().add(lineTo);
-		path.setFill(currentState.getPenColor());
-		path.setStroke(currentState.getPenColor());
+		path.setFill(currentState.getPen().getColor());
+		path.setStroke(currentState.getPen().getColor());
 		this.getRoot().getChildren().add(path);
 	}
 	

@@ -22,7 +22,7 @@ public class PenDown extends StandardCommand{
 		ActorState prev = log.peekLast();
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setPen(true);
+		delta.getPen().setDown(true);
 		log.append(delta);
 		return 1;
 	}
