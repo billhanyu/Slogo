@@ -51,4 +51,8 @@ public class TurtleView extends View {
 		turtleImageView.setVisible(visible);
 	}
 	
+	public ImageView getImageView() {
+		return turtleImageView;
+	}
+	
 }
