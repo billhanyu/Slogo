@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import javafx.beans.value.ChangeListener;
 
 public class CommandHistoryView extends EnvironmentListView {
 	
@@ -10,15 +9,14 @@ public class CommandHistoryView extends EnvironmentListView {
 	}
 
 	@Override
-	protected ChangeListener<String> getChangeListener() {
-		return (ov, oldVal, newVal) -> {
-			this.getController().putScript(newVal);
-		};
+	public String getLabelString() {
+		return this.getLabelReader().getLabel("CommandHistory");
 	}
 
 	@Override
-	public String getLabelString() {
-		return this.getLabelReader().getLabel("CommandHistory");
+	protected void onDoubleClickItem(String selected) {
+		this.getController().putScript(selected);
+		this.getController().getMainView().getEditor().runScript();
 	}
 
 }

@@ -3,12 +3,13 @@ package view;
 import java.util.stream.Collectors;
 
 import controller.Controller;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.Environment;
 import model.Executable;
@@ -33,11 +34,11 @@ public abstract class EnvironmentListView extends View {
 		list.setItems(items);
 	}
 	
-	abstract protected ChangeListener<String> getChangeListener();
+	abstract protected void onDoubleClickItem(String selected);
 	
 	private void init() {
 		items = FXCollections.observableArrayList();
-		list = makeList(getChangeListener());
+		list = makeList();
 		Label lbl = new Label(getLabelString());
 		
 		VBox all = new VBox();
@@ -48,9 +49,17 @@ public abstract class EnvironmentListView extends View {
 		this.getRoot().getChildren().add(all);
 	}
 	
-	private ListView<String> makeList(ChangeListener<String> listener) {
+	private ListView<String> makeList() {
 		list = new ListView<String>();
-        list.getSelectionModel().selectedItemProperty().addListener(listener);
+		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		    @Override
+		    public void handle(MouseEvent click) {
+		        if (click.getClickCount() == 2) {
+		           String selected = list.getSelectionModel().getSelectedItem();
+		           onDoubleClickItem(selected);
+		        }
+		    }
+		});
 		list.setItems(items);
 		return list;
 	}

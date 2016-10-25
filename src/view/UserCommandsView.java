@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import javafx.beans.value.ChangeListener;
 
 public class UserCommandsView extends EnvironmentListView {
 	
@@ -14,12 +13,10 @@ public class UserCommandsView extends EnvironmentListView {
 	public String getLabelString() {
 		return this.getController().getValueReader().getLabel("Commands");
 	}
-
+	
 	@Override
-	protected ChangeListener<String> getChangeListener() {
-		return (ov, oldVal, newVal) -> {
-			this.getController().putScript(newVal);
-		};
+	protected void onDoubleClickItem(String selected) {
+		this.getController().putScript(selected);
 	}
 	
 }
