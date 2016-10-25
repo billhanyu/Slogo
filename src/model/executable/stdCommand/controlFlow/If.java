@@ -7,6 +7,7 @@ import model.Executable;
 import model.TurtleLog;
 import model.executable.CodeBlock;
 import model.executable.StandardCommand;
+import model.executable.Variable;
 
 public class If extends StandardCommand {
 	
@@ -41,5 +42,10 @@ public class If extends StandardCommand {
 		}
 		this.expr = this.getArgs().get(0);
 		this.body = (CodeBlock) this.getArgs().get(1);
+		for (Variable var : body.getLocalVarRefs().getImmutableValues()) {
+			if (var.getName().equals(expr.getName())) {
+				var.setExpression(expr);
+			}
+		}
 	}
 }

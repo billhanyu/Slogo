@@ -30,7 +30,7 @@ public class ProcedureImpl{
 		for (int i = 0; i < argument.size(); i++)
 			params.get(i).setExpression(argument.get(i));
 		// execute
-		haveVarRefsPointToRightObjs();
+		haveVarRefsPointToRightObjs(log);
 		double ret = procedure.execute(log);
 		// $sp up
 		for (int i = 0; i < calleeSaved.size(); i++)
@@ -55,16 +55,25 @@ public class ProcedureImpl{
 	/**
 	 * Only resolve local parameters passed in by caller.
 	 * Global Variables are resolved when codeblock is executed
+	 * @throws SyntacticErrorException 
 	 */
-	private void haveVarRefsPointToRightObjs() {
+	private void haveVarRefsPointToRightObjs(TurtleLog log)
+			throws SyntacticErrorException {
 		for (Variable var : procedure.getLocalVarRefs()) {
 			Variable arg;
 			if ( (arg = Utils.listContains(params, var.getName())) != null) {
-				var.setExpression(arg);
+				var.setExpression(getFinalValue(arg.getExpression(), log));
 			} else if ( var.getExpression() == null
 					&& (arg = Utils.listContains(procedure.getGlobalVarRefs(), var.getName())) != null) {
-				var.setExpression(arg);
+				var.setExpression(getFinalValue(arg.getExpression(), log));
 			}
 		}
+	}
+	
+	private Constant getFinalValue(Executable expr, TurtleLog log)
+			throws SyntacticErrorException {
+		if (expr instanceof Constant)
+			return (Constant) expr;
+		return new Constant(null, expr.execute(log));
 	}
 }

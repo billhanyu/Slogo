@@ -32,6 +32,12 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void recursion() {
+		parseAndExecute("to recurse [ :n ] [ if :n [ bk :n recurse sum :n -1 ] ] recurse 3");
+		assertDoubleEqual(log.peekLast().getPositionY(), 6);
+	}
+	
+	@Test
 	public void ifBranches() {
 		parseAndExecute("if 0 [ bk 20 ]");
 		assertDoubleEqual(log.peekLast().getPositionY(), 0);
@@ -223,7 +229,6 @@ public class InterpreterTest {
 		result = parseAndExecute("pi");
 		assertDoubleEqual(result, Math.PI);
 	}
-	
 	
 	private double parseAndExecute(String script) {
 		double result = 0;

@@ -48,7 +48,7 @@ public class StandardCommandToken extends Token {
 		}
 	}
 	
-	protected List<Executable> argsGen(int numArgs, String className,
+	private List<Executable> argsGen(int numArgs, String className,
 									 List<Executable> pendingArgs,
 									 List<Executable> instructionCacheInReverse)
 											 throws WrongNumberOfArguments {
