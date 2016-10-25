@@ -8,13 +8,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.TurtleState;
 import view.canvas.Canvas;
@@ -116,7 +123,7 @@ public class UserControls extends View {
 	
 	private Button makeHelpPageButton() {
 		Button btn = this.makeButton(this.getLabelReader().getLabel("HelpPageButton"), e -> {
-			this.getController().getMainView().showHelpPage();;
+			showHelpPage();;
 		});
 		return btn;
 	}
@@ -142,6 +149,25 @@ public class UserControls extends View {
 			}
 		});
 		return btn;
+	}
+	
+	private void showHelpPage(){
+		Stage helpPage = new Stage();
+        Scene scene = new Scene(new Group());
+        VBox root = new VBox();     
+        final WebView browser = new WebView();
+        final WebEngine webEngine = browser.getEngine();
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(browser); 
+        scrollPane.setFitToWidth(true);;
+        scrollPane.setFitToHeight(true);
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+		String url = MainView.class.getResource(this.getController().getValueReader().getLabel("HelpPagePath")).toExternalForm();
+        webEngine.load(url);
+        root.getChildren().addAll(scrollPane);
+        scene.setRoot(root);
+        helpPage.setScene(scene);
+        helpPage.show();
 	}
 
 }

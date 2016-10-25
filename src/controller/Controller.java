@@ -1,6 +1,4 @@
 package controller;
-import java.util.Stack;
-
 import exception.OutOfBoundsException;
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
