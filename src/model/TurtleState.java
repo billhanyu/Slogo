@@ -13,13 +13,10 @@ public class TurtleState implements ActorState {
 	private double positionX;
 	private double positionY;
 	private double direction; // in degrees
-	private boolean penDown;
 	private boolean visible;
 	private boolean doesAnimate;
 	private boolean clearsScreen;
-	private Color penColor;
-	
-	public static final Color DEFAULT_PEN_COLOR = Color.BLACK;
+	private Pen pen;
 	
 	public TurtleState() {
 		positionX = 0.0;
@@ -27,8 +24,7 @@ public class TurtleState implements ActorState {
 		direction = 0.0;
 		visible = true;
 		direction = 0.0;
-		penColor = DEFAULT_PEN_COLOR;
-		penDown = true;
+		pen = new Pen();
 		clearsScreen = false;
 	}
 
@@ -49,7 +45,7 @@ public class TurtleState implements ActorState {
 
 	@Override
 	public void setPen(boolean isDown) {
-		penDown = isDown;
+		pen.setDown(isDown);
 	}
 
 	@Override
@@ -64,7 +60,7 @@ public class TurtleState implements ActorState {
 	
 	@Override
 	public void setPenColor(Color color) {
-		penColor = color;
+		pen.setColor(color);
 	}
 	
 	@Override
@@ -89,7 +85,7 @@ public class TurtleState implements ActorState {
 
 	@Override
 	public boolean isPenDown() {
-		return penDown;
+		return pen.isDown();
 	}
 
 	@Override
@@ -109,19 +105,28 @@ public class TurtleState implements ActorState {
 	
 	@Override
 	public Color getPenColor() {
-		return penColor;
+		return pen.getColor();
+	}
+	
+	@Override
+	public void setPen(Pen pen) {
+		this.pen = pen;
+	}
+
+	@Override
+	public Pen getPen() {
+		return pen;
 	}
 
 	@Override
 	public void duplicateOnto(ActorState other) {
 		other.setPositionX(this.getPositionX());
 		other.setPositionY(this.getPositionY());
-		other.setPen(this.isPenDown());
 		other.setAnimate(this.doesAnimate());
 		other.setDirection(this.getHeading());
 		other.setVisible(this.isVisible());
 		other.setClearScreen(this.clearsScreen());
-		other.setPenColor(this.getPenColor());
+		other.setPen(pen.clone());
 	}
 	
 }
