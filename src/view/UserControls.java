@@ -21,9 +21,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-import model.TurtleState;
+import javafx.stage.Stage;
+import model.Pen;
 import view.canvas.Canvas;
 
 public class UserControls extends View {
@@ -87,7 +87,7 @@ public class UserControls extends View {
 	
 	private ColorPicker makePenPicker() {
 		ColorPicker picker = new ColorPicker();
-		picker.setValue(TurtleState.DEFAULT_PEN_COLOR);
+		picker.setValue(Pen.DEFAULT_PEN_COLOR);
 		picker.setOnAction(e -> {
 			this.getController().getMainView().
 				getCanvas().setPenColor(picker.getValue());
