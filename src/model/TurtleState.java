@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.paint.Color;
-
 /**
  * @author billyu
  * state of the turtle, including position, pen, direction, visible
@@ -44,11 +42,6 @@ public class TurtleState implements ActorState {
 	}
 
 	@Override
-	public void setPen(boolean isDown) {
-		pen.setDown(isDown);
-	}
-
-	@Override
 	public void setVisible(boolean isVisible) {
 		visible = isVisible;
 	}
@@ -56,11 +49,6 @@ public class TurtleState implements ActorState {
 	@Override
 	public void setAnimate(boolean animate) {
 		doesAnimate = animate;
-	}
-	
-	@Override
-	public void setPenColor(Color color) {
-		pen.setColor(color);
 	}
 	
 	@Override
@@ -84,11 +72,6 @@ public class TurtleState implements ActorState {
 	}
 
 	@Override
-	public boolean isPenDown() {
-		return pen.isDown();
-	}
-
-	@Override
 	public boolean isVisible() {
 		return visible;
 	}
@@ -101,11 +84,6 @@ public class TurtleState implements ActorState {
 	@Override
 	public boolean clearsScreen() {
 		return clearsScreen;
-	}
-	
-	@Override
-	public Color getPenColor() {
-		return pen.getColor();
 	}
 	
 	@Override
