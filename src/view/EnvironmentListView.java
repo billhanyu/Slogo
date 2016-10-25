@@ -57,6 +57,7 @@ public abstract class EnvironmentListView extends View {
 		        if (click.getClickCount() == 2) {
 		           String selected = list.getSelectionModel().getSelectedItem();
 		           onDoubleClickItem(selected);
+		           list.scrollTo(list.getItems().size() - 1);
 		        }
 		    }
 		});
