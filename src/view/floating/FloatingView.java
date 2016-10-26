@@ -2,6 +2,7 @@ package view.floating;
 
 import controller.Controller;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -49,27 +50,26 @@ public abstract class FloatingView extends View {
 	}
 	
 	protected HBox makePropertyLine(String name, String value) {
-		HBox box = new HBox();
 		Label nameLabel = new Label(name);
 		Label valueLabel = new Label(value);
-		Region empty = new Region();
-		box.setSpacing(20);
-		HBox.setHgrow(empty, Priority.ALWAYS);
-		box.getChildren().addAll(nameLabel, empty, valueLabel);
-		return box;
+		return makeLine(nameLabel, valueLabel);
 	}
 	
 	protected HBox makePropertyColorLine(String name, Color color) {
-		HBox box = new HBox();
 		Label nameLabel = new Label(name);
 		HBox rectBox = new HBox();
 		rectBox.setPadding(new Insets(5, 0, 0, 0));
 		Rectangle rect = new Rectangle(20, 10, color);
 		rectBox.getChildren().add(rect);
+		return makeLine(nameLabel, rectBox);
+	}
+	
+	protected HBox makeLine(Node name, Node value) {
+		HBox box = new HBox();
 		Region empty = new Region();
 		box.setSpacing(20);
 		HBox.setHgrow(empty, Priority.ALWAYS);
-		box.getChildren().addAll(nameLabel, empty, rectBox);
+		box.getChildren().addAll(name, empty, value);
 		return box;
 	}
 

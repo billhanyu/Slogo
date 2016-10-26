@@ -9,6 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import view.floating.FloatingViewManager;
+import view.floating.PenPropertyView;
 import view.floating.TurtleStateView;
 
 public class MenuView extends View {
@@ -48,7 +49,9 @@ public class MenuView extends View {
 		Menu menu = new Menu("Properties");
 		MenuItem turtleState = makeMenuItem("Turtle State",
 				e -> floatingManager.show(TurtleStateView.class));
-		menu.getItems().add(turtleState);
+		MenuItem penState = makeMenuItem("Pen",
+				e -> floatingManager.show(PenPropertyView.class));
+		menu.getItems().addAll(turtleState, penState);
 		return menu;
 	}
 	

@@ -122,6 +122,7 @@ public class Canvas extends View {
 		path.getElements().add(lineTo);
 		path.setFill(currentState.getPen().getColor());
 		path.setStroke(currentState.getPen().getColor());
+		path.setStrokeWidth(currentState.getPen().getThickness());
 		this.getRoot().getChildren().add(path);
 	}
 	
