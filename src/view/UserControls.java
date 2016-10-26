@@ -24,7 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.TurtleState;
-import view.canvas.Canvas;
+import view.canvas.MainCanvas;
 
 public class UserControls extends View {
 
@@ -77,7 +77,7 @@ public class UserControls extends View {
 
 	private ColorPicker makeBackgroundPicker() {
 		ColorPicker picker = new ColorPicker();
-		picker.setValue(Canvas.BACKGROUND_COLOR);
+		picker.setValue(MainCanvas.BACKGROUND_COLOR);
 		picker.setOnAction(e -> {
 			this.getController().getMainView().
 				getCanvas().setBackgroundColor(picker.getValue());

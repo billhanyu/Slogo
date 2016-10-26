@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import view.canvas.Canvas;
+import view.canvas.MainCanvas;
 
 public class MainView {
 	
@@ -15,7 +15,7 @@ public class MainView {
 	private Stage stage;
 	private Scene mainScene;
 	private Controller controller;
-	private Canvas canvas;
+	private MainCanvas canvas;
 	private Editor editor;
 	private Console console;
 	private EnvironmentView environmentView;
@@ -37,7 +37,7 @@ public class MainView {
 		stage.show();
 	}
 	
-	public Canvas getCanvas() {
+	public MainCanvas getCanvas() {
 		return canvas;
 	}
 	
@@ -56,7 +56,7 @@ public class MainView {
 	private Scene initScene() {
 		BorderPane root = new BorderPane();
 		Scene scn = new Scene(root);
-		canvas = new Canvas(controller, 0,0);
+		canvas = new MainCanvas(controller, 0,0);
 		editor = new Editor(controller, WIDTH,0);
 		menuView = new MenuView(controller, WIDTH, 0);
 		

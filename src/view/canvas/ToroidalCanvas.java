@@ -9,7 +9,7 @@ import controller.Controller;
 import model.ActorState;
 import model.TurtleLog;
 
-public class ToroidalCanvas extends Canvas{
+public class ToroidalCanvas extends MainCanvas{
 	
 	Line2D upperBound;
 	Line2D lowerBound;
