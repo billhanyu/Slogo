@@ -1,13 +1,20 @@
 package view.floating;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import controller.Controller;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
+import model.Pen;
 
 public class PenPropertyView extends FloatingView {
 	
@@ -30,8 +37,9 @@ public class PenPropertyView extends FloatingView {
 
 		HBox penDown = makePenBox();
 		HBox penThick = makeThicknessBox();
+		HBox type = makeTypeBox();
 
-		layout.getChildren().addAll(penDown, penThick);
+		layout.getChildren().addAll(penDown, penThick, type);
 		this.getRoot().getChildren().add(layout);
 	}
 
@@ -47,7 +55,7 @@ public class PenPropertyView extends FloatingView {
 
 	@Override
 	protected double height() {
-		return 200;
+		return 180;
 	}
 
 	private HBox makePenBox() {
@@ -55,8 +63,10 @@ public class PenPropertyView extends FloatingView {
 		String changeTo = currentState.getPen().isDown() ? "Up" : "Down";
 		Button button = new Button(changeTo);
 		button.setOnAction(e -> {
-			boolean down = currentState.getPen().isDown();
-			currentState.getPen().setDown(!down);
+			ActorState current = this.getController().getMainView()
+					.getCanvas().getCurrentState();
+			boolean down = current.getPen().isDown();
+			current.getPen().setDown(!down);
 			button.setText(down ? "Down" : "Up");
 		});
 		button.setPrefWidth(60);
@@ -67,7 +77,9 @@ public class PenPropertyView extends FloatingView {
 		Label nameLabel = new Label("Thickness");
 		Slider slider = new Slider(1, 5, currentState.getPen().getThickness());
 		slider.valueProperty().addListener((observable, old_val, new_val) -> {
-			currentState.getPen().setThickness(new_val.intValue());
+			ActorState current = this.getController().getMainView()
+					.getCanvas().getCurrentState();
+			current.getPen().setThickness(new_val.intValue());
 		});
 		slider.setPrefWidth(100);
 		slider.setShowTickLabels(true);
@@ -75,6 +87,27 @@ public class PenPropertyView extends FloatingView {
 		slider.setMajorTickUnit(50);
 		slider.setMinorTickCount(5);
 		return this.makeLine(nameLabel, slider);
+	}
+	
+	private HBox makeTypeBox() {
+		Label nameLabel = new Label("Pen Type");
+		ObservableList<String> items = FXCollections.observableArrayList(
+				Arrays.asList(Pen.PenType.values())
+				.stream()
+				.map(e -> e.toString())
+				.collect(Collectors.toList()));
+		ComboBox<String> combo = new ComboBox<>(items);
+		combo.getSelectionModel().select(
+				this.getController().getMainView().getCanvas().getCurrentState()
+				.getPen().getType().toString());
+		combo.setOnAction(e -> {
+			Pen.PenType type = Pen.PenType.valueOf(
+					combo.getSelectionModel().getSelectedItem());
+			ActorState currentState = this.getController().getMainView()
+					.getCanvas().getCurrentState();
+			currentState.getPen().setType(type);
+		});
+		return this.makeLine(nameLabel, combo);
 	}
 
 }
