@@ -123,6 +123,19 @@ public class Canvas extends View {
 		path.setFill(currentState.getPen().getColor());
 		path.setStroke(currentState.getPen().getColor());
 		path.setStrokeWidth(currentState.getPen().getThickness());
+		
+		//pen type
+		switch (currentState.getPen().getType()) {
+		case Solid:
+			break;
+		case Dashed:
+			path.getStrokeDashArray().addAll(10d, 10d);
+			break;
+		case Dotted:
+			path.getStrokeDashArray().addAll(2d, 2d);
+			break;
+		}
+		
 		this.getRoot().getChildren().add(path);
 	}
 	
