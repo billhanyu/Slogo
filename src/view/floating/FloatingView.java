@@ -1,10 +1,14 @@
 package view.floating;
 
 import controller.Controller;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import view.View;
 
@@ -41,15 +45,31 @@ public abstract class FloatingView extends View {
 		stage.setWidth(this.width());
 		Scene scn = new Scene(this.getRoot());
 		stage.setScene(scn);
+		stage.setResizable(false);
 	}
 	
 	protected HBox makePropertyLine(String name, String value) {
 		HBox box = new HBox();
 		Label nameLabel = new Label(name);
 		Label valueLabel = new Label(value);
+		Region empty = new Region();
 		box.setSpacing(20);
-		box.getChildren().addAll(nameLabel, valueLabel);
-		HBox.setHgrow(nameLabel, Priority.ALWAYS);
+		HBox.setHgrow(empty, Priority.ALWAYS);
+		box.getChildren().addAll(nameLabel, empty, valueLabel);
+		return box;
+	}
+	
+	protected HBox makePropertyColorLine(String name, Color color) {
+		HBox box = new HBox();
+		Label nameLabel = new Label(name);
+		HBox rectBox = new HBox();
+		rectBox.setPadding(new Insets(5, 0, 0, 0));
+		Rectangle rect = new Rectangle(20, 10, color);
+		rectBox.getChildren().add(rect);
+		Region empty = new Region();
+		box.setSpacing(20);
+		HBox.setHgrow(empty, Priority.ALWAYS);
+		box.getChildren().addAll(nameLabel, empty, rectBox);
 		return box;
 	}
 
