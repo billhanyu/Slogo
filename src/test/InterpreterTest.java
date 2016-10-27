@@ -32,6 +32,13 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void nestedParam() {
+		parseAndExecute("repeat sum 1 1 [ fd 1 ]");
+		assertDoubleEqual(log.peekLast().getPositionY(), -2);
+	}
+	
+	
+	@Test
 	public void nested() {
 		parseAndExecute("to nested [ :distance ] [ repeat 4 [ bk :distance ] ] nested 10");
 		assertDoubleEqual(log.peekLast().getPositionY(), 40);
