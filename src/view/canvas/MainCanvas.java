@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import controller.Controller;
 import exception.OutOfBoundsException;
+import javafx.animation.Animation;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,6 +30,7 @@ public class MainCanvas extends View {
 	private double turtleHeight = 20;
 	private Duration animateSpeed = Duration.seconds(2.5);
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
+	AnimatedMovement movement;
 	
 
 	public MainCanvas(Controller controller, double width, double height) {
@@ -41,6 +43,7 @@ public class MainCanvas extends View {
 				turtleHeight,
 				currentState.getHeading());
 		initCanvas();
+		movement = new AnimatedMovement(this);
 	}
 	
 	private void initCanvas(){
@@ -64,6 +67,7 @@ public class MainCanvas extends View {
 			}
 			else{
 				Point nextPoint = findNextPoints(next);
+				movement.setStates(currentState, next);
 				doRotation(next.getHeading());
 				turtleView.setVisible(next.isVisible());
 				doMovement(next);
@@ -127,10 +131,10 @@ public class MainCanvas extends View {
 			Point currentPos = new Point(), nextPos = new Point();
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
-			AnimatedPath pathDrawn = new AnimatedPath(currentPos, nextPos);
 			if (currentPos.distance(nextPos)!=0){
-				pathDrawn.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-													currentState, turtleView).play();
+				
+				movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
+													turtleView).play();
 			}
 		}
 
@@ -142,7 +146,7 @@ public class MainCanvas extends View {
 			turtleView.setDirection(degrees);
 		}
 		else{
-			AnimatedPath.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
+			movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
 					turtleView, degrees).play();
 		}
 	}
@@ -165,6 +169,10 @@ public class MainCanvas extends View {
 	
 	public Duration getDuration(){
 		return animateSpeed;
+	}
+	
+	public AnimatedMovement getAnimatedMovement(){
+		return movement;
 	}
 	
 	private void addPath(ActorState nextState) {

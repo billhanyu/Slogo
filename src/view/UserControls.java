@@ -1,33 +1,13 @@
 package view;
-
-import java.io.File;
-import java.util.Collections;
-
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
-import model.Pen;
-import view.canvas.MainCanvas;
 
 public class UserControls extends View {
 
@@ -37,23 +17,36 @@ public class UserControls extends View {
 	}
 
 	private void init() {
-		VBox userButtons = makeUserButtons();
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
-		box.setSpacing(20);
 		box.setPrefWidth(this.getWidth());
 		Label animateSpeed = new Label("Animation Speed");
 		box.setAlignment(Pos.TOP_LEFT);
-		box.getChildren().addAll(animateSpeed, userButtons);
-		this.getRoot().getChildren().addAll(box);
+		box.setSpacing(5);
+		box.getChildren().addAll(animateSpeed, makeSpeedBar());
+		
+		VBox allControls = new VBox();
+		allControls.getChildren().addAll(box, makeControlButtons());
+		allControls.setSpacing(10);
+		this.getRoot().getChildren().addAll(allControls);
 	}
 	
-	private VBox makeUserButtons() {
-		VBox buttonBox = new VBox();
-		buttonBox.setSpacing(10);
-		ScrollBar speedBar = makeSpeedBar();
-		buttonBox.getChildren().addAll(speedBar);
-		return buttonBox;
+	private HBox makeControlButtons(){
+		HBox controlButtons = new HBox();
+		Button pause = this.makeButton("Pause", e -> {
+			this.getController().getMainView().getCanvas().getAnimatedMovement().pauseAnimation();
+		});
+		
+		Button play  = this.makeButton("Play", e -> {
+			this.getController().getMainView().getCanvas().getAnimatedMovement().playAnimation();
+		});
+		
+		Button stop  = this.makeButton("Stop", e -> {
+			this.getController().getMainView().getCanvas().getAnimatedMovement().stopAnimation();
+		});
+		controlButtons.getChildren().addAll(play, pause, stop);
+		controlButtons.setSpacing(40);
+		return controlButtons;
 		
 	}
 	

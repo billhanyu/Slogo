@@ -17,37 +17,41 @@ import javafx.util.Duration;
 import model.ActorState;
 import view.TurtleView;
 
-public class AnimatedPath {
-	Point from;
-	Point to;
-	double heading;
+public class AnimatedMovement {
+	private MainCanvas actingOn;
+	private RotateTransition rotation;
+	private PathTransition pathMovement;
+	private ActorState currentState;
+	private ActorState nextState;
 	
-	public AnimatedPath(Point from, Point to){
-		this.from = from;
-		this.to = to;
+	
+	public AnimatedMovement(MainCanvas actingOn) {
+		rotation = new RotateTransition();
+		pathMovement = new PathTransition();
+		this.actingOn = actingOn;
 	}
-	
+
 	public Path createPath() {
 		Path path = new Path();
 
 		MoveTo moveTo = new MoveTo();
-		moveTo.setX(from.getX());
-		moveTo.setY(from.getY());
+		moveTo.setX(actingOn.translateX(currentState.getPositionX()));
+		moveTo.setY(actingOn.translateY(currentState.getPositionY()));
 
 		LineTo lineTo = new LineTo();
-		lineTo.setX(to.getX());
-		lineTo.setY(to.getY());
+		lineTo.setX(actingOn.translateX(nextState.getPositionX()));
+		lineTo.setY(actingOn.translateY(nextState.getPositionY()));
 
 		path.getElements().addAll(moveTo, lineTo);
 		return path;
 	}
 	
 	
-    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, ActorState currentState, TurtleView turtle) {
+    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle) {
         
     	Circle pen = new Circle(0, 0, 20);
-        PathTransition pathTransition = new PathTransition(duration, createPath(), pen);
-        pathTransition.currentTimeProperty().addListener( new ChangeListener<Duration>() {
+        pathMovement = new PathTransition(duration, createPath(), pen);
+        pathMovement.currentTimeProperty().addListener( new ChangeListener<Duration>() {
 
             Point oldPosition = null;
             @Override
@@ -82,26 +86,47 @@ public class AnimatedPath {
                 }
             }
         });
-        return pathTransition;
+        return pathMovement;
     }
     
-    public static Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, double degrees){
-    	RotateTransition rt = new RotateTransition(Duration.millis(3000), turtle.getImageView());
-    	rt.setToAngle(degrees
+    public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, double degrees){
+    	rotation = new RotateTransition(Duration.millis(3000), turtle.getImageView());
+    	rotation.setToAngle(degrees
     			);
-    	rt.setOnFinished(new EventHandler<ActionEvent>() {
+    	rotation.setOnFinished(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
     			turtle.setDirection(degrees);
     		}
     	});
-    	return rt;
+    	return rotation;
 
     	
     }
     
-    public void updatePositions(double x, double y, Point oldPosition, TurtleView turtle){
+    private void updatePositions(double x, double y, Point oldPosition, TurtleView turtle){
     	oldPosition.setLocation(x,  y);
         turtle.setPositionX(x);
         turtle.setPositionY(y);
+    }
+    
+    protected void setStates(ActorState current, ActorState next){
+    	currentState = current;
+    	nextState = next;
+    	
+    }
+    
+    public void pauseAnimation(){
+    	pathMovement.pause();
+    	rotation.pause();
+    }
+    
+    public void playAnimation(){
+    	pathMovement.play();
+    	rotation.play();
+    }
+    
+    public void stopAnimation(){
+    	pathMovement.stop();
+    	rotation.stop();
     }
 }
