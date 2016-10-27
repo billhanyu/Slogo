@@ -40,11 +40,12 @@ public class UserControls extends View {
 		VBox userButtons = makeUserButtons();
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
-		box.setPadding(new Insets(5,5,5,30));
 		box.setSpacing(20);
 		box.setPrefWidth(this.getWidth());
-		box.getChildren().addAll(userButtons);
-		this.getRoot().getChildren().add(box);
+		Label animateSpeed = new Label("Animation Speed");
+		box.setAlignment(Pos.TOP_LEFT);
+		box.getChildren().addAll(animateSpeed, userButtons);
+		this.getRoot().getChildren().addAll(box);
 	}
 	
 	private VBox makeUserButtons() {
@@ -65,7 +66,6 @@ public class UserControls extends View {
         speedBar.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                 Number oldValue, Number newValue) {
-            	System.out.println(speedBar.getMax() - newValue.doubleValue());
             	getController().getMainView().getCanvas().setDuration(speedBar.getMax() - newValue.doubleValue());
             	
             }

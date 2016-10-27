@@ -27,8 +27,6 @@ public class MainCanvas extends View {
 	private ActorState currentState;
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
-	private static final double CANVAS_WIDTH = 700;
-	private static final double CANVAS_HEIGHT = 500;
 	private Duration animateSpeed = Duration.seconds(2.5);
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	
@@ -80,7 +78,7 @@ public class MainCanvas extends View {
 		this.notifySubscribers();
 	}	
 	
-	public Point findNextPoints(ActorState next){
+	protected Point findNextPoints(ActorState next){
 		Point nextPoint = new Point();
 		nextPoint.setLocation(translateX(next.getPositionX()), translateY(next.getPositionY()));
 		return nextPoint;
@@ -151,21 +149,14 @@ public class MainCanvas extends View {
 	
 	private void clearScreen() {
 		initCanvas();
-	/***	for (Iterator<Node> iter = this.getRoot().getChildren().listIterator(); 
-				iter.hasNext(); ) {
-		    Node node = iter.next();
-		    if (!(node instanceof ImageView)) {
-		        iter.remove();
-		    }
-		}***/
 	}
 
-	public static double getCanvasWidth() {
-		return CANVAS_WIDTH;
+	public double getCanvasWidth() {
+		return this.getWidth();
 	}
 
-	public static double getCanvasHeight() {
-		return CANVAS_HEIGHT;
+	public double getCanvasHeight() {
+		return this.getHeight();
 	}
 	
 	public void setDuration(double seconds){

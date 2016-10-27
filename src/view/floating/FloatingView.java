@@ -2,6 +2,7 @@ package view.floating;
 
 import controller.Controller;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
@@ -80,12 +81,14 @@ public abstract class FloatingView extends View implements Subscriber {
 		return box;
 	}
 	
-	protected HBox makePickerBox(String label, ColorPicker picker) {
+	protected HBox makeSelectionBox(String label, Node box) {
 		HBox pickerBox = new HBox();
 		Label pickerLabel = new Label(label);
 		pickerLabel.setPrefWidth(130);
-		pickerBox.setSpacing(50);
-		pickerBox.getChildren().addAll(pickerLabel, picker);
+		pickerBox.setSpacing(10);
+		HBox.setMargin(pickerLabel, new Insets(10));
+		pickerBox.setAlignment(Pos.CENTER);
+		pickerBox.getChildren().addAll(pickerLabel, box);
 		return pickerBox;
 	}
 
