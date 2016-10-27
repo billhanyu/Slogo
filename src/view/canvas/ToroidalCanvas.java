@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import controller.Controller;
 import model.ActorState;
 
-public class ToroidalCanvas extends Canvas{
+public class ToroidalCanvas extends MainCanvas{
 	
 	Line2D upperBound;
 	Line2D lowerBound;

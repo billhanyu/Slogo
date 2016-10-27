@@ -42,8 +42,6 @@ public abstract class EnvironmentListView extends View {
 		Label lbl = new Label(getLabelString());
 		
 		VBox all = new VBox();
-		all.setPadding(new Insets(5,5,5,5));
-		all.setPrefWidth(this.getWidth());
 		all.setPrefHeight(this.getHeight());
 		all.getChildren().addAll(lbl, list);
 		this.getRoot().getChildren().add(all);

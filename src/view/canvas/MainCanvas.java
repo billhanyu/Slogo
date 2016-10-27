@@ -6,29 +6,34 @@ import java.util.Iterator;
 import controller.Controller;
 import exception.OutOfBoundsException;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import model.ActorState;
 import model.TurtleLog;
 import model.TurtleState;
 import view.TurtleView;
 import view.View;
 
-public class Canvas extends View {
+public class MainCanvas extends View {
 
 	private TurtleView turtleView;
-	private Rectangle background;
+	private Canvas background;
 	private ActorState currentState;
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
-	private static final double CANVAS_WIDTH = 500;
+	private static final double CANVAS_WIDTH = 700;
 	private static final double CANVAS_HEIGHT = 500;
+	private Duration animateSpeed = Duration.seconds(2.5);
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
+	
 
-	public Canvas(Controller controller, double width, double height) {
+	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
 		currentState = new TurtleState();
 		turtleView = new TurtleView(controller, 
@@ -37,8 +42,14 @@ public class Canvas extends View {
 				turtleWidth, 
 				turtleHeight,
 				currentState.getHeading());
-		background = new Rectangle(0, 0, getCanvasWidth(), getCanvasHeight());
+		initCanvas();
+	}
+	
+	private void initCanvas(){
+		this.getRoot().getChildren().removeAll(this.getRoot().getChildren());
+		background = new Canvas(getCanvasWidth(), getCanvasHeight());
 		background.setId("canvas");
+		setBackgroundColor(BACKGROUND_COLOR);
 		this.getRoot().getChildren().addAll(background, turtleView.getUI());
 	}
 
@@ -55,16 +66,12 @@ public class Canvas extends View {
 			}
 			else{
 				Point nextPoint = findNextPoints(next);
-				turtleView.setPositionX(nextPoint.getX());
-				turtleView.setPositionY(nextPoint.getY());
-				turtleView.setDirection(next.getHeading());
+				doRotation(next.getHeading());
 				turtleView.setVisible(next.isVisible());
+				doMovement(next);
 				if (next.clearsScreen()) {
 					clearScreen();
 					next.setClearScreen(false);
-				}
-				else if (currentState.getPen().isDown()) {
-					addPath(next);
 				}
 				currentState = next;
 			}
@@ -89,7 +96,9 @@ public class Canvas extends View {
 	}
 	
 	public void setBackgroundColor(Color color) {
-		background.setFill(color);
+		GraphicsContext gc= background.getGraphicsContext2D();
+		gc.setFill(color);
+		gc.fillRect(0, 0, getCanvasWidth(),getCanvasHeight());
 	}
 
 	public void setPenColor(Color color) {
@@ -108,17 +117,73 @@ public class Canvas extends View {
 		return y + getCanvasHeight() / 2;
 	}
 
+	private void doMovement(ActorState nextState) {
+		if (getDuration().toMillis() == 0.0){
+			turtleView.setPositionX(translateX(nextState.getPositionX()));
+			turtleView.setPositionY(translateY(nextState.getPositionY()));
+			if (currentState.getPen().isDown()){
+				addPath(nextState);
+			}
+		}
+		else{
+			Point currentPos = new Point(), nextPos = new Point();
+			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
+			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
+			AnimatedPath pathDrawn = new AnimatedPath(currentPos, nextPos);
+			if (currentPos.distance(nextPos)!=0){
+				pathDrawn.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
+													currentState, turtleView).play();
+			}
+		}
+
+	}
+	
+	
+	private void doRotation(double degrees){
+		if (getDuration().toMillis() == 0.0){
+			turtleView.setDirection(degrees);
+		}
+		else{
+			AnimatedPath.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
+					turtleView, degrees).play();
+		}
+	}
+	
+	private void clearScreen() {
+		initCanvas();
+	/***	for (Iterator<Node> iter = this.getRoot().getChildren().listIterator(); 
+				iter.hasNext(); ) {
+		    Node node = iter.next();
+		    if (!(node instanceof ImageView)) {
+		        iter.remove();
+		    }
+		}***/
+	}
+
+	public static double getCanvasWidth() {
+		return CANVAS_WIDTH;
+	}
+
+	public static double getCanvasHeight() {
+		return CANVAS_HEIGHT;
+	}
+	
+	public void setDuration(double seconds){
+		animateSpeed = new Duration(seconds);
+	}
+	
+	public Duration getDuration(){
+		return animateSpeed;
+	}
+	
 	private void addPath(ActorState nextState) {
 		Path path = new Path();
-
 		MoveTo moveTo = new MoveTo();
 		moveTo.setX(translateX(currentState.getPositionX()));
 		moveTo.setY(translateY(currentState.getPositionY()));
-
 		LineTo lineTo = new LineTo();
 		lineTo.setX(translateX(nextState.getPositionX()));
 		lineTo.setY(translateY(nextState.getPositionY()));
-
 		path.getElements().add(moveTo);
 		path.getElements().add(lineTo);
 		path.setFill(currentState.getPen().getColor());
@@ -138,24 +203,6 @@ public class Canvas extends View {
 		}
 		
 		this.getRoot().getChildren().add(path);
-	}
-	
-	private void clearScreen() {
-		for (Iterator<Node> iter = this.getRoot().getChildren().listIterator(); 
-				iter.hasNext(); ) {
-		    Node node = iter.next();
-		    if (node instanceof Path) {
-		        iter.remove();
-		    }
-		}
-	}
-
-	public static double getCanvasWidth() {
-		return CANVAS_WIDTH;
-	}
-
-	public static double getCanvasHeight() {
-		return CANVAS_HEIGHT;
 	}
 
 
