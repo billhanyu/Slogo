@@ -6,8 +6,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import view.floating.AbstractPublisher;
 
-public abstract class View implements Displayable {
+public abstract class View extends AbstractPublisher implements Displayable {
 	
 	private Group root;
 	private Controller controller;
