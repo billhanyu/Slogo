@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import view.View;
 
-public abstract class FloatingView extends View {
+public abstract class FloatingView extends View implements Subscriber {
 	
 	private Stage stage;
 	
@@ -29,6 +29,12 @@ public abstract class FloatingView extends View {
 	
 	public void close() {
 		stage.close();
+	}
+	
+	@Override
+	public void didUpdate(Publisher target) {
+		this.getRoot().getChildren().clear();
+		init();
 	}
 	
 	protected abstract void init();

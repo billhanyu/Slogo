@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
+import view.canvas.Canvas;
 
 public class TurtleStateView extends FloatingView {
 
@@ -16,10 +17,9 @@ public class TurtleStateView extends FloatingView {
 
 	@Override
 	protected void init() {
-		ActorState currentState = this.getController()
-				.getMainView()
-				.getCanvas()
-				.getCurrentState();
+		Canvas canvas = this.getController().getMainView().getCanvas();
+		canvas.addSubscriber(this);
+		ActorState currentState = canvas.getCurrentState();
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -29,7 +29,7 @@ public class TurtleStateView extends FloatingView {
 		HBox positionY = this.makePropertyLine("Position Y",
 				"" + currentState.getPositionY());
 		HBox heading = this.makePropertyLine("Heading",
-				"" + currentState.getHeading());
+				"" + currentState.getHeading() % 360);
 		HBox pen = this.makePropertyLine("Pen Down?",
 				"" + currentState.getPen().isDown());
 		HBox color = this.makePropertyColorLine("Pen Color",

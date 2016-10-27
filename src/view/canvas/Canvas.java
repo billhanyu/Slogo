@@ -70,6 +70,7 @@ public class Canvas extends View {
 			}
 		}
 		log.didRender();
+		this.notifySubscribers();
 	}	
 	
 	public Point findNextPoints(ActorState next){
