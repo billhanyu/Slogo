@@ -63,7 +63,7 @@ public class MainView {
 		editor = new Editor(controller, WIDTH,0);
 		menuView = new MenuView(controller, WIDTH, 0);
 		VBox rights = new VBox();
-		console = new Console(controller, 255, 250);
+		console = new Console(controller, 255, 200);
 		
 				
 		environmentView = new EnvironmentView(controller, WIDTH,500);

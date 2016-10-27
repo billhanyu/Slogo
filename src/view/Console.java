@@ -53,7 +53,6 @@ public class Console extends View {
 		VBox all = new VBox();
 		all.setPrefWidth(this.getWidth());
 		all.setPrefHeight(this.getHeight());
-		all.setPadding(new Insets(5,5,5,5));
 		all.getChildren().addAll(label, scrollPane);
 		scrollPane.setId("border");
 		this.getRoot().getChildren().add(all);

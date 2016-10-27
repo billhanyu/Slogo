@@ -32,19 +32,19 @@ public class EnvironmentView extends View {
 	}
 	
 	
-	private Tab makeTab(View toAdd){
+	private Tab makeTab(View toAdd, String label){
 		 Tab tab = new Tab();
-		 tab.setText("toAdd");
+		 tab.setText(label);
 		 tab.setContent(toAdd.getUI());
 		 return tab;
 	}
 	
 	private void init() {
-		globalVarsView = new GlobalVarsView(this.getController(), this.getWidth(), this.getHeight() / 2);
-		commandHistoryView = new CommandHistoryView(this.getController(), this.getWidth(), this.getHeight() / 2);
-		userCommandsView = new UserCommandsView(this.getController(), this.getWidth(), this.getHeight() / 2);
+		globalVarsView = new GlobalVarsView(this.getController(), this.getWidth(), this.getHeight() / 2.5);
+		commandHistoryView = new CommandHistoryView(this.getController(), this.getWidth(), this.getHeight() / 2.5);
+		userCommandsView = new UserCommandsView(this.getController(), this.getWidth(), this.getHeight() / 2.5);
 		 TabPane tabPane = new TabPane();
-		 tabPane.getTabs().addAll(makeTab(globalVarsView), makeTab(commandHistoryView), makeTab(userCommandsView));
+		 tabPane.getTabs().addAll(makeTab(globalVarsView, "Variables"), makeTab(commandHistoryView, "History"), makeTab(userCommandsView, "User Commands"));
 		 this.getRoot().getChildren().add(tabPane);
 	}
 	
