@@ -1,14 +1,21 @@
 package view;
 
+import java.io.File;
+
 import controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import view.floating.BackgroundPropertyView;
 import view.floating.FloatingViewManager;
+import view.floating.LanguagePropertyView;
 import view.floating.PenPropertyView;
 import view.floating.TurtleStateView;
 
@@ -30,13 +37,34 @@ public class MenuView extends View {
 		Menu menuEdit = makeMenuEdit();
 		Menu menuProperties = makeMenuProperties();
 		Menu menuRun = makeMenuRun();
-		bar.getMenus().addAll(menuFile, menuEdit, menuProperties, menuRun);
+		Menu menuHelp = makeMenuHelp();
+		bar.getMenus().addAll(menuFile, menuEdit, menuProperties, menuRun, menuHelp);
 		this.getRoot().getChildren().add(bar);
 		HBox.setHgrow(bar, Priority.ALWAYS);
 	}
 	
 	private Menu makeMenuFile() {
 		Menu menu = new Menu("File");
+		MenuItem turtleImage = makeMenuItem(this.getController().getValueReader().getLabel("TurtleImageSelector"), 
+				e -> {
+					FileChooser fileChooser = new FileChooser();
+					fileChooser.setTitle(this.getLabelReader().getLabel("TurtleImageSelector"));
+					fileChooser.getExtensionFilters().addAll(
+							new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+					File imageFile = fileChooser.showOpenDialog(null);
+					if (imageFile != null) {
+						Image newImage = new Image(imageFile.toURI().toString());
+						this.getController().getMainView().getCanvas().getTurtleView().
+							setImage(newImage);
+						this.getController().getMainView().getConsole().
+							appendText(this.getLabelReader().getLabel("TurtleImageUpdated"), TextType.Success);
+					}
+					else {
+						this.getController().getMainView().getConsole().
+							appendText(this.getLabelReader().getLabel("NoImageChosen"), TextType.Error);
+					}
+				});
+		menu.getItems().addAll(turtleImage);
 		return menu;
 	}
 	
@@ -51,7 +79,11 @@ public class MenuView extends View {
 				e -> floatingManager.show(TurtleStateView.class));
 		MenuItem penState = makeMenuItem("Pen",
 				e -> floatingManager.show(PenPropertyView.class));
-		menu.getItems().addAll(turtleState, penState);
+		MenuItem backgroundState = makeMenuItem("Background",
+				e -> floatingManager.show(BackgroundPropertyView.class));
+		MenuItem languageState = makeMenuItem("Language",
+				e -> floatingManager.show(LanguagePropertyView.class));
+		menu.getItems().addAll(turtleState, penState, backgroundState, languageState);
 		return menu;
 	}
 	
@@ -63,10 +95,21 @@ public class MenuView extends View {
 		return menu;
 	}
 	
+	
+	private Menu makeMenuHelp() {
+		Menu menu = new Menu("Help");
+		MenuItem run = makeMenuItem("Access Help Page", 
+				e -> new DisplayPage().showPage("HelpPagePath", this.getController().getValueReader()));
+		menu.getItems().add(run);
+		return menu;
+	}
+	
 	private MenuItem makeMenuItem(String name, EventHandler<ActionEvent> handler) {
 		MenuItem item = new MenuItem(name);
 		item.setOnAction(handler);
 		return item;
 	}
+	
+
 
 }

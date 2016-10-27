@@ -10,7 +10,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -45,7 +44,7 @@ public class AnimatedPath {
 	}
 	
 	
-    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, Color penColor, TurtleView turtle, double degrees) {
+    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, ActorState currentState, TurtleView turtle) {
         
     	Circle pen = new Circle(0, 0, 20);
         PathTransition pathTransition = new PathTransition(duration, createPath(), pen);
@@ -62,34 +61,39 @@ public class AnimatedPath {
 	                	updatePositions(x, y, oldPosition, turtle);
 	                    return;
 	                }
+	                if (currentState.getPen().isDown()){
+		                graphics.setStroke(currentState.getPen().getColor());
+		                graphics.setFill(currentState.getPen().getColor());
+		                graphics.setLineWidth(currentState.getPen().getThickness());
+		                graphics.strokeLine(oldPosition.getX(), oldPosition.getY(), x, y);
+	                }
 	                
-	                graphics.setStroke(penColor);
-	                graphics.setFill(penColor);
-	                graphics.setLineWidth(4);
-	                graphics.strokeLine(oldPosition.getX(), oldPosition.getY(), x, y);
+	        		switch (currentState.getPen().getType()) {
+	        		case Solid:
+	        			break;
+	        		case Dashed:
+	        			graphics.setLineDashes(10d, 10d);
+	        			break;
+	        		case Dotted:
+	        			graphics.setLineDashes(2d, 2d);
+	        			break;
+	        		}
 	                updatePositions(x, y, oldPosition, turtle);
                 }
             }
-        });/***
-         pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
-        	 
-            @Override
-            public void handle(ActionEvent arg0) {
-        		createRotationAnimation(duration, graphics, 
-        				turtle, degrees).play();
-            }
         });
-***/
         return pathTransition;
     }
     
-    public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, double degrees){
+    public static Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, double degrees){
     	RotateTransition rt = new RotateTransition(Duration.millis(3000), turtle.getImageView());
-    	System.out.println(turtle.getImageView().getRotate());
-    	System.out.println("rotate by " + degrees);
     	rt.setToAngle(degrees
     			);
-    	
+    	rt.setOnFinished(new EventHandler<ActionEvent>() {
+    		public void handle(ActionEvent event) {
+    			turtle.setDirection(degrees);
+    		}
+    	});
     	return rt;
 
     	
