@@ -61,7 +61,6 @@ public class SemanticsRegistry {
 						params.isEmpty()? 0 : params.split(SPACE_REGEX).length
 				);
 				name2Impl.put(tokenString, new ProcedureImpl());
-				
 				Constant func = new Constant(tokenString);
 				userCommands.add(func);
 			}

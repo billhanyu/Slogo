@@ -46,6 +46,10 @@ public class ParserContext {
 	
 	public CodeBlock export() {
 		Collections.reverse(instructionCacheInReverse);
+		if (!pendingArgs.isEmpty()) {
+			pendingArgs.addAll(instructionCacheInReverse);
+			instructionCacheInReverse = pendingArgs;
+		}
 		return new CodeBlock(instructionCacheInReverse);
 	}
 }
