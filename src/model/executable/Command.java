@@ -1,6 +1,5 @@
 package model.executable;
 
-import java.util.Collections;
 import java.util.List;
 
 import exception.SyntacticErrorException;
@@ -14,7 +13,6 @@ public abstract class Command implements Executable{
 	
 	public Command(List<Executable> argv)
 			throws SyntacticErrorException {
-		Collections.reverse(argv);
 		this.argv = argv;
 		validateArgv();
 	}

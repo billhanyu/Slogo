@@ -19,7 +19,7 @@ public class Make extends StandardCommand{
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
 		Variable var = (Variable) this.getArgs().get(0);
-		var.setExpression(this.getArgs().get(1));
+		var.setExpression(this.getArgs().get(1).execute(log));
 		return var.execute(log);
 	}
 

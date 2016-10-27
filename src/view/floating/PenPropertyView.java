@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
 import model.Pen;
+import view.canvas.Canvas;
 
 public class PenPropertyView extends FloatingView {
 	
@@ -27,10 +28,9 @@ public class PenPropertyView extends FloatingView {
 
 	@Override
 	protected void init() {
-		currentState = this.getController()
-				.getMainView()
-				.getCanvas()
-				.getCurrentState();
+		Canvas canvas = this.getController().getMainView().getCanvas();
+		canvas.addSubscriber(this);
+		currentState = canvas.getCurrentState();
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());

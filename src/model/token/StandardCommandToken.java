@@ -1,6 +1,7 @@
 package model.token;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -36,11 +37,10 @@ public class StandardCommandToken extends Token {
 			List<Executable> pendingArgs = contextStack.peek().getPendingArgs();
 			List<Executable> instructionCacheInReverse
 					= contextStack.peek().getInstructionCacheInReverse();
-			pendingArgs = argsGen(numArgs, className, pendingArgs, instructionCacheInReverse);
-			this.cmd = (Command) ReflectionUtils.newInstanceOf(className, pendingArgs);
+			List<Executable> args = argsGen(numArgs, contextStack, pendingArgs, instructionCacheInReverse);
+			this.cmd = (Command) ReflectionUtils.newInstanceOf(className, args);
 			cmd.setName(token.toString());
 			instructionCacheInReverse.add(this.cmd);
-			contextStack.peek().clearPendingArgs();
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException| InvocationTargetException
 				| ClassNotFoundException | ReflectionFoundNoMatchesException e) {
@@ -48,22 +48,34 @@ public class StandardCommandToken extends Token {
 		}
 	}
 	
-	private List<Executable> argsGen(int numArgs, String className,
+	private List<Executable> argsGen(int numArgs,
+								  	 Stack<ParserContext> contextStack, 
 									 List<Executable> pendingArgs,
 									 List<Executable> instructionCacheInReverse)
 											 throws WrongNumberOfArguments {
-		if (pendingArgs.size() > numArgs) {
-			throw new WrongNumberOfArguments(className);
-		} else if (pendingArgs.size() < numArgs) {
-			if (instructionCacheInReverse.size() + pendingArgs.size() < numArgs) {
-				throw new WrongNumberOfArguments(className);
-			} else {
-				for (int i = instructionCacheInReverse.size() - 1; pendingArgs.size() < numArgs; i--) {
-					pendingArgs.add(instructionCacheInReverse.remove(i));
-				}
-				Collections.reverse(pendingArgs);
-			}
+		
+		if (instructionCacheInReverse.size() + pendingArgs.size() < numArgs) {
+			throw new WrongNumberOfArguments();
 		}
-		return pendingArgs;
+		List<Executable> args;
+		if (pendingArgs.size() < numArgs) {
+			args = new ArrayList<>(pendingArgs);
+			moveToArgs(args, instructionCacheInReverse, numArgs);
+			contextStack.peek().clearPendingArgs();
+		} else {
+			args = new ArrayList<>();
+			moveToArgs(args, pendingArgs, numArgs);
+		}
+		return args;
+	}
+	
+	private void moveToArgs(List<Executable> args, List<Executable> list, int numArgs) {
+		boolean toReverse = false;
+		if (!args.isEmpty()) toReverse = true;
+		for (int i = list.size() - 1; args.size() < numArgs; i--) {
+			args.add(list.remove(i));
+		}
+		if (toReverse)
+			Collections.reverse(args);
 	}
 }

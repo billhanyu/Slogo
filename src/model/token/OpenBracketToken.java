@@ -26,6 +26,7 @@ public class OpenBracketToken extends Token {
 		cb.setVarRefs(localVars, globalVars)
 		  .setPendingArgs(pendingArgs)
 		  .setSemantics(semanticsRegistry);
+		contextStack.peek().getVars().addAll(localVars);
 		contextStack.peek().getPendingArgs().add(cb);
 	}
 }

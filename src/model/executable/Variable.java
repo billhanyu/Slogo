@@ -25,6 +25,11 @@ public class Variable implements Executable {
 		return this;
 	}
 	
+	public Variable setExpression(double value) {
+		this.expression = new Constant(value);
+		return this;
+	}
+	
 	public Executable getExpression() {
 		return expression;
 	}
