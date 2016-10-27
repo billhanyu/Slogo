@@ -1,6 +1,5 @@
 package view;
 
-import controller.Controller;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;

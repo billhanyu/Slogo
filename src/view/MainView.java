@@ -68,8 +68,6 @@ public class MainView {
 				
 		environmentView = new EnvironmentView(controller, WIDTH,500);
 		rights.getChildren().addAll(environmentView.getUI(), console.getUI(), controls.getUI());
-		VBox.setMargin(environmentView.getUI(), new Insets(10));
-		VBox.setMargin(console.getUI(), new Insets(10));
 		rights.setFillWidth(true);
 		root.setTop(menuView.getUI());
 		BorderPane.setMargin(canvas.getUI(), new Insets(10));
@@ -90,6 +88,5 @@ public class MainView {
 
 	public Object getUserControls() {
 		return controls;
-	}
-	
+	}	
 }
