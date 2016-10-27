@@ -21,7 +21,7 @@ public class PenDownQuery extends StandardCommand{
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
 		ActorState prev = log.peekLast();
-		if (prev.isPenDown() == true) {return TRUE;}
+		if (prev.getPen().isDown()) {return TRUE;}
 		else {return FALSE;}
 	}
 

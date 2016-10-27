@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.paint.Color;
-
 /**
  * @author billyu
  * state of the turtle, including position, pen, direction, visible
@@ -13,13 +11,10 @@ public class TurtleState implements ActorState {
 	private double positionX;
 	private double positionY;
 	private double direction; // in degrees
-	private boolean penDown;
 	private boolean visible;
 	private boolean doesAnimate;
 	private boolean clearsScreen;
-	private Color penColor;
-	
-	public static final Color DEFAULT_PEN_COLOR = Color.BLACK;
+	private Pen pen;
 	
 	public TurtleState() {
 		positionX = 0.0;
@@ -27,8 +22,7 @@ public class TurtleState implements ActorState {
 		direction = 0.0;
 		visible = true;
 		direction = 0.0;
-		penColor = DEFAULT_PEN_COLOR;
-		penDown = true;
+		pen = new Pen();
 		clearsScreen = false;
 	}
 
@@ -48,11 +42,6 @@ public class TurtleState implements ActorState {
 	}
 
 	@Override
-	public void setPen(boolean isDown) {
-		penDown = isDown;
-	}
-
-	@Override
 	public void setVisible(boolean isVisible) {
 		visible = isVisible;
 	}
@@ -60,11 +49,6 @@ public class TurtleState implements ActorState {
 	@Override
 	public void setAnimate(boolean animate) {
 		doesAnimate = animate;
-	}
-	
-	@Override
-	public void setPenColor(Color color) {
-		penColor = color;
 	}
 	
 	@Override
@@ -88,11 +72,6 @@ public class TurtleState implements ActorState {
 	}
 
 	@Override
-	public boolean isPenDown() {
-		return penDown;
-	}
-
-	@Override
 	public boolean isVisible() {
 		return visible;
 	}
@@ -108,20 +87,24 @@ public class TurtleState implements ActorState {
 	}
 	
 	@Override
-	public Color getPenColor() {
-		return penColor;
+	public void setPen(Pen pen) {
+		this.pen = pen;
+	}
+
+	@Override
+	public Pen getPen() {
+		return pen;
 	}
 
 	@Override
 	public void duplicateOnto(ActorState other) {
 		other.setPositionX(this.getPositionX());
 		other.setPositionY(this.getPositionY());
-		other.setPen(this.isPenDown());
 		other.setAnimate(this.doesAnimate());
 		other.setDirection(this.getHeading());
 		other.setVisible(this.isVisible());
 		other.setClearScreen(this.clearsScreen());
-		other.setPenColor(this.getPenColor());
+		other.setPen(pen.clone());
 	}
 	
 }

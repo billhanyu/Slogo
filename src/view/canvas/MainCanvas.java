@@ -64,7 +64,7 @@ public class MainCanvas extends View {
 					clearScreen();
 					next.setClearScreen(false);
 				}
-				else if (currentState.isPenDown()) {
+				else if (currentState.getPen().isDown()) {
 					addPath(next);
 				}
 				currentState = next;
@@ -95,7 +95,7 @@ public class MainCanvas extends View {
 	}
 
 	public void setPenColor(Color color) {
-		currentState.setPenColor(color);
+		currentState.getPen().setColor(color);;
 	}
 
 	public ActorState getCurrentState() {
@@ -122,10 +122,11 @@ public class MainCanvas extends View {
 		}
 		else{
 			pathDrawn.createPathAnimation(Duration.seconds(0.5), background.getGraphicsContext2D(), 
-												currentState.getPenColor(), turtleView, nextState.getHeading()).play();
+												currentState, turtleView, nextState.getHeading()).play();
 			pathDrawn.createRotationAnimation(Duration.seconds(0.5), background.getGraphicsContext2D(), 
 					turtleView, nextState.getHeading()).play();
 		}
+
 	}
 	
 	private void clearScreen() {

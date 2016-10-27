@@ -2,12 +2,9 @@ package view.canvas;
 
 import java.awt.Point;
 import java.awt.geom.Line2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import controller.Controller;
 import model.ActorState;
-import model.TurtleLog;
 
 public class ToroidalCanvas extends MainCanvas{
 	
