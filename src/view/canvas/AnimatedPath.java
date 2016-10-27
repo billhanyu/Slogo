@@ -1,7 +1,6 @@
 package view.canvas;
 
 import java.awt.Point;
-
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
@@ -54,6 +53,7 @@ public class AnimatedPath {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 if( oldValue != Duration.ZERO){
+                	
 	                double x = pen.getTranslateX();
 	                double y = pen.getTranslateY();
 	                if( oldPosition == null) {

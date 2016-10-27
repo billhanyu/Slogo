@@ -6,8 +6,11 @@ import controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class LanguagePropertyView extends FloatingView{
@@ -18,7 +21,7 @@ public class LanguagePropertyView extends FloatingView{
 	}
 
 
-	private VBox makeLanguagePickerBox() {
+	private HBox makeLanguagePickerBox() {
 		ObservableList<String> options = FXCollections.observableArrayList(
 				this.getLabelReader().getLabel("AvailableLanguages").split(","));
 		String defaultValue = this.getLabelReader().getLabel("DefaultLanguage");
@@ -36,25 +39,11 @@ public class LanguagePropertyView extends FloatingView{
 		});
 		return selections;
 	}
-	
-	private VBox makeSelectionBox(String label, ComboBox<String> selections){
-		VBox selectionBox = new VBox();
-		Label selectionLabel = new Label(label);
-		selectionBox.getChildren().addAll(selectionLabel, selections);
-		return selectionBox;
-		
-	}
 
 
 	@Override
 	protected void init() {
-		VBox layout = new VBox();
-		layout.setPadding(new Insets(10,20,10,20));
-		layout.setPrefWidth(width());
-		layout.setSpacing(10);
-		layout.getChildren().addAll(makeLanguagePickerBox());
-		this.getRoot().getChildren().add(layout);
-		
+		this.getRoot().getChildren().add(makeLanguagePickerBox());
 	}
 
 

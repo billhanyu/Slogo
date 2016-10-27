@@ -16,7 +16,7 @@ public class BackgroundPropertyView extends FloatingView{
 
 	private HBox makeBackgroundPickerBox() {
 		ColorPicker picker = makeBackgroundPicker();
-		return super.makePickerBox(this.getLabelReader().getLabel("BackgroundLabel"), picker);
+		return makeSelectionBox(this.getLabelReader().getLabel("BackgroundLabel"), picker);
 	}
 	
 	private ColorPicker makeBackgroundPicker() {
@@ -31,13 +31,7 @@ public class BackgroundPropertyView extends FloatingView{
 
 	@Override
 	protected void init() {
-		
-		VBox layout = new VBox();
-		layout.setPadding(new Insets(10,20,10,20));
-		layout.setPrefWidth(width());
-		layout.setSpacing(10);
-		layout.getChildren().addAll(makeBackgroundPickerBox());
-		this.getRoot().getChildren().add(layout);
+		this.getRoot().getChildren().add(makeBackgroundPickerBox());
 		
 	}
 

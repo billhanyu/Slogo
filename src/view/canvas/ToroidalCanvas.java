@@ -19,7 +19,7 @@ public class ToroidalCanvas extends MainCanvas{
 	}
 	
 	
-	public Point findNextPoints(ActorState next){
+	protected Point findNextPoints(ActorState next){
 		//if on boundary, have to draw line through the inside of the box
 		Point intersection = null;
 		double nextX = translateX(next.getPositionX());

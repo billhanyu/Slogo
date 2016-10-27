@@ -92,7 +92,7 @@ public class PenPropertyView extends FloatingView {
 	
 	private HBox makePenPickerBox() {
 		ColorPicker picker = makePenPicker();
-		return super.makePickerBox(this.getLabelReader().getLabel("PenLabel"), picker);
+		return makeSelectionBox(this.getLabelReader().getLabel("PenLabel"), picker);
 	}
 	
 	private ColorPicker makePenPicker() {
