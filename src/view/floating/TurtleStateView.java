@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
-import view.canvas.Canvas;
+import view.canvas.MainCanvas;
 
 public class TurtleStateView extends FloatingView {
 
@@ -17,7 +17,7 @@ public class TurtleStateView extends FloatingView {
 
 	@Override
 	protected void init() {
-		Canvas canvas = this.getController().getMainView().getCanvas();
+		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
 		ActorState currentState = canvas.getCurrentState();
 		VBox layout = new VBox();
