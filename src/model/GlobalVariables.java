@@ -10,7 +10,7 @@ public class GlobalVariables extends Environment<Variable> {
 			return;
 		}
 		for (Variable newElement : gvars) {
-			for (Variable existing : this.getValues()) {
+			for (Variable existing : this.getImmutableValues()) {
 				if (newElement.getName().equals(existing.getName())) {
 					newElement.setExpression(existing);
 				} else {
