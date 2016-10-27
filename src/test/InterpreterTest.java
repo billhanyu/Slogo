@@ -32,8 +32,14 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void nested() {
+		parseAndExecute("to nested [ :distance ] [ repeat 4 [ bk :distance ] ] nested 10");
+		assertDoubleEqual(log.peekLast().getPositionY(), 40);
+	}
+
+	@Test
 	public void recursion() {
-		parseAndExecute("to recurse [ :n ] [ if :n [ bk :n recurse sum :n -1 ] ] recurse 3");
+		parseAndExecute("to recurse [ :n ] \n\t  [ if :n [ bk :n recurse sum :n -1 ] ] recurse 3");
 		assertDoubleEqual(log.peekLast().getPositionY(), 6);
 	}
 	
@@ -233,10 +239,9 @@ public class InterpreterTest {
 	private double parseAndExecute(String script) {
 		double result = 0;
 		try {
-			CodeBlock main = intr.parseScript(script);
-			result = main.execute(log);
-		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments
-				| SyntacticErrorException e) {
+			result = parseAndExecuteHelper(script);
+		} catch (SyntacticErrorException | UnrecognizedIdentifierException
+				| WrongNumberOfArguments e) {
 			assertNull(e);
 		}
 		return result;
@@ -245,12 +250,18 @@ public class InterpreterTest {
 	private double parseAndThrow(String script) throws SyntacticErrorException {
 		double result = 0;
 		try {
-			CodeBlock main = intr.parseScript(script);
-			result = main.execute(log);
+			result = parseAndExecuteHelper(script);
 		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments e) {
 			assertNull(e);
 		}
 		return result;
+	}
+	
+	private double parseAndExecuteHelper(String script)
+			throws SyntacticErrorException, UnrecognizedIdentifierException,
+			WrongNumberOfArguments {
+		CodeBlock main = intr.parseScript(script);
+		return main.execute(log);
 	}
 	
 	private void assertDoubleEqual(double d1, double d2) {

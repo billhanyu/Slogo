@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
+import model.executable.Variable;
 import model.token.Token;
+import util.Utils;
 
 /**
  * @author billyu
@@ -26,22 +28,20 @@ public abstract class Environment<E extends Executable> implements Iterable<E>{
 		elements = new ArrayList<E>();
 	}
 	
-	// standard get method
-    public List<E> getValues () {
-        return sharedElements;
-    }
-	
 	public List<E> getImmutableValues () {
         // can't trust the outside world
-        reset();
-        return Collections.unmodifiableList(getValues());
+        export();
+        return Collections.unmodifiableList(sharedElements);
     }
+	
+	protected List<E> getValues() {
+		return elements;
+	}
 	
     // accept lambda function, do not reveal collection
     public void apply (Consumer<E> action) {
         // can't trust the outside world
-        reset();
-        sharedElements.forEach(action);
+        elements.forEach(action);
     }
 	
 	/**
@@ -72,12 +72,15 @@ public abstract class Environment<E extends Executable> implements Iterable<E>{
 
 	@Override
 	public Iterator<E> iterator() {
-		reset();
-		return elements.iterator();
+		export();
+		return sharedElements.iterator();
 	}
 	
-	private void reset() {
+	private void export() {
 		sharedElements = new ArrayList<>(elements); 
 	}
 	
+	public void addAll(Environment<E> env) {
+		elements.addAll(env.getImmutableValues());
+	}
 }

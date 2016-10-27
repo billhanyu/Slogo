@@ -17,6 +17,10 @@ public class Constant implements Executable {
 		this(name, 0);
 	}
 	
+	public Constant(double value) {
+		this(null, value);
+	}
+	
 	public Constant(String name, double value) {
 		this.name = name;
 		this.value = value;

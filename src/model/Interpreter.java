@@ -33,7 +33,10 @@ public class Interpreter {
 	public CodeBlock parseScript(String script)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
-		script = script.trim().replaceAll(" +", " ");
+		script = script.trim()
+				.replaceAll(" +", " ")
+				.replaceAll("\t+", " ")
+				.replaceAll("\n+", " ");
 		String translated = translateScript(script);
 		semanticsRegistry.register(translated);
 		Stack<Token> tokenStack = tokenize(translated);

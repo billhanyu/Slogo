@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import model.Environment;
+import model.Executable;
 import model.GlobalVariables;
 import model.executable.Variable;
 
@@ -37,8 +39,7 @@ public class Utils {
 		return null;
 	}
 	
-	public static Variable listContains(GlobalVariables gvars, String name) {
+	public static Variable listContains(Environment<Variable> gvars, String name) {
 		return listContains(gvars.getImmutableValues(), name);
 	}
-
 }
