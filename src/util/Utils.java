@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import model.Environment;
-import model.Executable;
-import model.GlobalVariables;
 import model.executable.Variable;
 
 public class Utils {

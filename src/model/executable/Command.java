@@ -1,6 +1,5 @@
 package model.executable;
 
-import java.util.Collections;
 import java.util.List;
 
 import exception.SyntacticErrorException;
