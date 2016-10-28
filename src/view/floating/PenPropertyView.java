@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -15,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
 import model.Pen;
-import view.canvas.Canvas;
+import view.canvas.MainCanvas;
 
 public class PenPropertyView extends FloatingView {
 	
@@ -27,7 +28,7 @@ public class PenPropertyView extends FloatingView {
 
 	@Override
 	protected void init() {
-		Canvas canvas = this.getController().getMainView().getCanvas();
+		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
 		currentState = canvas.getCurrentState();
 		VBox layout = new VBox();
@@ -38,8 +39,8 @@ public class PenPropertyView extends FloatingView {
 		HBox penDown = makePenBox();
 		HBox penThick = makeThicknessBox();
 		HBox type = makeTypeBox();
-
-		layout.getChildren().addAll(penDown, penThick, type);
+		HBox penColor = makePenPickerBox();
+		layout.getChildren().addAll(penDown, penThick, type, penColor);
 		this.getRoot().getChildren().add(layout);
 	}
 
@@ -55,7 +56,7 @@ public class PenPropertyView extends FloatingView {
 
 	@Override
 	protected double height() {
-		return 180;
+		return 220;
 	}
 
 	private HBox makePenBox() {
@@ -88,6 +89,22 @@ public class PenPropertyView extends FloatingView {
 		slider.setMinorTickCount(5);
 		return this.makeLine(nameLabel, slider);
 	}
+	
+	private HBox makePenPickerBox() {
+		ColorPicker picker = makePenPicker();
+		return makeSelectionBox(this.getLabelReader().getLabel("PenLabel"), picker);
+	}
+	
+	private ColorPicker makePenPicker() {
+		ColorPicker picker = new ColorPicker();
+		picker.setValue(Pen.DEFAULT_PEN_COLOR);
+		picker.setOnAction(e -> {
+			this.getController().getMainView().
+				getCanvas().setPenColor(picker.getValue());
+		});
+		return picker;
+	}
+
 	
 	private HBox makeTypeBox() {
 		Label nameLabel = new Label("Pen Type");

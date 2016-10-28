@@ -1,0 +1,53 @@
+package view.floating;
+
+import controller.Controller;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import view.canvas.MainCanvas;
+
+public class BackgroundPropertyView extends FloatingView{
+	
+	public BackgroundPropertyView(Controller controller) {
+		super(controller);
+	}
+
+	private HBox makeBackgroundPickerBox() {
+		ColorPicker picker = makeBackgroundPicker();
+		return makeSelectionBox(this.getLabelReader().getLabel("BackgroundLabel"), picker);
+	}
+	
+	private ColorPicker makeBackgroundPicker() {
+		ColorPicker picker = new ColorPicker();
+		picker.setValue(MainCanvas.BACKGROUND_COLOR);
+		picker.setOnAction(e -> {
+			this.getController().getMainView().
+				getCanvas().setBackgroundColor(picker.getValue());
+		});
+		return picker;
+	}
+
+	@Override
+	protected void init() {
+		this.getRoot().getChildren().add(makeBackgroundPickerBox());
+		
+	}
+
+	@Override
+	protected String title() {
+		return "Background";
+	}
+
+	@Override
+	protected double width() {
+		return 300;
+	}
+
+	@Override
+	protected double height() {
+		return 100;
+	}
+
+}

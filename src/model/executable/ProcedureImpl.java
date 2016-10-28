@@ -1,6 +1,7 @@
 package model.executable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import exception.SyntacticErrorException;
@@ -50,6 +51,7 @@ public class ProcedureImpl{
 				throw new SyntacticErrorException();
 			this.params.add( (Variable)e );
 		}
+		Collections.reverse(this.params);
 	}
 	
 	/**

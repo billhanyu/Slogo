@@ -13,6 +13,7 @@ public abstract class Command implements Executable{
 	
 	public Command(List<Executable> argv)
 			throws SyntacticErrorException {
+//		Collections.reverse(argv);
 		this.argv = argv;
 		validateArgv();
 	}

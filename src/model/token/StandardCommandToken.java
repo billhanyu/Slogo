@@ -40,7 +40,9 @@ public class StandardCommandToken extends Token {
 			List<Executable> args = argsGen(numArgs, contextStack, pendingArgs, instructionCacheInReverse);
 			this.cmd = (Command) ReflectionUtils.newInstanceOf(className, args);
 			cmd.setName(token.toString());
-			instructionCacheInReverse.add(this.cmd);
+			if (contextStack.peek().getPendingArgs().isEmpty())
+				instructionCacheInReverse.add(this.cmd);
+			else contextStack.peek().getPendingArgs().add(this.cmd);
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException| InvocationTargetException
 				| ClassNotFoundException | ReflectionFoundNoMatchesException e) {
@@ -70,12 +72,8 @@ public class StandardCommandToken extends Token {
 	}
 	
 	private void moveToArgs(List<Executable> args, List<Executable> list, int numArgs) {
-		boolean toReverse = false;
-		if (!args.isEmpty()) toReverse = true;
 		for (int i = list.size() - 1; args.size() < numArgs; i--) {
 			args.add(list.remove(i));
 		}
-		if (toReverse)
-			Collections.reverse(args);
 	}
 }

@@ -10,7 +10,6 @@ public class CloseBracketToken extends Token {
 
 	public CloseBracketToken(String token, SemanticsRegistry semanticsRegistry) {
 		super(token, semanticsRegistry);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

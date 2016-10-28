@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 import controller.Controller;
 import model.ActorState;
 
-public class ToroidalCanvas extends Canvas{
+public class ToroidalCanvas extends MainCanvas{
 	
 	Line2D upperBound;
 	Line2D lowerBound;
@@ -19,7 +19,7 @@ public class ToroidalCanvas extends Canvas{
 	}
 	
 	
-	public Point findNextPoints(ActorState next){
+	protected Point findNextPoints(ActorState next){
 		//if on boundary, have to draw line through the inside of the box
 		Point intersection = null;
 		double nextX = translateX(next.getPositionX());

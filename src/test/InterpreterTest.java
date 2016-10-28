@@ -32,11 +32,23 @@ public class InterpreterTest {
 	}
 	
 	@Test
+	public void nestedCommand() {
+		parseAndExecute("fd / sum 10 20 5");
+		assertDoubleEqual(log.peekLast().getPositionY(), -6);
+	}
+	
+	
+	@Test
+	public void multiParam() {
+		parseAndExecute("to poly [ :bogus :num :len ] [ fd :len ] poly 10 10 20");
+		assertDoubleEqual(log.peekLast().getPositionY(), -20);
+	}
+	
+	@Test
 	public void nestedParam() {
 		parseAndExecute("repeat sum 1 1 [ fd 1 ]");
 		assertDoubleEqual(log.peekLast().getPositionY(), -2);
 	}
-	
 	
 	@Test
 	public void nested() {
@@ -189,7 +201,7 @@ public class InterpreterTest {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.peekLast().getPositionY(), -10);
 	}
-	
+
 	@Test
 	public void checkMath() {
 		double result;
@@ -202,6 +214,7 @@ public class InterpreterTest {
 		assertDoubleEqual(result, -200);
 		result = parseAndExecute("product 15 15");
 		assertDoubleEqual(result, 225);
+		// TODO cx15 BUG
 		result = parseAndExecute("quotient 5 sum 1 1");
 		assertDoubleEqual(result, 2.5);
 		try {
