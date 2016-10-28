@@ -19,7 +19,7 @@ import model.Pen;
 import view.canvas.MainCanvas;
 
 public class PenPropertyView extends FloatingView {
-	
+
 	private ActorState currentState;
 
 	public PenPropertyView(Controller controller) {
@@ -30,7 +30,9 @@ public class PenPropertyView extends FloatingView {
 	protected void init() {
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
-		currentState = canvas.getCurrentState();
+		int activeID = (int) this.getController().getLogHolder().getActiveIDs().toArray()[0];
+		currentState = canvas.getCurrentStates().get(activeID);
+		//TODO make users select which turtle
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -64,8 +66,7 @@ public class PenPropertyView extends FloatingView {
 		String changeTo = currentState.getPen().isDown() ? "Up" : "Down";
 		Button button = new Button(changeTo);
 		button.setOnAction(e -> {
-			ActorState current = this.getController().getMainView()
-					.getCanvas().getCurrentState();
+			ActorState current = currentState;
 			boolean down = current.getPen().isDown();
 			current.getPen().setDown(!down);
 			button.setText(down ? "Down" : "Up");
@@ -73,13 +74,12 @@ public class PenPropertyView extends FloatingView {
 		button.setPrefWidth(60);
 		return this.makeLine(nameLabel, button);
 	}
-	
+
 	private HBox makeThicknessBox() {
 		Label nameLabel = new Label("Thickness");
 		Slider slider = new Slider(1, 5, currentState.getPen().getThickness());
 		slider.valueProperty().addListener((observable, old_val, new_val) -> {
-			ActorState current = this.getController().getMainView()
-					.getCanvas().getCurrentState();
+			ActorState current = currentState;
 			current.getPen().setThickness(new_val.intValue());
 		});
 		slider.setPrefWidth(100);
@@ -89,22 +89,22 @@ public class PenPropertyView extends FloatingView {
 		slider.setMinorTickCount(5);
 		return this.makeLine(nameLabel, slider);
 	}
-	
+
 	private HBox makePenPickerBox() {
 		ColorPicker picker = makePenPicker();
 		return makeSelectionBox(this.getLabelReader().getLabel("PenLabel"), picker);
 	}
-	
+
 	private ColorPicker makePenPicker() {
 		ColorPicker picker = new ColorPicker();
 		picker.setValue(Pen.DEFAULT_PEN_COLOR);
 		picker.setOnAction(e -> {
 			this.getController().getMainView().
-				getCanvas().setPenColor(picker.getValue());
+			getCanvas().setPenColor(picker.getValue());
 		});
 		return picker;
 	}
-	
+
 	private HBox makeTypeBox() {
 		Label nameLabel = new Label("Pen Type");
 		ObservableList<String> items = FXCollections.observableArrayList(
@@ -114,14 +114,14 @@ public class PenPropertyView extends FloatingView {
 				.collect(Collectors.toList()));
 		ComboBox<String> combo = new ComboBox<>(items);
 		combo.getSelectionModel().select(
-				this.getController().getMainView().getCanvas().getCurrentState()
-				.getPen().getType().toString());
+				currentState.getPen().getType().toString());
 		combo.setOnAction(e -> {
 			Pen.PenType type = Pen.PenType.valueOf(
 					combo.getSelectionModel().getSelectedItem());
-			ActorState currentState = this.getController().getMainView()
-					.getCanvas().getCurrentState();
-			currentState.getPen().setType(type);
+			this.getController().getMainView().getCanvas().getCurrentStates()
+				.values()
+				.stream()
+				.forEach(state -> state.getPen().setType(type));
 		});
 		return this.makeLine(nameLabel, combo);
 	}

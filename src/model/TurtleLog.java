@@ -11,10 +11,12 @@ import java.util.List;
  */
 
 public class TurtleLog implements Iterable<ActorState> {
+	
 	private List<ActorState> states;
 	
 	public TurtleLog() {
 		states = new ArrayList<ActorState>();
+		states.add(new TurtleState());
 	}
 	
 	public void append(ActorState state) {
