@@ -17,7 +17,8 @@ public class LanguagePropertyView extends FloatingView {
 	private HBox makeLanguagePickerBox() {
 		ObservableList<String> options = FXCollections.observableArrayList(
 				this.getLabelReader().getLabel("AvailableLanguages").split(","));
-		String defaultValue = this.getLabelReader().getLabel("DefaultLanguage");
+		String defaultValue = 
+				this.getController().getLogHolder().getWorkspaceState().getLanguage();
 		ComboBox<String> selections = makeComboBox(options, defaultValue);
 		return makeSelectionBox(this.getLabelReader().getLabel("LanguageLabel"), selections);
 	}
@@ -27,7 +28,9 @@ public class LanguagePropertyView extends FloatingView {
 		ComboBox<String> selections = new ComboBox<String>(options);
 		selections.setValue(defaultValue);
 		selections.setOnAction((event) -> {
-		    this.getController().setLanguage(selections.getSelectionModel().getSelectedItem());
+			String language = selections.getSelectionModel().getSelectedItem();
+			this.getController().getLogHolder().getWorkspaceState().setLanguage(language);
+		    this.getController().setLanguage(language);
 		});
 		return selections;
 	}

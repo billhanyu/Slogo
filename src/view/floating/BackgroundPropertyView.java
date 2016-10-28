@@ -3,7 +3,6 @@ package view.floating;
 import controller.Controller;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.HBox;
-import view.canvas.MainCanvas;
 
 public class BackgroundPropertyView extends FloatingView {
 	
@@ -18,8 +17,12 @@ public class BackgroundPropertyView extends FloatingView {
 	
 	private ColorPicker makeBackgroundPicker() {
 		ColorPicker picker = new ColorPicker();
-		picker.setValue(MainCanvas.BACKGROUND_COLOR);
+		picker.setValue(
+				this.getController().getLogHolder()
+					.getWorkspaceState().getBackgroundColor());
 		picker.setOnAction(e -> {
+			this.getController().getLogHolder()
+				.getWorkspaceState().setBackgroundColor(picker.getValue());
 			this.getController().getMainView().
 				getCanvas().setBackgroundColor(picker.getValue());
 		});
@@ -29,7 +32,6 @@ public class BackgroundPropertyView extends FloatingView {
 	@Override
 	protected void init() {
 		this.getRoot().getChildren().add(makeBackgroundPickerBox());
-		
 	}
 
 	@Override
