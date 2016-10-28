@@ -6,6 +6,7 @@ import java.util.Iterator;
 import controller.Controller;
 import exception.OutOfBoundsException;
 import javafx.animation.Animation;
+import javafx.animation.SequentialTransition;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -31,6 +32,7 @@ public class MainCanvas extends View {
 	private Duration animateSpeed = Duration.seconds(2.5);
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	AnimatedMovement movement;
+	SequentialTransition transitions;
 	
 
 	public MainCanvas(Controller controller, double width, double height) {
@@ -44,6 +46,7 @@ public class MainCanvas extends View {
 				currentState.getHeading());
 		initCanvas();
 		movement = new AnimatedMovement(this);
+		transitions = new SequentialTransition();
 	}
 	
 	private void initCanvas(){
@@ -56,6 +59,7 @@ public class MainCanvas extends View {
 
 	public void render(TurtleLog log) throws OutOfBoundsException {
 		boolean first = false;
+		transitions = new SequentialTransition();
 		for (ActorState next : log) {
 			if (!first) {
 				first = true;
@@ -78,6 +82,7 @@ public class MainCanvas extends View {
 				currentState = next;
 			}
 		}
+		transitions.play();
 		log.didRender();
 		this.notifySubscribers();
 	}	
@@ -132,9 +137,9 @@ public class MainCanvas extends View {
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
 			if (currentPos.distance(nextPos)!=0){
-				
-				movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-													turtleView).play();
+				System.out.println("adding movement");
+				transitions.getChildren().add(movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
+													turtleView));
 			}
 		}
 
@@ -142,12 +147,15 @@ public class MainCanvas extends View {
 	
 	
 	private void doRotation(double degrees){
+		System.out.println(degrees);
+		System.out.println(currentState.getHeading());
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setDirection(degrees);
 		}
-		else{
-			movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
-					turtleView, degrees).play();
+		else if (!(currentState.getHeading() == degrees)){
+			System.out.println("adding rotation");
+			transitions.getChildren().add(movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
+					turtleView, degrees));
 		}
 	}
 	
