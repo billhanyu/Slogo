@@ -1,15 +1,11 @@
 package view.canvas;
 
 import java.awt.Point;
-import java.util.Iterator;
 
 import controller.Controller;
 import exception.OutOfBoundsException;
-import javafx.animation.Animation;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -29,9 +25,8 @@ public class MainCanvas extends View {
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
 	private Duration animateSpeed = Duration.seconds(2.5);
+	private AnimatedMovement movement;
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
-	AnimatedMovement movement;
-	
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -65,7 +60,7 @@ public class MainCanvas extends View {
 					log.noRender();
 					throw new OutOfBoundsException();
 			}
-			else{
+			else {
 				Point nextPoint = findNextPoints(next);
 				movement.setStates(currentState, next);
 				doRotation(next.getHeading());
