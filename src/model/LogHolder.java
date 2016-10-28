@@ -18,7 +18,7 @@ public class LogHolder {
 		turtleLogs = new HashMap<>();
 		workspaceState = new WorkspaceState();
 		activeTurtles = new HashSet<>();
-		setActiveIDs(Arrays.asList(1));
+		setActiveIDs(Arrays.asList(0));
 	}
 	
 	public void setActiveIDs(Collection<Integer> actives) {
@@ -44,6 +44,14 @@ public class LogHolder {
 				.stream()
 				.map(id -> turtleLogs.get(id))
 				.collect(Collectors.toList());
+	}
+	
+	public Collection<Integer> getAllIDs() {
+		return turtleLogs.keySet();
+	}
+	
+	public Collection<TurtleLog> getAllLogs() {
+		return turtleLogs.values();
 	}
 	
 	public WorkspaceState getWorkspaceState() {

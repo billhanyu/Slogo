@@ -9,9 +9,8 @@ import javafx.scene.layout.VBox;
 import model.ActorState;
 import view.canvas.MainCanvas;
 
-public class TurtleStateView extends FloatingView {
+public class TurtleStateView extends TurtleDependentView {
 	
-	private int activeID;
 	private ActorState currentState;
 
 	public TurtleStateView(Controller controller) {
@@ -20,11 +19,10 @@ public class TurtleStateView extends FloatingView {
 
 	@Override
 	protected void init() {
+		this.getRoot().getChildren().clear();
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
-		//TODO make users select which turtle
-		activeID = (int) this.getController().getLogHolder().getActiveIDs().toArray()[0];
-		currentState = canvas.getCurrentStates().get(activeID);
+		currentState = this.getCurrentSelectedState();
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -40,6 +38,7 @@ public class TurtleStateView extends FloatingView {
 		HBox color = this.makePropertyColorLine("Pen Color",
 				currentState.getPen().getColor());
 		layout.getChildren().addAll(
+				this.makeSelectTurtleBox(),
 				turtleImage, 
 				positionX, 
 				positionY, 
@@ -56,12 +55,12 @@ public class TurtleStateView extends FloatingView {
 
 	@Override
 	protected double width() {
-		return 200;
+		return 250;
 	}
 
 	@Override
 	protected double height() {
-		return 200;
+		return 220;
 	}
 	
 	private HBox makeTurtleImageBox(ActorState currentState) {
@@ -72,7 +71,7 @@ public class TurtleStateView extends FloatingView {
 				.getMainView()
 				.getCanvas()
 				.getTurtleViews()
-				.get(activeID)
+				.get(this.getCurrentID())
 				.getImageView()
 				.getImage());
 		turtleImage.setRotate(currentState.getHeading());
