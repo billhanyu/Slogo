@@ -64,7 +64,14 @@ public class MenuView extends View {
 							appendText(this.getLabelReader().getLabel("NoImageChosen"), TextType.Error);
 					}
 				});
-		menu.getItems().addAll(turtleImage);
+		
+		
+		MenuItem newTab = makeMenuItem(this.getController().getValueReader().getLabel("NewTab"), 
+				e -> {
+					Controller ctrl = new Controller();
+			//	this.getController().getMainView().getTabView().addTab(ctrl);
+				});
+		menu.getItems().addAll(newTab, turtleImage);
 		return menu;
 	}
 	

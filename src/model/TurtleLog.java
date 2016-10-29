@@ -17,6 +17,9 @@ public class TurtleLog implements Iterable<ActorState> {
 		states = new ArrayList<ActorState>();
 	}
 	
+	public int size(){
+		return states.size();
+	}
 	public void append(ActorState state) {
 		states.add(state);
 	}
@@ -27,9 +30,11 @@ public class TurtleLog implements Iterable<ActorState> {
 	}
 	
 	public void didRender() {
-		for (int i = 0; i < states.size() - 1; i++) {
-			states.remove(0);
+		System.out.println("size before " + states.size());
+		for (int i = 0; i < states.size(); i++) {
+			states.remove(i);
 		}
+		System.out.println("size after: " + states.size());
 	}
 	
 	public void noRender(){

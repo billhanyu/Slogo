@@ -19,12 +19,14 @@ import javafx.util.Duration;
 import model.ActorState;
 import model.TurtleLog;
 import model.TurtleState;
+import sun.security.tools.keytool.Main;
 import view.TurtleView;
 import view.View;
 
 public class MainCanvas extends View {
 
 	private TurtleView turtleView;
+	private TurtleView turtleTracker;
 	private Canvas background;
 	private ActorState currentState;
 	private double turtleWidth = 20;
@@ -39,6 +41,12 @@ public class MainCanvas extends View {
 		super(controller, width, height);
 		currentState = new TurtleState();
 		turtleView = new TurtleView(controller, 
+				translateX(0), 
+				translateY(0), 
+				turtleWidth, 
+				turtleHeight,
+				currentState.getHeading());
+		turtleTracker = new TurtleView(controller, 
 				translateX(0), 
 				translateY(0), 
 				turtleWidth, 
@@ -60,7 +68,11 @@ public class MainCanvas extends View {
 	public void render(TurtleLog log) throws OutOfBoundsException {
 		boolean first = false;
 		transitions = new SequentialTransition();
+		int i = 0;
+		System.out.println("beforeLoopSize : " + log.size());
 		for (ActorState next : log) {
+			System.out.println("log entry " + i);
+			i++;
 			if (!first) {
 				first = true;
 				continue;
@@ -139,7 +151,7 @@ public class MainCanvas extends View {
 			if (currentPos.distance(nextPos)!=0){
 				System.out.println("adding movement");
 				transitions.getChildren().add(movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-													turtleView));
+													turtleView, turtleTracker));
 			}
 		}
 
@@ -147,15 +159,14 @@ public class MainCanvas extends View {
 	
 	
 	private void doRotation(double degrees){
-		System.out.println(degrees);
-		System.out.println(currentState.getHeading());
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setDirection(degrees);
 		}
 		else if (!(currentState.getHeading() == degrees)){
-			System.out.println("adding rotation");
+			//System.out.println("adding rotation");
 			transitions.getChildren().add(movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
-					turtleView, degrees));
+					turtleView, turtleTracker, degrees));
+			turtleTracker.setDirection(degrees);
 		}
 	}
 	

@@ -47,7 +47,7 @@ public class AnimatedMovement {
 	}
 	
 	
-    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle) {
+    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, TurtleView turtleTracker) {
         
     	Circle pen = new Circle(0, 0, 20);
         pathMovement = new PathTransition(duration, createPath(), pen);
@@ -89,10 +89,11 @@ public class AnimatedMovement {
         return pathMovement;
     }
     
-    public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, double degrees){
+    public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, TurtleView turtleTracker, double degrees){
     	rotation = new RotateTransition(Duration.millis(3000), turtle.getImageView());
-    	rotation.setToAngle(degrees
-    			);
+    	rotation.setFromAngle(turtleTracker.getDirection());
+    	System.out.println("from: " + turtleTracker.getDirection() + ", to " + degrees);
+    	rotation.setToAngle(degrees);
     	rotation.setOnFinished(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
     			turtle.setDirection(degrees);

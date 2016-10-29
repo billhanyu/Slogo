@@ -47,6 +47,10 @@ public class TurtleView extends View {
 		turtleImageView.setRotate(degrees);
 	}
 	
+	public double getDirection() {
+		return turtleImageView.getRotate();
+	}
+	
 	public void setVisible(boolean visible) {
 		turtleImageView.setVisible(visible);
 	}
