@@ -32,6 +32,11 @@ public abstract class Command implements Executable{
 		name = newName;
 	}
 	
+	/**
+	 * validate the list of arguments passed in to this command 
+	 * so they each map to the right type
+	 * @throws SyntacticErrorException
+	 */
 	protected abstract void validateArgv()
 			throws SyntacticErrorException;
 	

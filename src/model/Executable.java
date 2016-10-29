@@ -29,5 +29,8 @@ public interface Executable {
 	 */
 	String getName();
 	
+	/**
+	 * Set the name of this Executable
+	 */
 	void setName(String newName);
 }

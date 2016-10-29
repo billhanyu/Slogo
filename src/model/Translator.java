@@ -1,8 +1,11 @@
 package model;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * @author billyu
@@ -31,6 +34,7 @@ public class Translator {
 	public void setLanguage(String language) {
 		ResourceBundle langBank = ResourceBundle.getBundle(LANGUAGES_PATH + language);
 		lang2Eng = new HashMap<>();
+		eng2Lang = new HashMap<>();
 		for (String cmdName : langBank.keySet()) {
 			String cmdTokens = langBank.getString(cmdName);
 			cmdTokens = cmdTokens.replace("\\", "");
@@ -67,6 +71,33 @@ public class Translator {
 			return tokenString;
 		}
 		return eng2Lang.get(tokenString);
+	}
+	
+	/**
+	 * Translate into English a given script token-wise using delim as delimiter
+	 * @param script
+	 * @param delim
+	 * @return
+	 */
+	public String translate(String script, String delim) {
+		List<String> tokens = Arrays.asList(script.split(delim));
+		return tokens.stream()
+				.map(token -> translateToken(token))
+				.collect(Collectors.joining(" "));
+	}
+	
+	/**
+	 * Translate back to the user selected language a given script
+	 * token-wise using delim as delimiter
+	 * @param script
+	 * @param delim
+	 * @return
+	 */
+	public String translateBackUserLang(String script, String delim) {
+		List<String> tokens = Arrays.asList(script.split(delim));
+		return tokens.stream()
+				.map(token -> reverseTranslateToken(token))
+				.collect(Collectors.joining(" "));
 	}
 	
 }

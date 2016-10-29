@@ -1,9 +1,6 @@
 package model;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
@@ -32,28 +29,24 @@ public class Interpreter {
 		translator = new Translator();
 	}
 	
+	/**
+	 * Parse a SLOGO script and generate a CodeBlock to be executed
+	 * @param script
+	 * @return
+	 * @throws UnrecognizedIdentifierException
+	 * @throws WrongNumberOfArguments
+	 * @throws SyntacticErrorException
+	 */
 	public CodeBlock parseScript(String script)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
 		script = Utils.senitize(script);
-		String translated = translate(script);
+		String translated = translator.translate(script, SPACE_REGEX);
 		semanticsRegistry.register(translated);
 		Stack<Token> tokenStack = tokenize(translated);
 		CodeBlock main = buildMain(tokenStack);
 		main.setName(script);
 		return main;
-	}
-	
-	public void setLanguage(String language) {
-		translator.setLanguage(language);
-	}
-	
-	public UserCommands getUserCommands() {
-		return userCommands;
-	}
-	
-	public GlobalVariables getGlobalVars() {
-		return globalVars;
 	}
 	
 	private Stack<Token> tokenize(String script)
@@ -85,11 +78,19 @@ public class Interpreter {
 				  .setSemantics(semanticsRegistry);
 	}
 	
-	private String translate(String script) {
-		List<String> tokens = Arrays.asList(script.split(SPACE_REGEX));
-		return tokens.stream()
-				.map(token -> translator.translateToken(token))
-				.collect(Collectors.joining(" "));
+	public void setLanguage(String language) {
+		translator.setLanguage(language);
 	}
 	
+	public Translator getTranslator() {
+		return translator;
+	}
+	
+	public UserCommands getUserCommands() {
+		return userCommands;
+	}
+	
+	public GlobalVariables getGlobalVars() {
+		return globalVars;
+	}
 }
