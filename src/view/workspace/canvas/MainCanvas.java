@@ -68,9 +68,7 @@ public class MainCanvas extends View {
 		boolean first = false;
 		transitions = new SequentialTransition();
 		int i = 0;
-		System.out.println("beforeLoopSize : " + log.size());
 		for (ActorState next : log) {
-			System.out.println("log entry " + i);
 			i++;
 			if (!first) {
 				first = true;
@@ -148,7 +146,6 @@ public class MainCanvas extends View {
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
 			if (currentPos.distance(nextPos)!=0){
-				System.out.println("adding movement");
 				transitions.getChildren().add(movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
 													turtleView, turtleTracker));
 			}
@@ -162,7 +159,6 @@ public class MainCanvas extends View {
 			turtleView.setDirection(degrees);
 		}
 		else if (!(currentState.getHeading() == degrees)){
-			//System.out.println("adding rotation");
 			transitions.getChildren().add(movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
 					turtleView, turtleTracker, degrees));
 			turtleTracker.setDirection(degrees);

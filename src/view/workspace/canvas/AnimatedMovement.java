@@ -91,7 +91,6 @@ public class AnimatedMovement {
     public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, TurtleView turtleTracker, double degrees){
     	rotation = new RotateTransition(Duration.millis(3000), turtle.getImageView());
     	rotation.setFromAngle(turtleTracker.getDirection());
-    	System.out.println("from: " + turtleTracker.getDirection() + ", to " + degrees);
     	rotation.setToAngle(degrees);
     	rotation.setOnFinished(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
