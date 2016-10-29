@@ -31,6 +31,7 @@ public class MainCanvas extends View {
 	private double turtleHeight = 20;
 	private Duration animateSpeed = Duration.seconds(2.5);
 	private AnimatedMovement movement;
+	public static final Color BACKGROUND_COLOR = Color.WHITE;
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -68,7 +69,6 @@ public class MainCanvas extends View {
 						next.setClearScreen(false);
 					}
 					currentState = next;
-					currentStates.put(activeID, next);
 				}
 			}
 			activelog.didRender();
@@ -102,7 +102,7 @@ public class MainCanvas extends View {
 		this.getRoot().getChildren().removeAll(this.getRoot().getChildren());
 		background = new Canvas(getCanvasWidth(), getCanvasHeight());
 		background.setId("canvas");
-		setBackgroundColor(log.getWorkspaceState().getBackgroundColor());
+		setBackgroundColor(BACKGROUND_COLOR);
 		this.getRoot().getChildren().add(background);
 		this.getRoot().getChildren().addAll(
 				turtleViews.values()
