@@ -11,10 +11,14 @@ import model.executable.CodeBlock;
 
 public class Marshaller {
 	
-	//TODO cx15 I18N
-	
 	public static final String SPACE = " ";
 
+	/**
+	 * Load the text file located at srcPath and return the text in String
+	 * @param srcPath
+	 * @return
+	 * @throws IOException
+	 */
 	public String load(String srcPath)
 			throws IOException {
 		try(BufferedReader br = new BufferedReader(new FileReader(srcPath))) {
@@ -28,23 +32,24 @@ public class Marshaller {
 		}
 	}
 	
-	public void store(CommandHistory commandHistory, 
+	/**
+	 * Store CommandHistory to a file at srcPath
+	 * Script translated to user selected language
+	 * @param commandHistory
+	 * @param interpreter
+	 * @param srcPath
+	 * @throws IOException
+	 */
+	public void store(CommandHistory commandHistory,
+					  Interpreter interpreter,
 					  String srcPath) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		for(CodeBlock e : commandHistory) {
 			sb.append(e.toString(false));
 		}
 		try (Writer writer = new BufferedWriter(new FileWriter(srcPath))) {
-			writer.write(sb.toString());
-		}
-	}
-	
-	public static void main(String[] args) {
-		Marshaller m = new Marshaller();
-		try {
-			System.out.println(m.load("data/examples/loops/circle.logo"));
-		} catch (IOException e) {
-			e.printStackTrace();
+			String output = interpreter.getTranslator().translateBackUserLang(sb.toString(), SPACE);
+			writer.write(output);
 		}
 	}
 }
