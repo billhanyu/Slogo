@@ -22,6 +22,7 @@ public class Translator {
 	public Translator() {
 		englishBundle = ResourceBundle.getBundle(LANGUAGES_PATH + "English");
 		lang2Eng = new HashMap<>();
+		eng2Lang = new HashMap<>();
 		setLanguage("English");
 	}
 	

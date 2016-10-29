@@ -18,7 +18,6 @@ public class ToroidalCanvas extends MainCanvas{
 		setBoundaryLines();
 	}
 	
-	
 	protected Point findNextPoints(ActorState next){
 		//if on boundary, have to draw line through the inside of the box
 		Point intersection = null;
@@ -117,12 +116,10 @@ public class ToroidalCanvas extends MainCanvas{
 								(int) (extendedLine.getY1() + ta*(extendedLine.getY2() - extendedLine.getY1())));
 		}
 		
-		else{
+		else {
 			return null;
 		}
 		
 	}
-
-	
 
 }

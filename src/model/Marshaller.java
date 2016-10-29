@@ -52,4 +52,13 @@ public class Marshaller {
 			writer.write(output);
 		}
 	}
+	
+	public static void main(String[] args) {
+		Marshaller m = new Marshaller();
+		try {
+			System.out.println(m.load("/Users/billyu/Documents/classes/CS-308/slogo_team07/data/examples/loops/circle.logo"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

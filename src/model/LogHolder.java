@@ -11,14 +11,16 @@ import java.util.stream.Collectors;
 public class LogHolder {
 	
 	private Map<Integer, TurtleLog> turtleLogs;
-	private WorkspaceState workspaceState;
 	private Set<Integer> activeTurtles;
+	private WorkspaceState workspaceState;
+	private Palette palette;
 	
 	public LogHolder() {
 		turtleLogs = new HashMap<>();
 		workspaceState = new WorkspaceState();
 		activeTurtles = new HashSet<>();
-		setActiveIDs(Arrays.asList(1));
+		palette = new Palette();
+		setActiveIDs(Arrays.asList(0));
 	}
 	
 	public void setActiveIDs(Collection<Integer> actives) {
@@ -48,6 +50,10 @@ public class LogHolder {
 	
 	public WorkspaceState getWorkspaceState() {
 		return workspaceState;
+	}
+	
+	public Palette getPalette() {
+		return palette;
 	}
 
 }
