@@ -13,6 +13,7 @@ public class Translator {
 	
 	public static final String LANGUAGES_PATH = "resources.languages/";
 	private Map<String, String> lang2Eng;
+	private Map<String, String> eng2Lang;
 	private ResourceBundle englishBundle;
 	
 	public Translator() {
@@ -39,6 +40,7 @@ public class Translator {
 			for (String token : tokens) {
 				lang2Eng.put(token, englishToken);
 			}
+			eng2Lang.put(cmdName, tokens[0]);
 		}
 	}
 	
@@ -52,6 +54,19 @@ public class Translator {
 			return tokenString;
 		}
 		return lang2Eng.get(tokenString);
+	}
+	
+	/**
+	 * @param tokenString the token to be translated from English to preset language
+	 * @return token translated to the original language
+	 * since eng2Lang chooses the first one in the values set for a cmdName
+	 * the foreign language token returned is arbitrary
+	 */
+	public String reverseTranslateToken(String tokenString) {
+		if (!eng2Lang.containsKey(tokenString)) {
+			return tokenString;
+		}
+		return eng2Lang.get(tokenString);
 	}
 	
 }
