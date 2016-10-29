@@ -11,6 +11,8 @@ import exception.UseBeforeDefineException;
 
 public interface Executable {
 	
+	public static final String SPACE = " ";
+	
 	/**
 	 * Execute its procedure and return the result
 	 * The effect of the execution depends on the previous state

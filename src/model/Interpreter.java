@@ -11,6 +11,7 @@ import exception.WrongNumberOfArguments;
 import model.executable.CodeBlock;
 import model.token.Token;
 import model.token.TokenFactory;
+import util.Utils;
 
 public class Interpreter {
 	
@@ -24,7 +25,6 @@ public class Interpreter {
 	private Translator translator;
 	
 	public Interpreter() {
-		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
 		userCommands = new UserCommands();
 		semanticsRegistry = new SemanticsRegistry(userCommands);
@@ -35,16 +35,13 @@ public class Interpreter {
 	public CodeBlock parseScript(String script)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
-		script = script.trim()
-				.replaceAll(" +", " ")
-				.replaceAll("\t+", " ")
-				.replaceAll("\n+", " ");
-		String translated = translateScript(script);
+		script = Utils.senitize(script);
+		String translated = translate(script);
 		semanticsRegistry.register(translated);
 		Stack<Token> tokenStack = tokenize(translated);
-		CodeBlock block = buildMain(tokenStack);
-		block.setName(script);
-		return block;
+		CodeBlock main = buildMain(tokenStack);
+		main.setName(script);
+		return main;
 	}
 	
 	public void setLanguage(String language) {
@@ -88,7 +85,7 @@ public class Interpreter {
 				  .setSemantics(semanticsRegistry);
 	}
 	
-	private String translateScript(String script) {
+	private String translate(String script) {
 		List<String> tokens = Arrays.asList(script.split(SPACE_REGEX));
 		return tokens.stream()
 				.map(token -> translator.translateToken(token))
