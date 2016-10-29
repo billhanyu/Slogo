@@ -1,9 +1,6 @@
 package view.canvas;
 
 import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import controller.Controller;
 import exception.OutOfBoundsException;
@@ -15,18 +12,16 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import model.ActorState;
-import model.LogHolder;
 import model.TurtleLog;
+import model.TurtleState;
 import view.TurtleView;
 import view.View;
 
 public class MainCanvas extends View {
 
-	private Map<Integer, TurtleView> turtleViews;
+	private TurtleView turtleView;
 	private Canvas background;
-	private Map<Integer, ActorState> currentStates;
-	private LogHolder log;
-
+	private ActorState currentState;
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
 	private Duration animateSpeed = Duration.seconds(2.5);
@@ -35,97 +30,68 @@ public class MainCanvas extends View {
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
-		log = controller.getLogHolder();
-		currentStates = new HashMap<>();
-		updateCurrentStates();
-		turtleViews = new HashMap<>();
-		updateTurtleViews();
+		currentState = new TurtleState();
+		turtleView = new TurtleView(controller, 
+				translateX(0), 
+				translateY(0), 
+				turtleWidth, 
+				turtleHeight,
+				currentState.getHeading());
 		initCanvas();
 		movement = new AnimatedMovement(this);
 	}
-
-	public void render() throws OutOfBoundsException {
-		boolean first = false;
-		for (int activeID : log.getActiveIDs()) {
-			TurtleLog activelog = log.getTurtleLog(activeID);
-			ActorState currentState = currentStates.get(activeID);
-			for (ActorState next : activelog) {
-				if (!first) {
-					first = true;
-					continue;
-				}
-				if (!inCanvasBounds(translateX(next.getPositionX()), translateY(next.getPositionY()))){
-					activelog.noRender();
-					throw new OutOfBoundsException();
-				}
-				else {
-					movement.setStates(currentState, next);
-					TurtleView turtleView = turtleViews.get(activeID);
-					doRotation(next.getHeading(), turtleView);
-					turtleView.setVisible(next.isVisible());
-					doMovement(currentState, next, turtleView);
-					if (next.clearsScreen()) {
-						clearScreen();
-						next.setClearScreen(false);
-					}
-					currentState = next;
-				}
-			}
-			activelog.didRender();
-		}
-		this.notifySubscribers();
-	}
-
-	private void updateCurrentStates() {
-		currentStates.clear();
-		for (int key : this.getController().getLogHolder().getActiveIDs()) {
-			currentStates.put(key, 
-					this.getController().getLogHolder().getTurtleLog(key).peekLast());
-		}
-	}
-
-	private void updateTurtleViews() {
-		for (int id : currentStates.keySet()) {
-			ActorState currentState = currentStates.get(id);
-			TurtleView turtleView = new TurtleView(
-					this.getController(), 
-					translateX(0), 
-					translateY(0), 
-					turtleWidth, 
-					turtleHeight,
-					currentState.getHeading());
-			turtleViews.put(id, turtleView);
-		}
-	}
-
+	
 	private void initCanvas(){
 		this.getRoot().getChildren().removeAll(this.getRoot().getChildren());
 		background = new Canvas(getCanvasWidth(), getCanvasHeight());
 		background.setId("canvas");
 		setBackgroundColor(BACKGROUND_COLOR);
-		this.getRoot().getChildren().add(background);
-		this.getRoot().getChildren().addAll(
-				turtleViews.values()
-				.stream()
-				.map(view -> view.getUI())
-				.collect(Collectors.toList()));
-	}	
+		this.getRoot().getChildren().addAll(background, turtleView.getUI());
+	}
 
+	public void render(TurtleLog log) throws OutOfBoundsException {
+		boolean first = false;
+		for (ActorState next : log) {
+			if (!first) {
+				first = true;
+				continue;
+			}
+			if (!inCanvasBounds(translateX(next.getPositionX()), translateY(next.getPositionY()))){
+					log.noRender();
+					throw new OutOfBoundsException();
+			}
+			else {
+				Point nextPoint = findNextPoints(next);
+				movement.setStates(currentState, next);
+				doRotation(next.getHeading());
+				turtleView.setVisible(next.isVisible());
+				doMovement(next);
+				if (next.clearsScreen()) {
+					clearScreen();
+					next.setClearScreen(false);
+				}
+				currentState = next;
+			}
+		}
+		log.didRender();
+		this.notifySubscribers();
+	}	
+	
 	protected Point findNextPoints(ActorState next){
 		Point nextPoint = new Point();
 		nextPoint.setLocation(translateX(next.getPositionX()), translateY(next.getPositionY()));
 		return nextPoint;
 	}
-
-	public Map<Integer, TurtleView> getTurtleViews() {
-		return turtleViews;
+	
+	public TurtleView getTurtleView() {
+		return turtleView;
 	}
-
+	
 	public boolean inCanvasBounds(double xPos, double yPos){
 		return (xPos <= getCanvasWidth() && xPos >= 0 
-				&& yPos <= getCanvasHeight() && yPos >= 0);
+			&& yPos <= getCanvasHeight() && yPos >= 0);
 	}
-
+	
 	public void setBackgroundColor(Color color) {
 		GraphicsContext gc= background.getGraphicsContext2D();
 		gc.setFill(color);
@@ -133,13 +99,11 @@ public class MainCanvas extends View {
 	}
 
 	public void setPenColor(Color color) {
-		for (TurtleLog activelog : log.getActiveLogs()) {
-			activelog.peekLast().getPen().setColor(color);
-		}
+		currentState.getPen().setColor(color);;
 	}
 
-	public Map<Integer, ActorState> getCurrentStates() {
-		return currentStates;
+	public ActorState getCurrentState() {
+		return currentState;
 	}
 
 	protected double translateX(double x) {
@@ -150,32 +114,29 @@ public class MainCanvas extends View {
 		return y + getCanvasHeight() / 2;
 	}
 
-	private void doMovement(
-			ActorState currentState, 
-			ActorState nextState, 
-			TurtleView turtleView) {
+	private void doMovement(ActorState nextState) {
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setPositionX(translateX(nextState.getPositionX()));
 			turtleView.setPositionY(translateY(nextState.getPositionY()));
 			if (currentState.getPen().isDown()){
-				addPath(currentState, nextState);
+				addPath(nextState);
 			}
 		}
-		else {
+		else{
 			Point currentPos = new Point(), nextPos = new Point();
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
 			if (currentPos.distance(nextPos)!=0){
-
+				
 				movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-						turtleView).play();
+													turtleView).play();
 			}
 		}
 
 	}
-
-
-	private void doRotation(double degrees, TurtleView turtleView) {
+	
+	
+	private void doRotation(double degrees){
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setDirection(degrees);
 		}
@@ -184,7 +145,7 @@ public class MainCanvas extends View {
 					turtleView, degrees).play();
 		}
 	}
-
+	
 	private void clearScreen() {
 		initCanvas();
 	}
@@ -196,20 +157,20 @@ public class MainCanvas extends View {
 	public double getCanvasHeight() {
 		return this.getHeight();
 	}
-
+	
 	public void setDuration(double seconds){
 		animateSpeed = new Duration(seconds);
 	}
-
+	
 	public Duration getDuration(){
 		return animateSpeed;
 	}
-
+	
 	public AnimatedMovement getAnimatedMovement(){
 		return movement;
 	}
-
-	private void addPath(ActorState currentState, ActorState nextState) {
+	
+	private void addPath(ActorState nextState) {
 		Path path = new Path();
 		MoveTo moveTo = new MoveTo();
 		moveTo.setX(translateX(currentState.getPositionX()));
@@ -222,7 +183,7 @@ public class MainCanvas extends View {
 		path.setFill(currentState.getPen().getColor());
 		path.setStroke(currentState.getPen().getColor());
 		path.setStrokeWidth(currentState.getPen().getThickness());
-
+		
 		//pen type
 		switch (currentState.getPen().getType()) {
 		case Solid:
@@ -234,7 +195,9 @@ public class MainCanvas extends View {
 			path.getStrokeDashArray().addAll(2d, 2d);
 			break;
 		}
+		
 		this.getRoot().getChildren().add(path);
 	}
+
 
 }

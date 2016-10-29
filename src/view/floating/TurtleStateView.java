@@ -10,9 +10,6 @@ import model.ActorState;
 import view.canvas.MainCanvas;
 
 public class TurtleStateView extends FloatingView {
-	
-	private int activeID;
-	private ActorState currentState;
 
 	public TurtleStateView(Controller controller) {
 		super(controller);
@@ -22,9 +19,7 @@ public class TurtleStateView extends FloatingView {
 	protected void init() {
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
-		//TODO make users select which turtle
-		activeID = (int) this.getController().getLogHolder().getActiveIDs().toArray()[0];
-		currentState = canvas.getCurrentStates().get(activeID);
+		ActorState currentState = canvas.getCurrentState();
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -71,8 +66,7 @@ public class TurtleStateView extends FloatingView {
 		ImageView turtleImage = new ImageView(this.getController()
 				.getMainView()
 				.getCanvas()
-				.getTurtleViews()
-				.get(activeID)
+				.getTurtleView()
 				.getImageView()
 				.getImage());
 		turtleImage.setRotate(currentState.getHeading());

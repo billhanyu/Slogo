@@ -76,6 +76,8 @@ public class MainView {
 		root.setCenter(canvas.getUI());
 		root.setRight(rights);
 		
+		
+		
 		scn.setOnKeyPressed(e -> {
 			if (e.isShiftDown() && e.getCode() == KeyCode.ENTER) {
 				editor.runScript();
