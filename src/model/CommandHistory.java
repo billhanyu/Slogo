@@ -1,5 +1,7 @@
 package model;
 
-public class CommandHistory extends Environment<Executable> {
+import model.executable.CodeBlock;
+
+public class CommandHistory extends Environment<CodeBlock> {
 
 }

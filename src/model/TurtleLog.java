@@ -17,8 +17,9 @@ public class TurtleLog implements Iterable<ActorState> {
 		states = new ArrayList<ActorState>();
 	}
 	
-	public void append(ActorState state) {
+	public TurtleLog append(ActorState state) {
 		states.add(state);
+		return this;
 	}
 
 	@Override
