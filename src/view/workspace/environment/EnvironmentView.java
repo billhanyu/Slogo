@@ -1,4 +1,4 @@
-package view;
+package view.workspace.environment;
 
 import controller.Controller;
 import javafx.geometry.Insets;
@@ -7,6 +7,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import view.workspace.View;
 
 public class EnvironmentView extends View {
 	

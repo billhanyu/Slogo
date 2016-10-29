@@ -1,4 +1,4 @@
-package view.canvas;
+package view.workspace.canvas;
 
 import java.awt.Point;
 import java.util.Iterator;
@@ -20,8 +20,7 @@ import model.ActorState;
 import model.TurtleLog;
 import model.TurtleState;
 import sun.security.tools.keytool.Main;
-import view.TurtleView;
-import view.View;
+import view.workspace.View;
 
 public class MainCanvas extends View {
 

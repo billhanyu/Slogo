@@ -10,20 +10,27 @@ public class HorizontalTabBar{
 	private Node root;
 	private Tab workspaceTab;
 	private int tabNum;
+	private boolean isFirst;
 	
 	public HorizontalTabBar(double prefWidth, double prefHeight) {
 		tabs = new TabPane();
 		tabs.setPrefSize(prefWidth, prefHeight);
 		root = tabs;
-		tabNum = 0;
+		tabNum = 1;
+		isFirst = true;
 		addNewWorkspaceTab();
 	}
 
 	public void newWorkspace(Controller newCtrl, String text){
+		 
 		 Tab toAdd = new Tab();
 		 toAdd.setContent(newCtrl.getMainView().getRoot());
-		 toAdd.setText(text + " " + tabNum);
+		 toAdd.setText(text + " #" + tabNum);
 		 tabNum++;
+		 if (isFirst){
+			 toAdd.setClosable(false);
+			 isFirst = false;
+		 }
 		 addTab(toAdd);
 	}
 	
@@ -43,8 +50,6 @@ public class HorizontalTabBar{
         });
 		tabs.getTabs().add(workspaceTab);
 	}
-	
-	
 	
 	public Node getRoot(){
 		return root;

@@ -1,4 +1,4 @@
-package view.canvas;
+package view.workspace.canvas;
 
 import java.awt.Point;
 import java.awt.geom.Line2D;

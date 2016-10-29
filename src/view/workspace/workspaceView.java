@@ -1,17 +1,16 @@
-package view;
+package view.workspace;
 
 
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import view.canvas.MainCanvas;
+import view.workspace.canvas.MainCanvas;
+import view.workspace.environment.EnvironmentView;
 
-public class MainView {
+public class workspaceView {
 	
 	private Node sceneRoot;
 	private static final int WIDTH = 1000;
@@ -24,7 +23,7 @@ public class MainView {
 	private MenuView menuView;
 	private UserControls controls;
 	
-	public MainView(Controller controller) {
+	public workspaceView(Controller controller) {
 		this.controller = controller;
 		init();
 	}
@@ -72,13 +71,6 @@ public class MainView {
 		root.setCenter(canvas.getUI());
 		root.setRight(rights);
 		
-		
-		
-		scn.setOnKeyPressed(e -> {
-			if (e.isShiftDown() && e.getCode() == KeyCode.ENTER) {
-				editor.runScript();
-			}
-		});
 		return scn;
 	}
 

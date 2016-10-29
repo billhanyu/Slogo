@@ -1,4 +1,4 @@
-package view;
+package view.workspace;
 
 import java.util.ResourceBundle;
 

@@ -1,8 +1,9 @@
-package view;
+package view.workspace.canvas;
 
 import controller.Controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import view.workspace.View;
 
 public class TurtleView extends View {
 	

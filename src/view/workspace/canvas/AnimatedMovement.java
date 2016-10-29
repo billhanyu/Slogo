@@ -1,4 +1,4 @@
-package view.canvas;
+package view.workspace.canvas;
 
 import java.awt.Point;
 import javafx.animation.Animation;
@@ -15,7 +15,6 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import model.ActorState;
-import view.TurtleView;
 
 public class AnimatedMovement {
 	private MainCanvas actingOn;

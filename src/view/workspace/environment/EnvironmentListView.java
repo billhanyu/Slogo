@@ -1,4 +1,4 @@
-package view;
+package view.workspace.environment;
 
 import java.util.stream.Collectors;
 
@@ -6,13 +6,13 @@ import controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.Environment;
 import model.Executable;
+import view.workspace.View;
 
 public abstract class EnvironmentListView extends View {
 	
