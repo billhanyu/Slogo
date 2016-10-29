@@ -115,19 +115,4 @@ public class AnimatedMovement {
     	nextState = next;
     	
     }
-    
-    public void pauseAnimation(){
-    	pathMovement.pause();
-    	rotation.pause();
-    }
-    
-    public void playAnimation(){
-    	pathMovement.play();
-    	rotation.play();
-    }
-    
-    public void stopAnimation(){
-    	pathMovement.stop();
-    	rotation.stop();
-    }
 }

@@ -34,15 +34,15 @@ public class UserControls extends View {
 	private HBox makeControlButtons(){
 		HBox controlButtons = new HBox();
 		Button pause = this.makeButton("Pause", e -> {
-			this.getController().getMainView().getCanvas().getAnimatedMovement().pauseAnimation();
+			this.getController().getMainView().getCanvas().pauseAnimation();
 		});
 		
 		Button play  = this.makeButton("Play", e -> {
-			this.getController().getMainView().getCanvas().getAnimatedMovement().playAnimation();
+			this.getController().getMainView().getCanvas().playAnimation();
 		});
 		
 		Button stop  = this.makeButton("Stop", e -> {
-			this.getController().getMainView().getCanvas().getAnimatedMovement().stopAnimation();
+			this.getController().getMainView().getCanvas().stopAnimation();
 		});
 		controlButtons.getChildren().addAll(play, pause, stop);
 		controlButtons.setSpacing(40);

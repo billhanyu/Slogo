@@ -194,6 +194,18 @@ public class MainCanvas extends View {
 		return movement;
 	}
 	
+	public void pauseAnimation(){
+		transitions.pause();
+	}
+	
+	public void playAnimation(){
+		transitions.play();
+	}
+	
+	public void stopAnimation(){
+		transitions.stop();
+	}
+	
 	private void addPath(ActorState nextState) {
 		Path path = new Path();
 		MoveTo moveTo = new MoveTo();
