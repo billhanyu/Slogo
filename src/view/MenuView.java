@@ -73,7 +73,7 @@ public class MenuView extends View {
 				String path = saveFile.toURI().toString();
 				String filepath = path.substring(5, path.length());
 				try {
-					marshaller.store(this.getController().getCommandHistory(), filepath);
+					marshaller.store(this.getController().getCommandHistory(), this.getController().getInterpreter(), filepath);
 				} catch (IOException e1) {
 					this.getController().getMainView().getConsole()
 						.appendText("Error saving file", TextType.Error);
