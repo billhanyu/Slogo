@@ -60,6 +60,10 @@ public class Controller {
 		return log;
 	}
 	
+	public CommandHistory getCommandHistory() {
+		return commandHistory;
+	}
+	
 	public DisplayLabelReader getValueReader(){
 		return valueReader;
 	}
