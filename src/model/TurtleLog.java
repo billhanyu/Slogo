@@ -42,4 +42,5 @@ public class TurtleLog implements Iterable<ActorState> {
 	public ActorState peekLast() {
 		return states.get(states.size() - 1);
 	}
+	
 }

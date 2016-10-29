@@ -53,8 +53,8 @@ public class UserControls extends View {
 	private ScrollBar makeSpeedBar(){
 		ScrollBar speedBar = new ScrollBar();
 		speedBar.setMin(0);
-		speedBar.setMax(5000);
-		speedBar.setValue(3000);
+		speedBar.setMax(2000);
+		speedBar.setValue(1000);
 		
         speedBar.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,

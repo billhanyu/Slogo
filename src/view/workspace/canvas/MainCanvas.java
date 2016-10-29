@@ -1,16 +1,12 @@
 package view.workspace.canvas;
 
 import java.awt.Point;
-import java.util.Iterator;
 
 import controller.Controller;
 import exception.OutOfBoundsException;
-import javafx.animation.Animation;
 import javafx.animation.SequentialTransition;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -19,7 +15,6 @@ import javafx.util.Duration;
 import model.ActorState;
 import model.TurtleLog;
 import model.TurtleState;
-import sun.security.tools.keytool.Main;
 import view.workspace.View;
 
 public class MainCanvas extends View {
@@ -30,7 +25,8 @@ public class MainCanvas extends View {
 	private ActorState currentState;
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
-	private Duration animateSpeed = Duration.seconds(2.5);
+	private Duration totalAnimationSpeed = Duration.seconds(1);
+	private Duration singleAnimationSpeed;
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	AnimatedMovement movement;
 	SequentialTransition transitions;
@@ -67,9 +63,9 @@ public class MainCanvas extends View {
 	public void render(TurtleLog log) throws OutOfBoundsException {
 		boolean first = false;
 		transitions = new SequentialTransition();
-		int i = 0;
+		
+		singleAnimationSpeed = new Duration((totalAnimationSpeed.toSeconds()/log.size())*1000);
 		for (ActorState next : log) {
-			i++;
 			if (!first) {
 				first = true;
 				continue;
@@ -135,6 +131,7 @@ public class MainCanvas extends View {
 
 	private void doMovement(ActorState nextState) {
 		if (getDuration().toMillis() == 0.0){
+			
 			turtleView.setPositionX(translateX(nextState.getPositionX()));
 			turtleView.setPositionY(translateY(nextState.getPositionY()));
 			if (currentState.getPen().isDown()){
@@ -146,7 +143,7 @@ public class MainCanvas extends View {
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
 			if (currentPos.distance(nextPos)!=0){
-				transitions.getChildren().add(movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
+				transitions.getChildren().add(movement.createPathAnimation(totalAnimationSpeed, background.getGraphicsContext2D(), 
 													turtleView, turtleTracker));
 			}
 		}
@@ -159,7 +156,7 @@ public class MainCanvas extends View {
 			turtleView.setDirection(degrees);
 		}
 		else if (!(currentState.getHeading() == degrees)){
-			transitions.getChildren().add(movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
+			transitions.getChildren().add(movement.createRotationAnimation(totalAnimationSpeed, background.getGraphicsContext2D(), 
 					turtleView, turtleTracker, degrees));
 			turtleTracker.setDirection(degrees);
 		}
@@ -178,11 +175,11 @@ public class MainCanvas extends View {
 	}
 	
 	public void setDuration(double seconds){
-		animateSpeed = new Duration(seconds);
+		totalAnimationSpeed = new Duration(seconds);
 	}
 	
 	public Duration getDuration(){
-		return animateSpeed;
+		return singleAnimationSpeed;
 	}
 	
 	public AnimatedMovement getAnimatedMovement(){
