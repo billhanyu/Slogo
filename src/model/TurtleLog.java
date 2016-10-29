@@ -20,8 +20,10 @@ public class TurtleLog implements Iterable<ActorState> {
 	public int size(){
 		return states.size();
 	}
-	public void append(ActorState state) {
+	
+	public TurtleLog append(ActorState state) {
 		states.add(state);
+		return this;
 	}
 
 	@Override

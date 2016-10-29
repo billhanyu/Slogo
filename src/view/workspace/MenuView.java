@@ -1,6 +1,7 @@
 package view.workspace;
 
 import java.io.File;
+import java.io.IOException;
 
 import controller.Controller;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import model.Marshaller;
 import view.floating.BackgroundPropertyView;
 import view.floating.FloatingViewManager;
 import view.floating.LanguagePropertyView;
@@ -23,10 +25,14 @@ public class MenuView extends View {
 	
 	private MenuBar bar;
 	private FloatingViewManager floatingManager;
+	private FileChooser fileChooser;
+	private Marshaller marshaller;
 
 	public MenuView(Controller controller, double width, double height) {
 		super(controller, width, height);
 		floatingManager = new FloatingViewManager(controller);
+		fileChooser = new FileChooser();
+		marshaller = new Marshaller();
 		init();
 	}
 	
@@ -45,9 +51,37 @@ public class MenuView extends View {
 	
 	private Menu makeMenuFile() {
 		Menu menu = new Menu("File");
+		MenuItem load = makeMenuItem("Load...", e -> {
+			fileChooser.setTitle(this.getLabelReader().getLabel("TurtleImageSelector"));
+			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Logo files", "*.logo"));
+			File logoFile = fileChooser.showOpenDialog(null);
+			if (logoFile != null) {
+				String path = logoFile.toURI().toString();
+				String filepath = path.substring(5, path.length());
+				try {
+					this.getController().putScript(marshaller.load(filepath));
+				} catch (IOException e1) {
+					this.getController().getMainView().getConsole()
+						.appendText("Error reading file", TextType.Error);
+				}
+			}
+		});
+		MenuItem save = makeMenuItem("Save", e -> {
+			fileChooser.setTitle("Save");
+			File saveFile = fileChooser.showSaveDialog(null);
+			if (saveFile != null) {
+				String path = saveFile.toURI().toString();
+				String filepath = path.substring(5, path.length());
+				try {
+					marshaller.store(this.getController().getCommandHistory(), this.getController().getInterpreter(), filepath);
+				} catch (IOException e1) {
+					this.getController().getMainView().getConsole()
+						.appendText("Error saving file", TextType.Error);
+				}
+			}
+		});
 		MenuItem turtleImage = makeMenuItem(this.getController().getValueReader().getLabel("TurtleImageSelector"), 
 				e -> {
-					FileChooser fileChooser = new FileChooser();
 					fileChooser.setTitle(this.getLabelReader().getLabel("TurtleImageSelector"));
 					fileChooser.getExtensionFilters().addAll(
 							new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
@@ -64,7 +98,7 @@ public class MenuView extends View {
 							appendText(this.getLabelReader().getLabel("NoImageChosen"), TextType.Error);
 					}
 				});
-		menu.getItems().addAll(turtleImage);
+		menu.getItems().addAll(load, save, turtleImage);
 		return menu;
 	}
 	

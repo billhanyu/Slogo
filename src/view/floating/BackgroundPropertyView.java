@@ -1,14 +1,12 @@
 package view.floating;
 
 import controller.Controller;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import view.workspace.canvas.MainCanvas;
 
-public class BackgroundPropertyView extends FloatingView{
+public class BackgroundPropertyView extends FloatingView {
 	
 	public BackgroundPropertyView(Controller controller) {
 		super(controller);

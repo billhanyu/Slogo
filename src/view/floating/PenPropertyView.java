@@ -104,7 +104,6 @@ public class PenPropertyView extends FloatingView {
 		});
 		return picker;
 	}
-
 	
 	private HBox makeTypeBox() {
 		Label nameLabel = new Label("Pen Type");

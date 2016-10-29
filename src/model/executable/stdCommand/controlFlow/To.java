@@ -44,4 +44,13 @@ public class To extends StandardCommand {
 		varList = (CodeBlock) this.getArgs().get(1);
 		body = (CodeBlock) this.getArgs().get(2);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getName()).append(SPACE)
+		  .append(varList.toString()).append(SPACE)
+		  .append(body.toString()).append(SPACE);
+		return sb.toString();
+	}
 }

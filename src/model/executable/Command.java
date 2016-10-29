@@ -5,6 +5,7 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.TurtleLog;
+import util.Utils;
 
 public abstract class Command implements Executable{
 	
@@ -13,7 +14,6 @@ public abstract class Command implements Executable{
 	
 	public Command(List<Executable> argv)
 			throws SyntacticErrorException {
-//		Collections.reverse(argv);
 		this.argv = argv;
 		validateArgv();
 	}
@@ -32,10 +32,23 @@ public abstract class Command implements Executable{
 		name = newName;
 	}
 	
+	/**
+	 * validate the list of arguments passed in to this command 
+	 * so they each map to the right type
+	 * @throws SyntacticErrorException
+	 */
 	protected abstract void validateArgv()
 			throws SyntacticErrorException;
 	
 	protected List<Executable> getArgs() {
 		return argv;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getName()).append(SPACE);
+		Utils.appendList(sb, argv, SPACE);
+		return sb.toString();
 	}
 }

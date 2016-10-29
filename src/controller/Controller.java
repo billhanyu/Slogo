@@ -56,8 +56,16 @@ public class Controller {
 		return mainView;
 	}
 	
+	public CommandHistory getCommandHistory() {
+		return commandHistory;
+	}
+	
 	public DisplayLabelReader getValueReader(){
 		return valueReader;
+	}
+
+	public Interpreter getInterpreter() {
+		return interpreter;
 	}
 	
 }

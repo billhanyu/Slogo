@@ -30,7 +30,6 @@ public class MainCanvas extends View {
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	AnimatedMovement movement;
 	SequentialTransition transitions;
-	
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -74,7 +73,7 @@ public class MainCanvas extends View {
 					log.noRender();
 					throw new OutOfBoundsException();
 			}
-			else{
+			else {
 				Point nextPoint = findNextPoints(next);
 				movement.setStates(currentState, next);
 				doRotation(next.getHeading());
