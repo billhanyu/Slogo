@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import model.Environment;
+import model.Executable;
 import model.executable.Variable;
 
 public class Utils {
@@ -39,5 +40,18 @@ public class Utils {
 	
 	public static Variable listContains(Environment<Variable> gvars, String name) {
 		return listContains(gvars.getImmutableValues(), name);
+	}
+	
+	public static void appendList(StringBuilder sb, List<Executable> list, String delimiter) {
+		for(Executable e : list) {
+			sb.append(e.toString()).append(delimiter);
+		}
+	}
+	
+	public static String senitize(String script) {
+		return script.trim()
+					 .replaceAll(" +", " ")
+					 .replaceAll("\t+", " ")
+					 .replaceAll("\n+", " ");
 	}
 }
