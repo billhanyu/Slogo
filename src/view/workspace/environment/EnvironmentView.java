@@ -1,8 +1,9 @@
-package view;
+package view.workspace.environment;
 
 import controller.Controller;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import view.workspace.View;
 
 public class EnvironmentView extends View {
 

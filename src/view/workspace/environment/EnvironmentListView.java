@@ -1,4 +1,4 @@
-package view;
+package view.workspace.environment;
 
 import java.util.stream.Collectors;
 
@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.Environment;
 import model.Executable;
+import view.workspace.View;
 
 public abstract class EnvironmentListView extends View {
 	

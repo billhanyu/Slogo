@@ -3,7 +3,8 @@ package view.floating;
 import controller.Controller;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.HBox;
-import view.canvas.MainCanvas;
+import javafx.scene.layout.VBox;
+import view.workspace.canvas.MainCanvas;
 
 public class BackgroundPropertyView extends FloatingView {
 	

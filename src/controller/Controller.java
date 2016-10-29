@@ -7,13 +7,13 @@ import model.CommandHistory;
 import model.Interpreter;
 import model.TurtleLog;
 import model.executable.CodeBlock;
-import view.DisplayLabelReader;
-import view.MainView;
-import view.TextType;
+import view.workspace.DisplayLabelReader;
+import view.workspace.TextType;
+import view.workspace.workspaceView;
 public class Controller {
 	
 	private Interpreter interpreter;
-	private MainView mainView;
+	private workspaceView mainView;
 	private TurtleLog log;
 	private DisplayLabelReader valueReader;
 	private CommandHistory commandHistory;
@@ -24,7 +24,7 @@ public class Controller {
 		interpreter = new Interpreter();
 		log = new TurtleLog();
 		valueReader = new DisplayLabelReader(UI_RESOURCES);
-		mainView = new MainView(this);
+		mainView = new workspaceView(this);
 		log.append(mainView.getCanvas().getCurrentState());
 	}
 	
@@ -52,7 +52,7 @@ public class Controller {
 		mainView.getEditor().setText(script);
 	}
 	
-	public MainView getMainView() {
+	public workspaceView getMainView() {
 		return mainView;
 	}
 	

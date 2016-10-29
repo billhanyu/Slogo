@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
 import model.Pen;
-import view.canvas.MainCanvas;
+import view.workspace.canvas.MainCanvas;
 
 public class PenPropertyView extends FloatingView {
 	
