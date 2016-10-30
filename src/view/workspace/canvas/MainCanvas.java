@@ -28,8 +28,8 @@ public class MainCanvas extends View {
 	private Duration totalAnimationSpeed = Duration.seconds(1);
 	private Duration singleAnimationSpeed;
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
-	AnimatedMovement movement;
-	SequentialTransition transitions;
+	private Duration animateSpeed = Duration.seconds(2.5);
+	private AnimatedMovement movement;
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -83,12 +83,61 @@ public class MainCanvas extends View {
 					clearScreen();
 					next.setClearScreen(false);
 				}
-				currentState = next;
+				else {
+					movement.setStates(currentState, next);
+					TurtleView turtleView = turtleViews.get(activeID);
+					doRotation(next.getHeading(), turtleView);
+					turtleView.setVisible(next.isVisible());
+					doMovement(currentState, next, turtleView);
+					if (next.clearsScreen()) {
+						clearScreen();
+						next.setClearScreen(false);
+					}
+					currentState = next;
+					currentStates.put(activeID, next);
+				}
 			}
 		}
 		transitions.play();
 		log.didRender();
 		this.notifySubscribers();
+=======
+	}
+
+	private void updateCurrentStates() {
+		currentStates.clear();
+		for (int key : this.getController().getLogHolder().getActiveIDs()) {
+			currentStates.put(key, 
+					this.getController().getLogHolder().getTurtleLog(key).peekLast());
+		}
+	}
+
+	private void updateTurtleViews() {
+		for (int id : currentStates.keySet()) {
+			ActorState currentState = currentStates.get(id);
+			TurtleView turtleView = new TurtleView(
+					this.getController(), 
+					translateX(0), 
+					translateY(0), 
+					turtleWidth, 
+					turtleHeight,
+					currentState.getHeading());
+			turtleViews.put(id, turtleView);
+		}
+	}
+
+	private void initCanvas(){
+		this.getRoot().getChildren().removeAll(this.getRoot().getChildren());
+		background = new Canvas(getCanvasWidth(), getCanvasHeight());
+		background.setId("canvas");
+		setBackgroundColor(log.getWorkspaceState().getBackgroundColor());
+		this.getRoot().getChildren().add(background);
+		this.getRoot().getChildren().addAll(
+				turtleViews.values()
+				.stream()
+				.map(view -> view.getUI())
+				.collect(Collectors.toList()));
+>>>>>>> parent of 5a58655... Revert "make background and language update workspacestate":src/view/canvas/MainCanvas.java
 	}	
 	
 	protected Point findNextPoints(ActorState next){
