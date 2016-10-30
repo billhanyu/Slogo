@@ -3,203 +3,197 @@ package test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
-import model.ActorState;
 import model.Interpreter;
-import model.TurtleLog;
-import model.TurtleState;
+import model.LogHolder;
 import model.executable.CodeBlock;
 import util.Utils;
 
-
 public class InterpreterTest {
 	
-	private TurtleLog log;
+	private LogHolder log;
 	private Interpreter intr;
 	
 	@Before
 	public void executedOnceBeforeEach() {
-		log = new TurtleLog();
-		ActorState state = new TurtleState();
-		log.append(state);
+		log = new LogHolder();
 		intr = new Interpreter();
 	}
 	
 	@Test
 	public void nestedCommand() {
 		parseAndExecute("fd / sum 10 20 5");
-		assertDoubleEqual(log.peekLast().getPositionY(), -6);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -6);
 	}
 	
 	
 	@Test
 	public void multiParam() {
 		parseAndExecute("to poly [ :bogus :num :len ] [ fd :len ] poly 10 10 20");
-		assertDoubleEqual(log.peekLast().getPositionY(), -20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -20);
 	}
 	
 	@Test
 	public void nestedParam() {
 		parseAndExecute("repeat sum 1 1 [ fd 1 ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), -2);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -2);
 	}
 	
 	@Test
 	public void nested() {
 		parseAndExecute("to nested [ :distance ] [ repeat 4 [ bk :distance ] ] nested 10");
-		assertDoubleEqual(log.peekLast().getPositionY(), 40);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 40);
 	}
 
 	@Test
 	public void recursion() {
 		parseAndExecute("to recurse [ :n ] \n\t  [ if :n [ bk :n recurse sum :n -1 ] ] recurse 3");
-		assertDoubleEqual(log.peekLast().getPositionY(), 6);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 6);
 	}
 	
 	@Test
 	public void ifBranches() {
 		parseAndExecute("if 0 [ bk 20 ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), 0);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 0);
 		parseAndExecute("if 1 [ bk 20 ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 20);
 	}
 	
 	@Test
 	public void ifElse() {
 		parseAndExecute("ifelse 1 [ bk 20 ] [ bk 10 ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 20);
 	}
 	
 	@Test
 	public void repeat() {
 		parseAndExecute("repeat 2 [ bk :repcount ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), 3);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 3);
 	}
 	
 	@Test
 	public void dotimes() {
 		parseAndExecute("dotimes [ :i 2 ] [ bk :i ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), 3);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 3);
 	}
 	
 	@Test
 	public void forloop() {
 		parseAndExecute("for [ :i 1 3 1 ] [ bk :i ]");
-		assertDoubleEqual(log.peekLast().getPositionY(), 6);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 6);
 	}
 	
 	@Test
 	public void procedureUsesGlobalVars() {
 		parseAndExecute("make :param 20 to func [ ] [ bk :param ] func");
-		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 20);
 	}
 	
 	@Test
 	public void procedureWithParam() {
 		parseAndExecute("to func [ :param ] [ bk :param ] func 10");
-		assertDoubleEqual(log.peekLast().getPositionY(), 10);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 10);
 	}
 	
 	@Test
 	public void procedureParamWithSameNameButDiffScope() {
 		parseAndExecute("make :param 20 to func [ :param ] [ bk :param ] func 10 bk :param");
-		assertDoubleEqual(log.peekLast().getPositionY(), 30);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 30);
 	}
 
 	@Test
 	public void forwardForward() {
 		parseAndExecute("fd fd fd 10");
-		assertDoubleEqual(log.peekLast().getPositionY(), -30);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -30);
 	}
 	
 	@Test
 	public void backBack() {
 		parseAndExecute("bk back 10");
-		assertDoubleEqual(log.peekLast().getPositionY(), 20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 20);
 	}
 	
 	@Test
 	public void leftLeft() {
 		parseAndExecute("lt left 10");
-		assertDoubleEqual(log.peekLast().getHeading(), -20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getHeading(), -20);
 	}
 	
 	@Test
 	public void rightRight() {
 		parseAndExecute("rt right 10");
-		assertDoubleEqual(log.peekLast().getHeading(), 20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getHeading(), 20);
 	}
 	
 	@Test
 	public void setHeading() {
 		parseAndExecute("seth 60.5");
-		assertDoubleEqual(log.peekLast().getHeading(), 60.5);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getHeading(), 60.5);
 	}
 
 	@Test
 	public void Towards() {
 		parseAndExecute("towards 1 0");
-		assertDoubleEqual(log.peekLast().getHeading(), 90);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getHeading(), 90);
 	}
 	
 	@Test
 	public void SetXY() {
 		parseAndExecute("setxy 10 5");
-		assertDoubleEqual(log.peekLast().getPositionX(), 10);
-		assertDoubleEqual(log.peekLast().getPositionY(), 5);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionX(), 10);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 5);
 		parseAndExecute("setxy 20 8");
-		assertDoubleEqual(log.peekLast().getPositionX(), 20);
-		assertDoubleEqual(log.peekLast().getPositionY(), 8);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionX(), 20);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 8);
 	}
 	
 	@Test
 	public void PenDown() {
 		parseAndExecute("pd");
-		assertTrue(log.peekLast().getPen().isDown());
+		assertTrue(log.getTurtleLog(0).peekLast().getPen().isDown());
 	}
 	
 	@Test
 	public void PenUp() {
 		parseAndExecute("pu");
-		assertTrue(!log.peekLast().getPen().isDown());
+		assertTrue(!log.getTurtleLog(0).peekLast().getPen().isDown());
 	}
 	
 	@Test
 	public void ShowTurtle() {
 		parseAndExecute("st");
-		assertTrue(log.peekLast().isVisible());
+		assertTrue(log.getTurtleLog(0).peekLast().isVisible());
 	}
 	
 	@Test
 	public void Home() {
 		parseAndExecute("setxy 10 5 home");
-		assertDoubleEqual(log.peekLast().getPositionX(), 0);
-		assertDoubleEqual(log.peekLast().getPositionY(), 0);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionX(), 0);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 0);
 	}
 	
 	@Test
 	public void ClearScreen() { //same as home, no trail clearing implemented
 		parseAndExecute("setxy 10 5 cs");
-		assertDoubleEqual(log.peekLast().getPositionX(), 0);
-		assertDoubleEqual(log.peekLast().getPositionY(), 0);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionX(), 0);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), 0);
 	}
 	
 	@Test
 	public void HideTurtle() {
 		parseAndExecute("ht");
-		assertTrue(!log.peekLast().isVisible());
+		assertTrue(!log.getTurtleLog(0).peekLast().isVisible());
 	}
 	
 	@Test
 	public void makeVar() {
 		parseAndExecute("make :dist 10 fd :dist");
-		assertDoubleEqual(log.peekLast().getPositionY(), -10);
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -10);
 	}
 
 	@Test

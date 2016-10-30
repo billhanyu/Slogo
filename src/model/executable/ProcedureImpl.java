@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import exception.SyntacticErrorException;
-import model.TurtleLog;
+import model.LogHolder;
 import util.Utils;
 import model.Executable;
 
@@ -21,7 +21,7 @@ public class ProcedureImpl{
 		return this;
 	}
 
-	public double execute(TurtleLog log, List<Executable> argument) 
+	public double execute(LogHolder log, List<Executable> argument) 
 			throws SyntacticErrorException {
 		// $sp down
 		List<Executable> calleeSaved = new ArrayList<>();
@@ -59,7 +59,7 @@ public class ProcedureImpl{
 	 * Global Variables are resolved when codeblock is executed
 	 * @throws SyntacticErrorException 
 	 */
-	private void haveVarRefsPointToRightObjs(TurtleLog log)
+	private void haveVarRefsPointToRightObjs(LogHolder log)
 			throws SyntacticErrorException {
 		for (Variable var : procedure.getLocalVarRefs()) {
 			Variable arg;
@@ -72,7 +72,7 @@ public class ProcedureImpl{
 		}
 	}
 	
-	private Constant getFinalValue(Executable expr, TurtleLog log)
+	private Constant getFinalValue(Executable expr, LogHolder log)
 			throws SyntacticErrorException {
 		if (expr instanceof Constant)
 			return (Constant) expr;

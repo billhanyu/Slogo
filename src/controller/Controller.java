@@ -6,7 +6,6 @@ import exception.WrongNumberOfArguments;
 import model.CommandHistory;
 import model.Interpreter;
 import model.LogHolder;
-import model.TurtleLog;
 import model.executable.CodeBlock;
 import view.DisplayLabelReader;
 import view.MainView;

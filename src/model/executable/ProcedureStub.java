@@ -4,8 +4,8 @@ import java.util.List;
 
 import exception.SyntacticErrorException;
 import model.Executable;
+import model.LogHolder;
 import model.SemanticsRegistry;
-import model.TurtleLog;
 
 public class ProcedureStub extends Command {
 	
@@ -17,7 +17,7 @@ public class ProcedureStub extends Command {
 	}
 
 	@Override
-	public double execute(TurtleLog log) throws SyntacticErrorException {
+	public double execute(LogHolder log) throws SyntacticErrorException {
 		return semanticsRegistry.getImpl(name).execute(log, getArgs());
 	}
 

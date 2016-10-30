@@ -4,9 +4,9 @@ import java.util.List;
 
 import exception.SyntacticErrorException;
 import model.Executable;
-import model.TurtleLog;
+import model.LogHolder;
 
-public abstract class Command implements Executable{
+public abstract class Command implements Executable {
 	
 	protected List<Executable> argv;
 	protected String name;
@@ -19,7 +19,7 @@ public abstract class Command implements Executable{
 	}
 	
 	@Override
-	public abstract double execute(TurtleLog log)
+	public abstract double execute(LogHolder log)
 			throws SyntacticErrorException;
 	
 	@Override

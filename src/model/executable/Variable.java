@@ -3,7 +3,7 @@ package model.executable;
 import exception.SyntacticErrorException;
 import exception.UseBeforeDefineException;
 import model.Executable;
-import model.TurtleLog;
+import model.LogHolder;
 import model.token.Token;
 
 public class Variable implements Executable {
@@ -35,7 +35,7 @@ public class Variable implements Executable {
 	}
 	
 	@Override
-	public double execute(TurtleLog log)
+	public double execute(LogHolder log)
 			throws SyntacticErrorException {
 		if (expression == null)
 			throw new UseBeforeDefineException();

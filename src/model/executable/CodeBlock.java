@@ -6,11 +6,11 @@ import exception.SyntacticErrorException;
 import exception.UseBeforeDefineException;
 import model.Executable;
 import model.GlobalVariables;
+import model.LogHolder;
 import model.SemanticsRegistry;
-import model.TurtleLog;
 import util.Utils;
 
-public class CodeBlock implements Executable{
+public class CodeBlock implements Executable {
 	
 	private List<Executable> sequence;
 	private List<Executable> pendingArgs;
@@ -31,7 +31,7 @@ public class CodeBlock implements Executable{
 	 * @throws UseBeforeDefineException 
 	 */
 	@Override
-	public double execute(TurtleLog log)
+	public double execute(LogHolder log)
 			throws SyntacticErrorException {
 		Variable match;
 		for (Variable var : localVarRefs) {

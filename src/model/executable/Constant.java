@@ -1,7 +1,7 @@
 package model.executable;
 
 import model.Executable;
-import model.TurtleLog;
+import model.LogHolder;
 import model.token.Token;
 
 public class Constant implements Executable {
@@ -35,7 +35,7 @@ public class Constant implements Executable {
 	 * No effect on log
 	 */
 	@Override
-	public double execute(TurtleLog log) {
+	public double execute(LogHolder log) {
 		return value;
 	}
 

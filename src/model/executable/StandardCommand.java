@@ -1,12 +1,11 @@
 package model.executable;
 
-import java.util.Collections;
 import java.util.List;
 
 import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
-import model.TurtleLog;
+import model.LogHolder;
 import model.TurtleState;
 
 /**
@@ -25,7 +24,7 @@ public abstract class StandardCommand extends Command {
 	}
 
 	@Override
-	public abstract double execute(TurtleLog log)
+	public abstract double execute(LogHolder log)
 			throws SyntacticErrorException;
 	
 	@Override

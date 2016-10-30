@@ -19,7 +19,7 @@ public interface Executable {
 	 * @throws UseBeforeDefineException 
 	 * @throws SyntacticErrorException 
 	 */
-	double execute(TurtleLog log) throws SyntacticErrorException;
+	double execute(LogHolder log) throws SyntacticErrorException;
 	
 	/**
 	 * Return the name of this Executable
