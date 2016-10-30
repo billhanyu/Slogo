@@ -48,6 +48,14 @@ public class LogHolder {
 				.collect(Collectors.toList());
 	}
 	
+	public Collection<Integer> getAllIDs() {
+		return turtleLogs.keySet();
+	}
+	
+	public Collection<TurtleLog> getAllLogs() {
+		return turtleLogs.values();
+	}
+	
 	public WorkspaceState getWorkspaceState() {
 		return workspaceState;
 	}

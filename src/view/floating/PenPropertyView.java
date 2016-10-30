@@ -18,8 +18,8 @@ import model.ActorState;
 import model.Pen;
 import view.workspace.canvas.MainCanvas;
 
-public class PenPropertyView extends FloatingView {
-	
+public class PenPropertyView extends TurtleDependentView {
+
 	private ActorState currentState;
 
 	public PenPropertyView(Controller controller) {
@@ -28,9 +28,10 @@ public class PenPropertyView extends FloatingView {
 
 	@Override
 	protected void init() {
+		this.getRoot().getChildren().clear();
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
-		currentState = canvas.getCurrentState();
+		currentState = this.getCurrentSelectedState();
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -40,7 +41,7 @@ public class PenPropertyView extends FloatingView {
 		HBox penThick = makeThicknessBox();
 		HBox type = makeTypeBox();
 		HBox penColor = makePenPickerBox();
-		layout.getChildren().addAll(penDown, penThick, type, penColor);
+		layout.getChildren().addAll(this.makeSelectTurtleBox(), penDown, penThick, type, penColor);
 		this.getRoot().getChildren().add(layout);
 	}
 
@@ -97,7 +98,7 @@ public class PenPropertyView extends FloatingView {
 	
 	private ColorPicker makePenPicker() {
 		ColorPicker picker = new ColorPicker();
-		picker.setValue(Pen.DEFAULT_PEN_COLOR);
+		picker.setValue(currentState.getPen().getColor());
 		picker.setOnAction(e -> {
 			this.getController().getMainView().
 				getCanvas().setPenColor(picker.getValue());
