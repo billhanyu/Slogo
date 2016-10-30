@@ -1,4 +1,4 @@
-package model.executable.multipleCommand.movement;
+package model.executable.multipleCommand.display;
 
 import java.util.List;
 
@@ -8,10 +8,11 @@ import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
 import model.executable.MultipleCommand;
+import model.executable.StandardCommand;
 
-public class Right extends MultipleCommand{
+public class SetShape extends MultipleCommand{
 	
-	public Right(List<Executable> argv)
+	public SetShape(List<Executable> argv)
 			throws SyntacticErrorException {
 		super(argv);
 	}
@@ -19,17 +20,19 @@ public class Right extends MultipleCommand{
 	@Override
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
-		double offsetAngle = this.getArgs().get(0).execute(this.getLogHolder());
 		ActorState prev = log.peekLast();
+		double index = this.getArgs().get(0).execute(log);
 		delta = new TurtleState();
 		prev.duplicateOnto(delta);
-		delta.setDirection(prev.getHeading() + offsetAngle);
+		//TODO: get to data structure containing index to shape mappings
+		//get shape corresponding to index value
+		//delta.setShape(shape);
 		log.append(delta);
-		return offsetAngle;
+		return index;
 	}
 
 	@Override
 	public String getName() {
-		return "right";
+		return "setshape";
 	}
 }

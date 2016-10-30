@@ -3,6 +3,7 @@ package model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javafx.scene.paint.Color;
 
@@ -33,6 +34,19 @@ public class Palette {
 	
 	public Collection<Color> getAllColors() {
 		return colors.values();
+	}
+	
+	public void setColor(int index, Color color) {
+		colors.put(index, color);
+	}
+	
+	public int findColorInPalette(Color color) {
+		for (Entry<Integer, Color> e : colors.entrySet()) {
+			if (color.equals(e.getValue())) {
+				return e.getKey();
+			}
+		}
+		return 0;
 	}
 	
 }
