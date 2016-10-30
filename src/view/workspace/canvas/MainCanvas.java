@@ -51,7 +51,6 @@ public class MainCanvas extends View {
 
 	public void render() throws OutOfBoundsException {
 		transitions = new SequentialTransition();
-		
 		singleAnimationSpeed = new Duration((totalAnimationSpeed.toSeconds() / log.size())*1000);
 		for (int renderID : log.getAllIDs()) {
 			TurtleLog activelog = log.getTurtleLog(renderID);
@@ -158,12 +157,6 @@ public class MainCanvas extends View {
 		GraphicsContext gc= background.getGraphicsContext2D();
 		gc.setFill(color);
 		gc.fillRect(0, 0, getCanvasWidth(),getCanvasHeight());
-	}
-
-	public void setPenColor(Color color) {
-		for (TurtleLog activelog : log.getActiveLogs()) {
-			activelog.peekLast().getPen().setColor(color);
-		}
 	}
 
 	public Map<Integer, ActorState> getCurrentStates() {
