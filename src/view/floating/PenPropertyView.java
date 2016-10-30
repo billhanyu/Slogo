@@ -32,9 +32,6 @@ public class PenPropertyView extends TurtleDependentView {
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
 		currentState = this.getCurrentSelectedState();
-		int activeID = (int) this.getController().getLogHolder().getActiveIDs().toArray()[0];
-		currentState = canvas.getCurrentStates().get(activeID);
-		//TODO make users select which turtle
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -101,8 +98,9 @@ public class PenPropertyView extends TurtleDependentView {
 		ColorPicker picker = new ColorPicker();
 		picker.setValue(currentState.getPen().getColor());
 		picker.setOnAction(e -> {
-			this.getController().getMainView().
-			getCanvas().setPenColor(picker.getValue());
+			this.getController().getMainView().getCanvas()
+				.getCurrentStates().get(this.getCurrentID())
+				.getPen().setColor(picker.getValue());
 		});
 		return picker;
 	}

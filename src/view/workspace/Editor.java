@@ -64,6 +64,7 @@ public class Editor extends View {
 		HBox all = new HBox();
 		all.setPadding(new Insets(5,5,5,5));
 		all.setPrefWidth(this.getWidth());
+		all.setPrefHeight(this.getHeight());
 		all.getChildren().addAll(textArea, buttons);
 		HBox.setHgrow(textArea, Priority.ALWAYS);
 		textArea.setId("editor");

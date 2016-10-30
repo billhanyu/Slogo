@@ -53,15 +53,15 @@ public class WorkspaceView {
 		BorderPane root = new BorderPane();
 		sceneRoot = root;
 		Scene scn = new Scene(root);
+		
 		canvas = new MainCanvas(controller, 700, 500);
-		editor = new Editor(controller, WIDTH, 0);
+		editor = new Editor(controller, WIDTH, 140);
 		menuView = new MenuView(controller, WIDTH, 0);
-		VBox rights = new VBox();
 		console = new Console(controller, 255, 200);
 		controls = new UserControls(controller, 255, 200);
-		
-				
 		environmentView = new EnvironmentView(controller, WIDTH,500);
+		
+		VBox rights = new VBox();
 		rights.getChildren().addAll(environmentView.getUI(), console.getUI(), controls.getUI());
 		rights.setFillWidth(true);
 		root.setTop(menuView.getUI());
@@ -78,10 +78,6 @@ public class WorkspaceView {
 		});
 		return scn;
 	}
-
-	public Object getUserControls() {
-		return controls;
-	}	
 	
 	public Node getRoot(){
 		return sceneRoot;

@@ -28,11 +28,11 @@ public class TurtleStateView extends TurtleDependentView {
 		layout.setPrefWidth(width());
 		HBox turtleImage = makeTurtleImageBox(currentState);
 		HBox positionX = this.makePropertyLine("Position X", 
-				"" + currentState.getPositionX());
+				"" + round(currentState.getPositionX()));
 		HBox positionY = this.makePropertyLine("Position Y",
-				"" + currentState.getPositionY());
+				"" + round(currentState.getPositionY()));
 		HBox heading = this.makePropertyLine("Heading",
-				"" + currentState.getHeading() % 360);
+				"" + round(currentState.getHeading() % 360));
 		HBox pen = this.makePropertyLine("Pen Down?",
 				"" + currentState.getPen().isDown());
 		HBox color = this.makePropertyColorLine("Pen Color",
@@ -77,6 +77,10 @@ public class TurtleStateView extends TurtleDependentView {
 		turtleImage.setRotate(currentState.getHeading());
 		imgBox.getChildren().add(turtleImage);
 		return imgBox;
+	}
+	
+	private double round(double toRound) {
+		return Math.round(toRound * 100) / 100;
 	}
 
 }

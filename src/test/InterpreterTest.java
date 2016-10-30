@@ -226,7 +226,6 @@ public class InterpreterTest {
 		parseAndExecute("tell [ 2 3 5 ]");
 		parseAndExecute("penup");
 		parseAndExecute("askwith [ pendown? ] [ fd 100 ]");
-		System.out.println(log.getTurtleLog(0).peekLast().getPositionY());
 		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -100);
 	}
 
