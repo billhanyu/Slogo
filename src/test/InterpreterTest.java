@@ -196,11 +196,16 @@ public class InterpreterTest {
 		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -10);
 	}
 	
-	
 	@Test
 	public void id() {
 		double result = parseAndExecute("id");
 		assertDoubleEqual(result, 0);
+	}
+	
+	@Test
+	public void turtles() {
+		double result = parseAndExecute("turtles");
+		assertDoubleEqual(result, 1);
 	}
 
 	@Test
