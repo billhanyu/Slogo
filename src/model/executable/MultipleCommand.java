@@ -7,6 +7,11 @@ import model.Executable;
 import model.LogHolder;
 import model.TurtleLog;
 
+/**
+ * @author billyu
+ * command type that operates on each turtle
+ * loops over each active turtle log to execute
+ */
 public abstract class MultipleCommand extends StandardCommand {
 	
 	private LogHolder logHolder;
