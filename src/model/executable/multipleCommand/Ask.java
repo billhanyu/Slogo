@@ -1,27 +1,33 @@
 package model.executable.multipleCommand;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
 
-public class Tell extends TellAskProto {
+public class Ask extends TellAskProto {
 
-	public Tell(List<Executable> argv) throws SyntacticErrorException {
+	public Ask(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);
 	}
-	
+
 	@Override
 	public double execute(LogHolder log) throws SyntacticErrorException {
+		Collection<Integer> copy = new ArrayList<>(log.getActiveIDs());
+		double result = 0;
 		List<Integer> indices = this.getActiveIDs(log);
 		log.setActiveIDs(indices);
-		return indices.get(indices.size() - 1);
+		result = this.getArgs().get(1).execute(log);
+		log.setActiveIDs(copy);
+		return result;
 	}
 
 	@Override
 	public String getName() {
-		return "tell";
+		return "ask";
 	}
 
 }

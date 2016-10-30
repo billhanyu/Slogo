@@ -213,6 +213,14 @@ public class InterpreterTest {
 		parseAndExecute("tell [ 2 3 5 ]");
 		assertDoubleEqual(log.getActiveIDs().size(), 3);
 	}
+	
+	@Test
+	public void ask() {
+		parseAndExecute("tell [ 2 3 5 ]");
+		parseAndExecute("ask [ 1 2 ] [ fd 100 ]");
+		System.out.println(log.getActiveIDs().size());
+		assertDoubleEqual(log.getActiveIDs().size(), 3);
+	}
 
 	@Test
 	public void checkMath() {
