@@ -38,9 +38,7 @@ public class HorizontalTabBar{
 		 tabs.getTabs().add(toAdd);
 		 tabs.getSelectionModel().select(toAdd);
 		 tabs.setTabMinWidth(20);
-		
 	}
-	
 	
 	private void addNewWorkspaceTab(){
 		workspaceTab = new Tab();
@@ -54,7 +52,5 @@ public class HorizontalTabBar{
 	public Node getRoot(){
 		return root;
 	}
-	
-	
 
 }

@@ -18,12 +18,11 @@ import javafx.util.Duration;
 import model.ActorState;
 import model.LogHolder;
 import model.TurtleLog;
-import model.TurtleState;
 import view.workspace.View;
 
 public class MainCanvas extends View {
 
-	private TurtleView turtleTracker;
+	private Map<Integer, TurtleView> turtleTrackers;
 	private Map<Integer, TurtleView> turtleViews;
 	private Canvas background;
 	private Map<Integer, ActorState> currentStates;
@@ -34,23 +33,17 @@ public class MainCanvas extends View {
 	private Duration totalAnimationSpeed = Duration.seconds(1);
 	private Duration singleAnimationSpeed;
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
-	private Duration animateSpeed = Duration.seconds(2.5);
 	private AnimatedMovement movement;
 	private SequentialTransition transitions;
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
-		turtleTracker = new TurtleView(controller, 
-				translateX(0), 
-				translateY(0), 
-				turtleWidth, 
-				turtleHeight,
-				currentState.getHeading());
 		log = controller.getLogHolder();
 		currentStates = new HashMap<>();
 		updateCurrentStates();
+		turtleTrackers = new HashMap<>();
 		turtleViews = new HashMap<>();
-		updateTurtleViews();
+		updateTurtleViewsAndTrackers();
 		initCanvas();
 		movement = new AnimatedMovement(this);
 		transitions = new SequentialTransition();
@@ -75,9 +68,11 @@ public class MainCanvas extends View {
 				else {
 					movement.setStates(currentState, next);
 					TurtleView turtleView = turtleViews.get(activeID);
-					doRotation(next.getHeading(), turtleView);
+					TurtleView turtleTracker = turtleTrackers.get(activeID);
+					doRotation(next.getHeading(), currentState, 
+							turtleView, turtleTracker);
 					turtleView.setVisible(next.isVisible());
-					doMovement(currentState, next, turtleView);
+					doMovement(currentState, next, turtleView, turtleTracker);
 					if (next.clearsScreen()) {
 						clearScreen();
 						next.setClearScreen(false);
@@ -100,7 +95,7 @@ public class MainCanvas extends View {
 		}
 	}
 
-	private void updateTurtleViews() {
+	private void updateTurtleViewsAndTrackers() {
 		for (int id : currentStates.keySet()) {
 			ActorState currentState = currentStates.get(id);
 			TurtleView turtleView = new TurtleView(
@@ -110,7 +105,15 @@ public class MainCanvas extends View {
 					turtleWidth, 
 					turtleHeight,
 					currentState.getHeading());
+			TurtleView turtleTracker = new TurtleView(
+					this.getController(), 
+					translateX(0), 
+					translateY(0), 
+					turtleWidth, 
+					turtleHeight,
+					currentState.getHeading());
 			turtleViews.put(id, turtleView);
+			turtleTrackers.put(id, turtleTracker);
 		}
 	}
 
@@ -169,7 +172,8 @@ public class MainCanvas extends View {
 	private void doMovement(
 			ActorState currentState, 
 			ActorState nextState, 
-			TurtleView turtleView) {
+			TurtleView turtleView,
+			TurtleView turtleTracker) {
 		if (getDuration().toMillis() == 0.0){
 			
 			turtleView.setPositionX(translateX(nextState.getPositionX()));
@@ -187,14 +191,13 @@ public class MainCanvas extends View {
 													turtleView, turtleTracker));
 
 				movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-						turtleView).play();
+						turtleView, turtleTracker).play();
 			}
 		}
-
 	}
 
-
-	private void doRotation(double degrees, TurtleView turtleView) {
+	private void doRotation(double degrees, ActorState currentState,
+			TurtleView turtleView, TurtleView turtleTracker) {
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setDirection(degrees);
 		}

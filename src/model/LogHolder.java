@@ -37,6 +37,10 @@ public class LogHolder {
 		return activeTurtles;
 	}
 	
+	public int size() {
+		return activeTurtles.size();
+	}
+	
 	public TurtleLog getTurtleLog(int id) {
 		return turtleLogs.get(id);
 	}

@@ -30,7 +30,6 @@ public class MainWindow {
         mainStage.setHeight(780);
         mainStage.setScene(scene);
         mainStage.show();
-		
 	}
 
 }
