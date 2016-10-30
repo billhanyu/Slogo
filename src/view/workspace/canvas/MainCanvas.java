@@ -31,7 +31,7 @@ public class MainCanvas extends View {
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
 	private Duration totalAnimationSpeed = Duration.seconds(1);
-	private Duration singleAnimationSpeed;
+	private Duration singleAnimationSpeed = Duration.seconds(0.25);
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	private AnimatedMovement movement;
 	private SequentialTransition transitions;
@@ -60,6 +60,9 @@ public class MainCanvas extends View {
 			for (ActorState next : activelog) {
 				if (!first) {
 					first = true;
+					if (currentState == null) {
+						addNewTurtle(activeID, activelog);
+					}
 					continue;
 				}
 				if (!inCanvasBounds(translateX(next.getPositionX()), translateY(next.getPositionY()))){
@@ -87,6 +90,15 @@ public class MainCanvas extends View {
 		this.notifySubscribers();
 	}
 
+	private void addNewTurtle(int activeID, TurtleLog log) {
+		TurtleView turtleView = zeroedTurtleView();
+		TurtleView turtleTracker = zeroedTurtleView();
+		this.getRoot().getChildren().add(turtleView.getUI());
+		turtleViews.put(activeID, turtleView);
+		turtleTrackers.put(activeID, turtleTracker);
+		currentStates.put(activeID, log.peekLast());
+	}
+
 	private void updateCurrentStates() {
 		currentStates.clear();
 		for (int key : this.getController().getLogHolder().getActiveIDs()) {
@@ -97,24 +109,21 @@ public class MainCanvas extends View {
 
 	private void updateTurtleViewsAndTrackers() {
 		for (int id : currentStates.keySet()) {
-			ActorState currentState = currentStates.get(id);
-			TurtleView turtleView = new TurtleView(
-					this.getController(), 
-					translateX(0), 
-					translateY(0), 
-					turtleWidth, 
-					turtleHeight,
-					currentState.getHeading());
-			TurtleView turtleTracker = new TurtleView(
-					this.getController(), 
-					translateX(0), 
-					translateY(0), 
-					turtleWidth, 
-					turtleHeight,
-					currentState.getHeading());
+			TurtleView turtleView = zeroedTurtleView();
+			TurtleView turtleTracker = zeroedTurtleView();
 			turtleViews.put(id, turtleView);
 			turtleTrackers.put(id, turtleTracker);
 		}
+	}
+
+	private TurtleView zeroedTurtleView() {
+		return new TurtleView(
+				this.getController(), 
+				translateX(0), 
+				translateY(0), 
+				turtleWidth, 
+				turtleHeight,
+				0);
 	}
 
 	private void initCanvas(){
