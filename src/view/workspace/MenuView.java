@@ -88,8 +88,10 @@ public class MenuView extends View {
 					File imageFile = fileChooser.showOpenDialog(null);
 					if (imageFile != null) {
 						Image newImage = new Image(imageFile.toURI().toString());
-						this.getController().getMainView().getCanvas().getTurtleView().
-							setImage(newImage);
+						this.getController().getMainView().getCanvas().getTurtleViews()
+							.values()
+							.stream()
+							.forEach(view -> view.setImage(newImage));
 						this.getController().getMainView().getConsole().
 							appendText(this.getLabelReader().getLabel("TurtleImageUpdated"), TextType.Success);
 					}
@@ -143,7 +145,5 @@ public class MenuView extends View {
 		item.setOnAction(handler);
 		return item;
 	}
-	
-
 
 }

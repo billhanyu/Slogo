@@ -11,9 +11,8 @@ import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
 import model.Interpreter;
+import model.LogHolder;
 import model.Marshaller;
-import model.TurtleLog;
-import model.TurtleState;
 import model.executable.CodeBlock;
 import util.Utils;
 
@@ -46,8 +45,8 @@ public class MarshallerTest {
 			Interpreter intr = new Interpreter();
 			CodeBlock main = intr.parseScript(TEST2);
 			CodeBlock replica = intr.parseScript(main.toString(false));
-			TurtleLog log1 = new TurtleLog().append(new TurtleState()),
-					  log2 = new TurtleLog().append(new TurtleState());
+			LogHolder log1 = new LogHolder(),
+					  log2 = new LogHolder();
 			assertTrue(Utils.doubleEqual(main.execute(log1),
 					                     replica.execute(log2)));
 		} catch (UnrecognizedIdentifierException | WrongNumberOfArguments
