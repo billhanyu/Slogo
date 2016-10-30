@@ -33,4 +33,5 @@ public class SetPalette extends SingleCommand{
 	public String getName() {
 		return "setpalette";
 	}
+	
 }

@@ -7,7 +7,7 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.SingleCommand;
 
-public class SetBackground extends SingleCommand{
+public class SetBackground extends SingleCommand {
 	
 	public SetBackground(List<Executable> argv)
 			throws SyntacticErrorException {
@@ -26,4 +26,5 @@ public class SetBackground extends SingleCommand{
 	public String getName() {
 		return "setbackground";
 	}
+	
 }

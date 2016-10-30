@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import controller.Controller;
 import exception.OutOfBoundsException;
-import javafx.animation.SequentialTransition;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Background;
@@ -39,7 +38,7 @@ public class MainCanvas extends View {
 	private Duration singleAnimationSpeed = Duration.seconds(0.25);
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	private AnimatedMovement movement;
-	private SequentialTransition transitions;
+	private TransitionManager transitionManager;
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -51,11 +50,11 @@ public class MainCanvas extends View {
 		updateTurtleViewsAndTrackers();
 		initCanvas();
 		movement = new AnimatedMovement(this);
-		transitions = new SequentialTransition();
+		transitionManager = new TransitionManager();
 	}
 
 	public void render() throws OutOfBoundsException {
-		transitions = new SequentialTransition();
+		transitionManager.clear();
 		singleAnimationSpeed = new Duration((totalAnimationSpeed.toSeconds() / log.size())*1000);
 		for (int renderID : log.getAllIDs()) {
 			TurtleLog activelog = log.getTurtleLog(renderID);
@@ -76,10 +75,10 @@ public class MainCanvas extends View {
 					movement.setStates(currentState, next);
 					TurtleView turtleView = turtleViews.get(renderID);
 					TurtleView turtleTracker = turtleTrackers.get(renderID);
-					doRotation(next.getHeading(), currentState, 
+					doRotation(renderID, next.getHeading(), currentState, 
 							turtleView, turtleTracker);
 					turtleView.setVisible(next.isVisible());
-					doMovement(currentState, next, turtleView, turtleTracker);
+					doMovement(renderID, currentState, next, turtleView, turtleTracker);
 					if (next.clearsScreen()) {
 						clearScreen();
 						next.setClearScreen(false);
@@ -90,7 +89,7 @@ public class MainCanvas extends View {
 			}
 			activelog.didRender();
 		}
-		transitions.play();
+		transitionManager.play();
 		this.notifySubscribers();
 	}
 
@@ -178,6 +177,7 @@ public class MainCanvas extends View {
 	}
 
 	private void doMovement(
+			int id,
 			ActorState currentState, 
 			ActorState nextState, 
 			TurtleView turtleView,
@@ -195,23 +195,22 @@ public class MainCanvas extends View {
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
 			if (currentPos.distance(nextPos)!=0){
-				transitions.getChildren().add(movement.createPathAnimation(totalAnimationSpeed, background.getGraphicsContext2D(), 
-													turtleView, turtleTracker));
-
-				movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-						turtleView, turtleTracker).play();
+				transitionManager.get(id).getChildren().add(
+						movement.createPathAnimation(
+								totalAnimationSpeed, background.getGraphicsContext2D(), turtleView, turtleTracker));
 			}
 		}
 	}
 
-	private void doRotation(double degrees, ActorState currentState,
+	private void doRotation(int id, double degrees, ActorState currentState,
 			TurtleView turtleView, TurtleView turtleTracker) {
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setDirection(degrees);
 		}
 		else if (!(currentState.getHeading() == degrees)){
-			transitions.getChildren().add(movement.createRotationAnimation(totalAnimationSpeed, background.getGraphicsContext2D(), 
-					turtleView, turtleTracker, degrees));
+			transitionManager.get(id).getChildren().add(
+					movement.createRotationAnimation(
+							totalAnimationSpeed, background.getGraphicsContext2D(), turtleView, turtleTracker, degrees));
 			turtleTracker.setDirection(degrees);
 		}
 	}
@@ -241,15 +240,15 @@ public class MainCanvas extends View {
 	}
 	
 	public void pauseAnimation(){
-		transitions.pause();
+		transitionManager.pause();
 	}
 	
 	public void playAnimation(){
-		transitions.play();
+		transitionManager.play();
 	}
 	
 	public void stopAnimation(){
-		transitions.stop();
+		transitionManager.stop();
 	}
 	
 	private void addPath(ActorState currentState, ActorState nextState) {
