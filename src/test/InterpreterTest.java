@@ -218,8 +218,16 @@ public class InterpreterTest {
 	public void ask() {
 		parseAndExecute("tell [ 2 3 5 ]");
 		parseAndExecute("ask [ 1 2 ] [ fd 100 ]");
-		System.out.println(log.getActiveIDs().size());
 		assertDoubleEqual(log.getActiveIDs().size(), 3);
+	}
+	
+	@Test
+	public void askwith() {
+		parseAndExecute("tell [ 2 3 5 ]");
+		parseAndExecute("penup");
+		parseAndExecute("askwith [ pendown? ] [ fd 100 ]");
+		System.out.println(log.getTurtleLog(0).peekLast().getPositionY());
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -100);
 	}
 
 	@Test
