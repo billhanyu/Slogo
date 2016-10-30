@@ -1,6 +1,7 @@
 import controller.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import view.MainWindow;
 
 /**
  * @author billyu
@@ -14,13 +15,15 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start (Stage s) {
-		new Controller();
+		//new Controller();
+		new MainWindow();
 	}
 	
 	/**
 	 * Start the program.
 	 */
 	public static void main (String[] args) {
+		
 		launch(args);
 	}
 }

@@ -1,4 +1,4 @@
-package view.canvas;
+package view.workspace.canvas;
 
 import java.awt.Point;
 import javafx.animation.Animation;
@@ -15,7 +15,6 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import model.ActorState;
-import view.TurtleView;
 
 public class AnimatedMovement {
 	private MainCanvas actingOn;
@@ -47,7 +46,7 @@ public class AnimatedMovement {
 	}
 	
 	
-    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle) {
+    public Animation createPathAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, TurtleView turtleTracker) {
         
     	Circle pen = new Circle(0, 0, 20);
         pathMovement = new PathTransition(duration, createPath(), pen);
@@ -89,10 +88,10 @@ public class AnimatedMovement {
         return pathMovement;
     }
     
-    public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, double degrees){
-    	rotation = new RotateTransition(Duration.millis(3000), turtle.getImageView());
-    	rotation.setToAngle(degrees
-    			);
+    public Animation createRotationAnimation(Duration duration, GraphicsContext graphics, TurtleView turtle, TurtleView turtleTracker, double degrees){
+    	rotation = new RotateTransition(duration, turtle.getImageView());
+    	rotation.setFromAngle(turtleTracker.getDirection());
+    	rotation.setToAngle(degrees);
     	rotation.setOnFinished(new EventHandler<ActionEvent>() {
     		public void handle(ActionEvent event) {
     			turtle.setDirection(degrees);
@@ -113,20 +112,5 @@ public class AnimatedMovement {
     	currentState = current;
     	nextState = next;
     	
-    }
-    
-    public void pauseAnimation(){
-    	pathMovement.pause();
-    	rotation.pause();
-    }
-    
-    public void playAnimation(){
-    	pathMovement.play();
-    	rotation.play();
-    }
-    
-    public void stopAnimation(){
-    	pathMovement.stop();
-    	rotation.stop();
     }
 }

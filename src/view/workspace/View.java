@@ -1,4 +1,4 @@
-package view;
+package view.workspace;
 
 import controller.Controller;
 import javafx.event.ActionEvent;

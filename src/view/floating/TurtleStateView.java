@@ -7,11 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
-import view.canvas.MainCanvas;
+import view.workspace.canvas.MainCanvas;
 
-public class TurtleStateView extends TurtleDependentView {
-	
-	private ActorState currentState;
+public class TurtleStateView extends FloatingView {
 
 	public TurtleStateView(Controller controller) {
 		super(controller);
@@ -19,10 +17,9 @@ public class TurtleStateView extends TurtleDependentView {
 
 	@Override
 	protected void init() {
-		this.getRoot().getChildren().clear();
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
-		currentState = this.getCurrentSelectedState();
+		ActorState currentState = canvas.getCurrentState();
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());
@@ -38,7 +35,6 @@ public class TurtleStateView extends TurtleDependentView {
 		HBox color = this.makePropertyColorLine("Pen Color",
 				currentState.getPen().getColor());
 		layout.getChildren().addAll(
-				this.makeSelectTurtleBox(),
 				turtleImage, 
 				positionX, 
 				positionY, 
@@ -55,12 +51,12 @@ public class TurtleStateView extends TurtleDependentView {
 
 	@Override
 	protected double width() {
-		return 250;
+		return 200;
 	}
 
 	@Override
 	protected double height() {
-		return 220;
+		return 200;
 	}
 	
 	private HBox makeTurtleImageBox(ActorState currentState) {
@@ -70,8 +66,7 @@ public class TurtleStateView extends TurtleDependentView {
 		ImageView turtleImage = new ImageView(this.getController()
 				.getMainView()
 				.getCanvas()
-				.getTurtleViews()
-				.get(this.getCurrentID())
+				.getTurtleView()
 				.getImageView()
 				.getImage());
 		turtleImage.setRotate(currentState.getHeading());

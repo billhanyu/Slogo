@@ -2,6 +2,7 @@ package view.floating;
 
 import controller.Controller;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,7 +12,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import view.View;
+import view.workspace.View;
 
 public abstract class FloatingView extends View implements Subscriber {
 	
@@ -33,6 +34,7 @@ public abstract class FloatingView extends View implements Subscriber {
 	
 	@Override
 	public void didUpdate(Publisher target) {
+		this.getRoot().getChildren().clear();
 		init();
 	}
 	
@@ -69,12 +71,6 @@ public abstract class FloatingView extends View implements Subscriber {
 		return makeLine(nameLabel, rectBox);
 	}
 	
-	protected HBox makeSelectionBox(String label, Node box) {
-		Label pickerLabel = new Label(label);
-		pickerLabel.setPrefWidth(130);
-		return makeLine(pickerLabel, box);
-	}
-	
 	protected HBox makeLine(Node name, Node value) {
 		HBox box = new HBox();
 		Region empty = new Region();
@@ -82,6 +78,17 @@ public abstract class FloatingView extends View implements Subscriber {
 		HBox.setHgrow(empty, Priority.ALWAYS);
 		box.getChildren().addAll(name, empty, value);
 		return box;
+	}
+	
+	protected HBox makeSelectionBox(String label, Node box) {
+		HBox pickerBox = new HBox();
+		Label pickerLabel = new Label(label);
+		pickerLabel.setPrefWidth(130);
+		pickerBox.setSpacing(10);
+		HBox.setMargin(pickerLabel, new Insets(10));
+		pickerBox.setAlignment(Pos.CENTER);
+		pickerBox.getChildren().addAll(pickerLabel, box);
+		return pickerBox;
 	}
 
 }
