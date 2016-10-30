@@ -207,6 +207,12 @@ public class InterpreterTest {
 		double result = parseAndExecute("turtles");
 		assertDoubleEqual(result, 1);
 	}
+	
+	@Test
+	public void tell() {
+		parseAndExecute("tell [ 2 3 5 ]");
+		assertDoubleEqual(log.getActiveIDs().size(), 3);
+	}
 
 	@Test
 	public void checkMath() {
