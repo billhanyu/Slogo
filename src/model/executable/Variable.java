@@ -20,6 +20,11 @@ public class Variable implements Executable {
 		this.expression = expression;
 	}
 	
+	@Override
+	public String toString() {
+		return name + SPACE;
+	}
+	
 	public Variable setExpression(Executable expression) {
 		this.expression = expression;
 		return this;

@@ -1,4 +1,4 @@
-package view.canvas;
+package view.workspace.canvas;
 
 import java.awt.Point;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import controller.Controller;
 import exception.OutOfBoundsException;
+import javafx.animation.SequentialTransition;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -17,11 +18,11 @@ import javafx.util.Duration;
 import model.ActorState;
 import model.LogHolder;
 import model.TurtleLog;
-import view.TurtleView;
-import view.View;
+import view.workspace.View;
 
 public class MainCanvas extends View {
 
+	private Map<Integer, TurtleView> turtleTrackers;
 	private Map<Integer, TurtleView> turtleViews;
 	private Canvas background;
 	private Map<Integer, ActorState> currentStates;
@@ -29,22 +30,30 @@ public class MainCanvas extends View {
 
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
-	private Duration animateSpeed = Duration.seconds(2.5);
+	private Duration totalAnimationSpeed = Duration.seconds(1);
+	private Duration singleAnimationSpeed;
+	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	private AnimatedMovement movement;
+	private SequentialTransition transitions;
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
 		log = controller.getLogHolder();
 		currentStates = new HashMap<>();
 		updateCurrentStates();
+		turtleTrackers = new HashMap<>();
 		turtleViews = new HashMap<>();
-		updateTurtleViews();
+		updateTurtleViewsAndTrackers();
 		initCanvas();
 		movement = new AnimatedMovement(this);
+		transitions = new SequentialTransition();
 	}
 
 	public void render() throws OutOfBoundsException {
 		boolean first = false;
+		transitions = new SequentialTransition();
+		
+		singleAnimationSpeed = new Duration((totalAnimationSpeed.toSeconds() / log.size())*1000);
 		for (int activeID : log.getActiveIDs()) {
 			TurtleLog activelog = log.getTurtleLog(activeID);
 			ActorState currentState = currentStates.get(activeID);
@@ -55,14 +64,15 @@ public class MainCanvas extends View {
 				}
 				if (!inCanvasBounds(translateX(next.getPositionX()), translateY(next.getPositionY()))){
 					activelog.noRender();
-					throw new OutOfBoundsException();
 				}
 				else {
 					movement.setStates(currentState, next);
 					TurtleView turtleView = turtleViews.get(activeID);
-					doRotation(next.getHeading(), turtleView);
+					TurtleView turtleTracker = turtleTrackers.get(activeID);
+					doRotation(next.getHeading(), currentState, 
+							turtleView, turtleTracker);
 					turtleView.setVisible(next.isVisible());
-					doMovement(currentState, next, turtleView);
+					doMovement(currentState, next, turtleView, turtleTracker);
 					if (next.clearsScreen()) {
 						clearScreen();
 						next.setClearScreen(false);
@@ -73,6 +83,7 @@ public class MainCanvas extends View {
 			}
 			activelog.didRender();
 		}
+		transitions.play();
 		this.notifySubscribers();
 	}
 
@@ -84,7 +95,7 @@ public class MainCanvas extends View {
 		}
 	}
 
-	private void updateTurtleViews() {
+	private void updateTurtleViewsAndTrackers() {
 		for (int id : currentStates.keySet()) {
 			ActorState currentState = currentStates.get(id);
 			TurtleView turtleView = new TurtleView(
@@ -94,7 +105,15 @@ public class MainCanvas extends View {
 					turtleWidth, 
 					turtleHeight,
 					currentState.getHeading());
+			TurtleView turtleTracker = new TurtleView(
+					this.getController(), 
+					translateX(0), 
+					translateY(0), 
+					turtleWidth, 
+					turtleHeight,
+					currentState.getHeading());
 			turtleViews.put(id, turtleView);
+			turtleTrackers.put(id, turtleTracker);
 		}
 	}
 
@@ -153,8 +172,10 @@ public class MainCanvas extends View {
 	private void doMovement(
 			ActorState currentState, 
 			ActorState nextState, 
-			TurtleView turtleView) {
+			TurtleView turtleView,
+			TurtleView turtleTracker) {
 		if (getDuration().toMillis() == 0.0){
+			
 			turtleView.setPositionX(translateX(nextState.getPositionX()));
 			turtleView.setPositionY(translateY(nextState.getPositionY()));
 			if (currentState.getPen().isDown()){
@@ -166,22 +187,24 @@ public class MainCanvas extends View {
 			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
 			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
 			if (currentPos.distance(nextPos)!=0){
+				transitions.getChildren().add(movement.createPathAnimation(totalAnimationSpeed, background.getGraphicsContext2D(), 
+													turtleView, turtleTracker));
 
 				movement.createPathAnimation(getDuration(), background.getGraphicsContext2D(), 
-						turtleView).play();
+						turtleView, turtleTracker).play();
 			}
 		}
-
 	}
 
-
-	private void doRotation(double degrees, TurtleView turtleView) {
+	private void doRotation(double degrees, ActorState currentState,
+			TurtleView turtleView, TurtleView turtleTracker) {
 		if (getDuration().toMillis() == 0.0){
 			turtleView.setDirection(degrees);
 		}
-		else{
-			movement.createRotationAnimation(getDuration(), background.getGraphicsContext2D(), 
-					turtleView, degrees).play();
+		else if (!(currentState.getHeading() == degrees)){
+			transitions.getChildren().add(movement.createRotationAnimation(totalAnimationSpeed, background.getGraphicsContext2D(), 
+					turtleView, turtleTracker, degrees));
+			turtleTracker.setDirection(degrees);
 		}
 	}
 
@@ -198,17 +221,29 @@ public class MainCanvas extends View {
 	}
 
 	public void setDuration(double seconds){
-		animateSpeed = new Duration(seconds);
+		totalAnimationSpeed = new Duration(seconds);
 	}
 
 	public Duration getDuration(){
-		return animateSpeed;
+		return singleAnimationSpeed;
 	}
 
 	public AnimatedMovement getAnimatedMovement(){
 		return movement;
 	}
-
+	
+	public void pauseAnimation(){
+		transitions.pause();
+	}
+	
+	public void playAnimation(){
+		transitions.play();
+	}
+	
+	public void stopAnimation(){
+		transitions.stop();
+	}
+	
 	private void addPath(ActorState currentState, ActorState nextState) {
 		Path path = new Path();
 		MoveTo moveTo = new MoveTo();

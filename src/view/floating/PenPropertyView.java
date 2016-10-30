@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
 import model.Pen;
-import view.canvas.MainCanvas;
+import view.workspace.canvas.MainCanvas;
 
 public class PenPropertyView extends TurtleDependentView {
 
@@ -32,6 +32,9 @@ public class PenPropertyView extends TurtleDependentView {
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
 		currentState = this.getCurrentSelectedState();
+		int activeID = (int) this.getController().getLogHolder().getActiveIDs().toArray()[0];
+		currentState = canvas.getCurrentStates().get(activeID);
+		//TODO make users select which turtle
 		VBox layout = new VBox();
 		layout.setPadding(new Insets(10,20,10,20));
 		layout.setPrefWidth(width());

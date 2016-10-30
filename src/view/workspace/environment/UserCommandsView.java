@@ -1,4 +1,4 @@
-package view;
+package view.workspace.environment;
 
 import controller.Controller;
 

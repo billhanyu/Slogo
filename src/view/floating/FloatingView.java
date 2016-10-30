@@ -11,7 +11,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import view.View;
+import view.workspace.View;
 
 public abstract class FloatingView extends View implements Subscriber {
 	

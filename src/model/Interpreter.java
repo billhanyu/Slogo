@@ -1,9 +1,6 @@
 package model;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
@@ -11,6 +8,7 @@ import exception.WrongNumberOfArguments;
 import model.executable.CodeBlock;
 import model.token.Token;
 import model.token.TokenFactory;
+import util.Utils;
 
 public class Interpreter {
 	
@@ -24,7 +22,6 @@ public class Interpreter {
 	private Translator translator;
 	
 	public Interpreter() {
-		// TODO (cx15): passed in a reference of globalVars
 		globalVars = new GlobalVariables();
 		userCommands = new UserCommands();
 		semanticsRegistry = new SemanticsRegistry(userCommands);
@@ -32,31 +29,24 @@ public class Interpreter {
 		translator = new Translator();
 	}
 	
+	/**
+	 * Parse a SLOGO script and generate a CodeBlock to be executed
+	 * @param script
+	 * @return
+	 * @throws UnrecognizedIdentifierException
+	 * @throws WrongNumberOfArguments
+	 * @throws SyntacticErrorException
+	 */
 	public CodeBlock parseScript(String script)
 			throws UnrecognizedIdentifierException, WrongNumberOfArguments,
 				   SyntacticErrorException {
-		script = script.trim()
-				.replaceAll(" +", " ")
-				.replaceAll("\t+", " ")
-				.replaceAll("\n+", " ");
-		String translated = translateScript(script);
+		script = Utils.senitize(script);
+		String translated = translator.translate(script, SPACE_REGEX);
 		semanticsRegistry.register(translated);
 		Stack<Token> tokenStack = tokenize(translated);
-		CodeBlock block = buildMain(tokenStack);
-		block.setName(script);
-		return block;
-	}
-	
-	public void setLanguage(String language) {
-		translator.setLanguage(language);
-	}
-	
-	public UserCommands getUserCommands() {
-		return userCommands;
-	}
-	
-	public GlobalVariables getGlobalVars() {
-		return globalVars;
+		CodeBlock main = buildMain(tokenStack);
+		main.setName(script);
+		return main;
 	}
 	
 	private Stack<Token> tokenize(String script)
@@ -88,11 +78,19 @@ public class Interpreter {
 				  .setSemantics(semanticsRegistry);
 	}
 	
-	private String translateScript(String script) {
-		List<String> tokens = Arrays.asList(script.split(SPACE_REGEX));
-		return tokens.stream()
-				.map(token -> translator.translateToken(token))
-				.collect(Collectors.joining(" "));
+	public void setLanguage(String language) {
+		translator.setLanguage(language);
 	}
 	
+	public Translator getTranslator() {
+		return translator;
+	}
+	
+	public UserCommands getUserCommands() {
+		return userCommands;
+	}
+	
+	public GlobalVariables getGlobalVars() {
+		return globalVars;
+	}
 }

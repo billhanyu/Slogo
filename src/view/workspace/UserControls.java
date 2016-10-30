@@ -1,4 +1,4 @@
-package view;
+package view.workspace;
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -34,15 +34,15 @@ public class UserControls extends View {
 	private HBox makeControlButtons(){
 		HBox controlButtons = new HBox();
 		Button pause = this.makeButton("Pause", e -> {
-			this.getController().getMainView().getCanvas().getAnimatedMovement().pauseAnimation();
+			this.getController().getMainView().getCanvas().pauseAnimation();
 		});
 		
 		Button play  = this.makeButton("Play", e -> {
-			this.getController().getMainView().getCanvas().getAnimatedMovement().playAnimation();
+			this.getController().getMainView().getCanvas().playAnimation();
 		});
 		
 		Button stop  = this.makeButton("Stop", e -> {
-			this.getController().getMainView().getCanvas().getAnimatedMovement().stopAnimation();
+			this.getController().getMainView().getCanvas().stopAnimation();
 		});
 		controlButtons.getChildren().addAll(play, pause, stop);
 		controlButtons.setSpacing(40);
@@ -53,8 +53,8 @@ public class UserControls extends View {
 	private ScrollBar makeSpeedBar(){
 		ScrollBar speedBar = new ScrollBar();
 		speedBar.setMin(0);
-		speedBar.setMax(5000);
-		speedBar.setValue(3000);
+		speedBar.setMax(2000);
+		speedBar.setValue(1000);
 		
         speedBar.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,

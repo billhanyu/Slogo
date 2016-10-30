@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.ActorState;
-import view.canvas.MainCanvas;
+import view.workspace.canvas.MainCanvas;
 
 public class TurtleStateView extends TurtleDependentView {
 	

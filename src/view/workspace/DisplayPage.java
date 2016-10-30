@@ -1,4 +1,4 @@
-package view;
+package view.workspace;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -22,7 +22,7 @@ public class DisplayPage{
         scrollPane.setFitToWidth(true);;
         scrollPane.setFitToHeight(true);
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
-		String url = MainView.class.getResource(valueReader.getLabel(pageLabel)).toExternalForm();
+		String url = workspaceView.class.getResource(valueReader.getLabel(pageLabel)).toExternalForm();
         webEngine.load(url);
         root.getChildren().addAll(scrollPane);
         scene.setRoot(root);

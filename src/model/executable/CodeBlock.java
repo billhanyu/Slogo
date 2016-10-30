@@ -46,7 +46,20 @@ public class CodeBlock implements Executable {
 		}
 		return ret;
 	}
+	
+	public String toString(boolean withBrackets) {
+		StringBuilder sb = new StringBuilder();
+		if (withBrackets) sb.append("[").append(SPACE);
+		Utils.appendList(sb, sequence, SPACE);
+		if (withBrackets) sb.append("]").append(SPACE);
+		return sb.toString();
+	}
 
+	@Override
+	public String toString() {
+		return toString(true);
+	}
+	
 	@Override
 	public String getName() {
 		return name;

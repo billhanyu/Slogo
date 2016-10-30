@@ -27,6 +27,11 @@ public class Constant implements Executable {
 	}
 	
 	@Override
+	public String toString() {
+		return value + SPACE;
+	}
+	
+	@Override
 	public String getName() {
 		return name;
 	}
