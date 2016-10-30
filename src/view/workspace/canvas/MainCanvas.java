@@ -8,8 +8,12 @@ import java.util.stream.Collectors;
 import controller.Controller;
 import exception.OutOfBoundsException;
 import javafx.animation.SequentialTransition;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -25,6 +29,7 @@ public class MainCanvas extends View {
 	private Map<Integer, TurtleView> turtleTrackers;
 	private Map<Integer, TurtleView> turtleViews;
 	private Canvas background;
+	private VBox holder;
 	private Map<Integer, ActorState> currentStates;
 	private LogHolder log;
 
@@ -129,8 +134,11 @@ public class MainCanvas extends View {
 		this.getRoot().getChildren().removeAll(this.getRoot().getChildren());
 		background = new Canvas(getCanvasWidth(), getCanvasHeight());
 		background.setId("canvas");
+		holder = new VBox();
+		holder.setPrefSize(getCanvasWidth(), getCanvasHeight());
+		holder.getChildren().add(background);
 		setBackgroundColor(log.getWorkspaceState().getBackgroundColor());
-		this.getRoot().getChildren().add(background);
+		this.getRoot().getChildren().add(holder);
 		this.getRoot().getChildren().addAll(
 				turtleViews.values()
 				.stream()
@@ -154,9 +162,7 @@ public class MainCanvas extends View {
 	}
 
 	public void setBackgroundColor(Color color) {
-		GraphicsContext gc= background.getGraphicsContext2D();
-		gc.setFill(color);
-		gc.fillRect(0, 0, getCanvasWidth(),getCanvasHeight());
+		holder.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
 	}
 
 	public Map<Integer, ActorState> getCurrentStates() {
