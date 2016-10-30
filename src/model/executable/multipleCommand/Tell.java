@@ -6,6 +6,11 @@ import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
 
+/**
+ * @author billyu
+ * set active IDs to the list in [ ] 
+ * number of IDs is arbitrary
+ */
 public class Tell extends TellAskProto {
 
 	public Tell(List<Executable> argv) throws SyntacticErrorException {

@@ -8,6 +8,12 @@ import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
 
+/**
+ * @author billyu
+ * temporarily set active IDs to the ones in first []
+ * execute the commands in the second []
+ * set back the original active IDs
+ */
 public class Ask extends TellAskProto {
 
 	public Ask(List<Executable> argv) throws SyntacticErrorException {

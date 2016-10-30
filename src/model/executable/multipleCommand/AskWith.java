@@ -9,6 +9,11 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.SingleCommand;
 
+/**
+ * @author billyu
+ * ask [ condition ] [ command ]
+ * loops over all turtles to test condition
+ */
 public class AskWith extends SingleCommand {
 
 	public AskWith(List<Executable> argv) throws SyntacticErrorException {
@@ -17,20 +22,21 @@ public class AskWith extends SingleCommand {
 
 	@Override
 	public double execute(LogHolder log) throws SyntacticErrorException {
+		// back up the original active IDs
 		Collection<Integer> copy = new ArrayList<>(log.getActiveIDs());
 		double result = 0;
-		Collection<Integer> ids = log.getAllIDs();
-		Collection<Integer> actives = new ArrayList<>();
-		for (int id : ids) {
+		List<Integer> active = new ArrayList<>();
+		// test if each turtle satisfies the condition
+		for (int candidate : log.getAllIDs()) {
+			active.clear();
+			active.add(candidate);
+			log.setActiveIDs(active);
 			if (this.getArgs().get(0).execute(log) != 0) {
-				// TODO: bug: currently execute on log holder loops over every active turtlelog
-				// instead of querying one one turtlelog
-				actives.add(id);
+				// satisfies the condition, execute the commands
+				result = this.getArgs().get(1).execute(log);
 			}
 		}
-		System.out.println(actives);
-		log.setActiveIDs(actives);
-		result = this.getArgs().get(1).execute(log);
+		// set back the original active IDs
 		log.setActiveIDs(copy);
 		return result;
 	}
