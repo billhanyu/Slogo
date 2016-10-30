@@ -50,18 +50,18 @@ public class MainCanvas extends View {
 	}
 
 	public void render() throws OutOfBoundsException {
-		boolean first = false;
 		transitions = new SequentialTransition();
 		
 		singleAnimationSpeed = new Duration((totalAnimationSpeed.toSeconds() / log.size())*1000);
-		for (int activeID : log.getActiveIDs()) {
-			TurtleLog activelog = log.getTurtleLog(activeID);
-			ActorState currentState = currentStates.get(activeID);
+		for (int renderID : log.getAllIDs()) {
+			TurtleLog activelog = log.getTurtleLog(renderID);
+			ActorState currentState = currentStates.get(renderID);
+			boolean first = false;
 			for (ActorState next : activelog) {
 				if (!first) {
 					first = true;
 					if (currentState == null) {
-						addNewTurtle(activeID, activelog);
+						addNewTurtle(renderID, activelog);
 					}
 					continue;
 				}
@@ -70,8 +70,8 @@ public class MainCanvas extends View {
 				}
 				else {
 					movement.setStates(currentState, next);
-					TurtleView turtleView = turtleViews.get(activeID);
-					TurtleView turtleTracker = turtleTrackers.get(activeID);
+					TurtleView turtleView = turtleViews.get(renderID);
+					TurtleView turtleTracker = turtleTrackers.get(renderID);
 					doRotation(next.getHeading(), currentState, 
 							turtleView, turtleTracker);
 					turtleView.setVisible(next.isVisible());
@@ -81,7 +81,7 @@ public class MainCanvas extends View {
 						next.setClearScreen(false);
 					}
 					currentState = next;
-					currentStates.put(activeID, next);
+					currentStates.put(renderID, next);
 				}
 			}
 			activelog.didRender();
