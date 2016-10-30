@@ -9,11 +9,11 @@ import model.LogHolder;
 import model.executable.CodeBlock;
 import view.workspace.DisplayLabelReader;
 import view.workspace.TextType;
-import view.workspace.workspaceView;
+import view.workspace.WorkspaceView;
 public class Controller {
 	
 	private Interpreter interpreter;
-	private workspaceView mainView;
+	private WorkspaceView mainView;
 	private LogHolder log;
 	private DisplayLabelReader valueReader;
 	private CommandHistory commandHistory;
@@ -24,7 +24,7 @@ public class Controller {
 		interpreter = new Interpreter();
 		log = new LogHolder();
 		valueReader = new DisplayLabelReader(UI_RESOURCES);
-		mainView = new workspaceView(this);
+		mainView = new WorkspaceView(this);
 	}
 	
 	public void runScript(String script) throws UnrecognizedIdentifierException, WrongNumberOfArguments, SyntacticErrorException {
@@ -51,7 +51,7 @@ public class Controller {
 		mainView.getEditor().setText(script);
 	}
 	
-	public workspaceView getMainView() {
+	public WorkspaceView getMainView() {
 		return mainView;
 	}
 	

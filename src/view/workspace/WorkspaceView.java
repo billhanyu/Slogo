@@ -1,6 +1,5 @@
 package view.workspace;
 
-
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -11,7 +10,7 @@ import javafx.scene.layout.VBox;
 import view.workspace.canvas.MainCanvas;
 import view.workspace.environment.EnvironmentView;
 
-public class workspaceView {
+public class WorkspaceView {
 	
 	private Node sceneRoot;
 	private static final int WIDTH = 1000;
@@ -24,7 +23,7 @@ public class workspaceView {
 	private MenuView menuView;
 	private UserControls controls;
 	
-	public workspaceView(Controller controller) {
+	public WorkspaceView(Controller controller) {
 		this.controller = controller;
 		init();
 	}
