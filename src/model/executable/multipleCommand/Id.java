@@ -7,22 +7,24 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.SingleCommand;
 
-public class Tell extends SingleCommand {
+public class Id extends SingleCommand {
 
-	public Tell(List<Executable> argv) throws SyntacticErrorException {
+	public Id(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);
 	}
-	
+
 	@Override
 	public double execute(LogHolder log) throws SyntacticErrorException {
-		// TODO Auto-generated method stub
-		return 0;
+		double result = 0;
+		for (int id : log.getActiveIDs()) {
+			result = id;
+		}
+		return result;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "id";
 	}
 
 }

@@ -195,6 +195,13 @@ public class InterpreterTest {
 		parseAndExecute("make :dist 10 fd :dist");
 		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -10);
 	}
+	
+	
+	@Test
+	public void id() {
+		double result = parseAndExecute("id");
+		assertDoubleEqual(result, 0);
+	}
 
 	@Test
 	public void checkMath() {
