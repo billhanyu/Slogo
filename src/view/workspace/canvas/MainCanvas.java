@@ -34,11 +34,12 @@ public class MainCanvas extends View {
 
 	private double turtleWidth = 20;
 	private double turtleHeight = 20;
-	private Duration totalAnimationSpeed = Duration.seconds(1);
-	private Duration singleAnimationSpeed = Duration.seconds(0.25);
-	public static final Color BACKGROUND_COLOR = Color.WHITE;
+	private Duration animationSpeed = Duration.millis(500);
+
 	private AnimatedMovement movement;
 	private TransitionManager transitionManager;
+
+	public static final Color BACKGROUND_COLOR = Color.WHITE;
 
 	public MainCanvas(Controller controller, double width, double height) {
 		super(controller, width, height);
@@ -55,7 +56,6 @@ public class MainCanvas extends View {
 
 	public void render() throws OutOfBoundsException {
 		transitionManager.clear();
-		singleAnimationSpeed = new Duration((totalAnimationSpeed.toSeconds() / log.size())*1000);
 		for (int renderID : log.getAllIDs()) {
 			TurtleLog activelog = log.getTurtleLog(renderID);
 			ActorState currentState = currentStates.get(renderID);
@@ -183,7 +183,7 @@ public class MainCanvas extends View {
 			TurtleView turtleView,
 			TurtleView turtleTracker) {
 		if (getDuration().toMillis() == 0.0){
-			
+
 			turtleView.setPositionX(translateX(nextState.getPositionX()));
 			turtleView.setPositionY(translateY(nextState.getPositionY()));
 			if (currentState.getPen().isDown()){
@@ -191,13 +191,16 @@ public class MainCanvas extends View {
 			}
 		}
 		else {
-			Point currentPos = new Point(), nextPos = new Point();
-			currentPos.setLocation(translateX(currentState.getPositionX()), translateY(currentState.getPositionY()));
-			nextPos.setLocation(translateX(nextState.getPositionX()), translateY(nextState.getPositionY()));
-			if (currentPos.distance(nextPos)!=0){
+			double distance = 
+					Math.pow(
+							Math.pow(currentState.getPositionX() - nextState.getPositionX(), 2) +
+							Math.pow(currentState.getPositionY() - nextState.getPositionY(), 2),
+							0.5
+							);
+			if (distance != 0) {
 				transitionManager.get(id).getChildren().add(
 						movement.createPathAnimation(
-								totalAnimationSpeed, background.getGraphicsContext2D(), turtleView, turtleTracker));
+								animationSpeed, background.getGraphicsContext2D(), turtleView, turtleTracker));
 			}
 		}
 	}
@@ -210,7 +213,7 @@ public class MainCanvas extends View {
 		else if (!(currentState.getHeading() == degrees)){
 			transitionManager.get(id).getChildren().add(
 					movement.createRotationAnimation(
-							totalAnimationSpeed, background.getGraphicsContext2D(), turtleView, turtleTracker, degrees));
+							animationSpeed, background.getGraphicsContext2D(), turtleView, turtleTracker, degrees));
 			turtleTracker.setDirection(degrees);
 		}
 	}
@@ -227,30 +230,30 @@ public class MainCanvas extends View {
 		return this.getHeight();
 	}
 
-	public void setDuration(double seconds){
-		totalAnimationSpeed = new Duration(seconds);
+	public void setDuration(double milliseconds) {
+		animationSpeed = new Duration(milliseconds);
 	}
 
-	public Duration getDuration(){
-		return singleAnimationSpeed;
+	public Duration getDuration() {
+		return animationSpeed;
 	}
 
-	public AnimatedMovement getAnimatedMovement(){
+	public AnimatedMovement getAnimatedMovement() {
 		return movement;
 	}
-	
-	public void pauseAnimation(){
+
+	public void pauseAnimation() {
 		transitionManager.pause();
 	}
-	
-	public void playAnimation(){
+
+	public void playAnimation() {
 		transitionManager.play();
 	}
-	
+
 	public void stopAnimation(){
 		transitionManager.stop();
 	}
-	
+
 	private void addPath(ActorState currentState, ActorState nextState) {
 		Path path = new Path();
 		MoveTo moveTo = new MoveTo();
