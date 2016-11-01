@@ -40,6 +40,7 @@ public class WorkspaceState extends AbstractPublisher {
 
 	public void setLanguage(String language) {
 		this.language = language;
+		this.notifySubscribers();
 	}
 
 	public int getStartingNumber() {

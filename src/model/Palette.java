@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javafx.scene.paint.Color;
+import view.floating.AbstractPublisher;
 
-public class Palette {
+public class Palette extends AbstractPublisher {
 
 	private Map<Integer, Color> colors;
 	
@@ -38,6 +39,7 @@ public class Palette {
 	
 	public void setColor(int index, Color color) {
 		colors.put(index, color);
+		this.notifySubscribers();
 	}
 	
 	public int findColorInPalette(Color color) {

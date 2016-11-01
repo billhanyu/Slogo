@@ -32,6 +32,7 @@ public class BackgroundPropertyView extends FloatingView {
 
 	@Override
 	protected void init() {
+		this.getController().getLogHolder().getWorkspaceState().addSubscriber(this);
 		this.getRoot().getChildren().add(makeBackgroundPickerBox());
 	}
 
