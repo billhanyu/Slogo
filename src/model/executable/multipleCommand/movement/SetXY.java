@@ -7,9 +7,9 @@ import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class SetXY extends MultipleCommand {
+public class SetXY extends TurtleCommand {
 	
 	public SetXY(List<Executable> argv)
 			throws SyntacticErrorException {

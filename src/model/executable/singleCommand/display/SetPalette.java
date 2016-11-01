@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import javafx.scene.paint.Color;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
-public class SetPalette extends SingleCommand{
+public class SetPalette extends StaticCommand{
 	
 	public SetPalette(List<Executable> argv)
 			throws SyntacticErrorException {

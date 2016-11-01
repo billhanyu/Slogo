@@ -12,11 +12,11 @@ import model.TurtleLog;
  * command type that operates on each turtle
  * loops over each active turtle log to execute
  */
-public abstract class MultipleCommand extends StandardCommand {
+public abstract class TurtleCommand extends StandardCommand {
 	
 	private LogHolder logHolder;
 
-	public MultipleCommand(List<Executable> argv) throws SyntacticErrorException {
+	public TurtleCommand(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);
 	}
 

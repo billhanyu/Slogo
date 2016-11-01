@@ -6,10 +6,10 @@ import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import model.executable.Variable;
 
-public class If extends SingleCommand {
+public class If extends StaticCommand {
 	
 	private Executable expr;
 	private CodeBlock body;

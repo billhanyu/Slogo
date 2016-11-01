@@ -7,9 +7,9 @@ import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class PenUp extends MultipleCommand{
+public class PenUp extends TurtleCommand{
 	
 	public PenUp(List<Executable> argv)
 			throws SyntacticErrorException {

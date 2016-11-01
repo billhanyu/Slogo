@@ -6,9 +6,9 @@ import exception.RandomMaxTooSmallException;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
-public class Random extends SingleCommand {
+public class Random extends StaticCommand {
 
 	public Random(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);

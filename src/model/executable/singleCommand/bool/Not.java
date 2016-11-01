@@ -5,10 +5,10 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import util.Utils;
 
-public class Not extends SingleCommand {
+public class Not extends StaticCommand {
 
 	public Not(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);

@@ -7,14 +7,14 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
 /**
  * @author billyu
  * ask [ condition ] [ command ]
  * loops over all turtles to test condition
  */
-public class AskWith extends SingleCommand {
+public class AskWith extends StaticCommand {
 
 	public AskWith(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);

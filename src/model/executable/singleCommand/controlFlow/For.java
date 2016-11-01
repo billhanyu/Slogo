@@ -7,10 +7,10 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
 import model.executable.Constant;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import model.executable.Variable;
 
-public class For extends SingleCommand{
+public class For extends StaticCommand{
 	//TODO: make a variable assigned to each succeeding loop value
 	//so that it can be accessed by commands
 	private Variable var;

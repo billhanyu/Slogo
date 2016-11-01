@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class YCorQuery extends MultipleCommand {
+public class YCorQuery extends TurtleCommand {
 	
 	public YCorQuery(List<Executable> argv)
 			throws SyntacticErrorException {

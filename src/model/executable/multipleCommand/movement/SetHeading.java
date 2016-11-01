@@ -7,9 +7,9 @@ import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class SetHeading extends MultipleCommand{
+public class SetHeading extends TurtleCommand{
 	
 	public SetHeading(List<Executable> argv)
 			throws SyntacticErrorException {

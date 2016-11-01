@@ -7,10 +7,10 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
 import model.executable.Constant;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import model.executable.Variable;
 
-public class DoTimes extends SingleCommand{
+public class DoTimes extends StaticCommand{
 	
 	private Variable var;
 	private Executable limit;

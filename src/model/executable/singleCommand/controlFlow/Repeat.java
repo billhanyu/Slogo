@@ -7,10 +7,10 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
 import model.executable.Constant;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import model.executable.Variable;
 
-public class Repeat extends SingleCommand {
+public class Repeat extends StaticCommand {
 	
 	public static final String REPCOUNT = ":repcount";
 	

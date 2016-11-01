@@ -6,10 +6,10 @@ import exception.DivideByZeroException;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import util.Utils;
 
-public class Quotient extends SingleCommand {
+public class Quotient extends StaticCommand {
 
 	public Quotient(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);

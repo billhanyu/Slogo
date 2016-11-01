@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class SetPenSize extends MultipleCommand {
+public class SetPenSize extends TurtleCommand {
 	
 	public SetPenSize(List<Executable> argv)
 			throws SyntacticErrorException {

@@ -8,14 +8,14 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
 import model.executable.Constant;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
 /**
  * @author billyu
  * abstract class extracted to have getAcitiveIDs method
  * unravel the tell [ constant ] and ask [ constant ] brackets
  */
-public abstract class TellAskProto extends SingleCommand {
+public abstract class TellAskProto extends StaticCommand {
 
 	public TellAskProto(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);
