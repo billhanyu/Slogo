@@ -5,8 +5,9 @@ import java.util.Map;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import view.floating.AbstractPublisher;
 
-public class WorkspaceState {
+public class WorkspaceState extends AbstractPublisher {
 	
 	private static final Color DEFAULT_BACKGROUND = Color.LIGHTBLUE;
 	private static final String DEFAULT_LANGUAGE = "English";
@@ -30,6 +31,7 @@ public class WorkspaceState {
 
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
+		this.notifySubscribers();
 	}
 
 	public String getLanguage() {

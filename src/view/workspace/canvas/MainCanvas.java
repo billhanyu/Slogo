@@ -21,9 +21,12 @@ import javafx.util.Duration;
 import model.ActorState;
 import model.LogHolder;
 import model.TurtleLog;
+import model.WorkspaceState;
+import view.floating.Publisher;
+import view.floating.Subscriber;
 import view.workspace.View;
 
-public class MainCanvas extends View {
+public class MainCanvas extends View implements Subscriber {
 
 	private Map<Integer, TurtleView> turtleTrackers;
 	private Map<Integer, TurtleView> turtleViews;
@@ -52,6 +55,7 @@ public class MainCanvas extends View {
 		initCanvas();
 		movement = new AnimatedMovement(this);
 		transitionManager = new TransitionManager();
+		controller.getLogHolder().getWorkspaceState().addSubscriber(this);
 	}
 
 	public void render() throws OutOfBoundsException {
@@ -93,6 +97,69 @@ public class MainCanvas extends View {
 		this.notifySubscribers();
 	}
 
+	public Map<Integer, TurtleView> getTurtleViews() {
+		return turtleViews;
+	}
+
+	public boolean inCanvasBounds(double xPos, double yPos){
+		return (xPos <= getCanvasWidth() && xPos >= 0 
+				&& yPos <= getCanvasHeight() && yPos >= 0);
+	}
+
+	public void setBackgroundColor(Color color) {
+		holder.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+	}
+
+	public Map<Integer, ActorState> getCurrentStates() {
+		return currentStates;
+	}
+	
+	public double getCanvasWidth() {
+		return this.getWidth();
+	}
+
+	public double getCanvasHeight() {
+		return this.getHeight();
+	}
+
+	public void setDuration(double milliseconds) {
+		animationSpeed = new Duration(milliseconds);
+	}
+
+	public Duration getDuration() {
+		return animationSpeed;
+	}
+
+	public AnimatedMovement getAnimatedMovement() {
+		return movement;
+	}
+
+	public void pauseAnimation() {
+		transitionManager.pause();
+	}
+
+	public void playAnimation() {
+		transitionManager.play();
+	}
+
+	public void stopAnimation(){
+		transitionManager.stop();
+	}
+
+	protected double translateX(double x) {
+		return x + getCanvasWidth() / 2;
+	}
+
+	protected double translateY(double y) {
+		return y + getCanvasHeight() / 2;
+	}
+	
+	protected Point findNextPoints(ActorState next){
+		Point nextPoint = new Point();
+		nextPoint.setLocation(translateX(next.getPositionX()), translateY(next.getPositionY()));
+		return nextPoint;
+	}
+	
 	private void addNewTurtle(int activeID, TurtleLog log) {
 		TurtleView turtleView = zeroedTurtleView();
 		TurtleView turtleTracker = zeroedTurtleView();
@@ -145,37 +212,6 @@ public class MainCanvas extends View {
 				.collect(Collectors.toList()));
 	}	
 
-	protected Point findNextPoints(ActorState next){
-		Point nextPoint = new Point();
-		nextPoint.setLocation(translateX(next.getPositionX()), translateY(next.getPositionY()));
-		return nextPoint;
-	}
-
-	public Map<Integer, TurtleView> getTurtleViews() {
-		return turtleViews;
-	}
-
-	public boolean inCanvasBounds(double xPos, double yPos){
-		return (xPos <= getCanvasWidth() && xPos >= 0 
-				&& yPos <= getCanvasHeight() && yPos >= 0);
-	}
-
-	public void setBackgroundColor(Color color) {
-		holder.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
-	}
-
-	public Map<Integer, ActorState> getCurrentStates() {
-		return currentStates;
-	}
-
-	protected double translateX(double x) {
-		return x + getCanvasWidth() / 2;
-	}
-
-	protected double translateY(double y) {
-		return y + getCanvasHeight() / 2;
-	}
-
 	private void doMovement(
 			int id,
 			ActorState currentState, 
@@ -222,38 +258,6 @@ public class MainCanvas extends View {
 		initCanvas();
 	}
 
-	public double getCanvasWidth() {
-		return this.getWidth();
-	}
-
-	public double getCanvasHeight() {
-		return this.getHeight();
-	}
-
-	public void setDuration(double milliseconds) {
-		animationSpeed = new Duration(milliseconds);
-	}
-
-	public Duration getDuration() {
-		return animationSpeed;
-	}
-
-	public AnimatedMovement getAnimatedMovement() {
-		return movement;
-	}
-
-	public void pauseAnimation() {
-		transitionManager.pause();
-	}
-
-	public void playAnimation() {
-		transitionManager.play();
-	}
-
-	public void stopAnimation(){
-		transitionManager.stop();
-	}
-
 	private void addPath(ActorState currentState, ActorState nextState) {
 		Path path = new Path();
 		MoveTo moveTo = new MoveTo();
@@ -280,6 +284,13 @@ public class MainCanvas extends View {
 			break;
 		}
 		this.getRoot().getChildren().add(path);
+	}
+
+	@Override
+	public void didUpdate(Publisher target) {
+		if (target instanceof WorkspaceState) {
+			this.setBackgroundColor(((WorkspaceState) target).getBackgroundColor());
+		}
 	}
 
 }
