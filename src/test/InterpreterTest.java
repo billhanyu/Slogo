@@ -9,6 +9,7 @@ import org.junit.Test;
 import exception.SyntacticErrorException;
 import exception.UnrecognizedIdentifierException;
 import exception.WrongNumberOfArguments;
+import javafx.scene.paint.Color;
 import model.Interpreter;
 import model.LogHolder;
 import model.executable.CodeBlock;
@@ -227,6 +228,41 @@ public class InterpreterTest {
 		parseAndExecute("penup");
 		parseAndExecute("askwith [ pendown? ] [ fd 100 ]");
 		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPositionY(), -100);
+	}
+	
+	@Test
+	public void setpensize() {
+		parseAndExecute("tell [ 1 2 3 ]");
+		parseAndExecute("setpensize 2");
+		assertDoubleEqual(log.getTurtleLog(0).peekLast().getPen().getThickness(), 1);
+		assertDoubleEqual(log.getTurtleLog(1).peekLast().getPen().getThickness(), 2);
+	}
+	
+	@Test
+	public void setpencolor() {
+		parseAndExecute("tell [ 1 2 3 ]");
+		parseAndExecute("setpencolor 2");
+		assertDoubleEqual(log.getPalette().findColorInPalette(log.getTurtleLog(0).peekLast().getPen().getColor()), 1);
+		assertDoubleEqual(log.getPalette().findColorInPalette(log.getTurtleLog(1).peekLast().getPen().getColor()), 2);
+	}
+	
+	@Test
+	public void setbackground() {
+		parseAndExecute("setbackground 2");
+		assertDoubleEqual(log.getPalette().findColorInPalette(log.getWorkspaceState().getBackgroundColor()), 2);
+	}
+	
+	@Test
+	public void setpalette() {
+		parseAndExecute("setpalette 2 128 128 128");
+		Color color = Color.color(0.5, 0.5, 0.5);
+		assertTrue(log.getPalette().getColor(2).equals(color));
+	}
+	
+	@Test
+	public void pencolor() {
+		double result = parseAndExecute("pencolor");
+		assertDoubleEqual(result, 1);
 	}
 
 	@Test

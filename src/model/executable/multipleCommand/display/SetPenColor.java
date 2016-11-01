@@ -5,6 +5,7 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.TurtleLog;
+import model.TurtleState;
 import model.executable.MultipleCommand;
 
 public class SetPenColor extends MultipleCommand {
@@ -18,8 +19,11 @@ public class SetPenColor extends MultipleCommand {
 	public double execute(TurtleLog log)
 			throws SyntacticErrorException {
 		double index = this.getArgs().get(0).execute(this.getLogHolder());
-		log.peekLast().getPen().setColor(
+		delta = new TurtleState();
+		log.peekLast().duplicateOnto(delta);
+		delta.getPen().setColor(
 				this.getLogHolder().getPalette().getColor((int)index));
+		log.append(delta);
 		return index;
 	}
 
