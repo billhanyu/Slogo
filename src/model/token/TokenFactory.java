@@ -1,7 +1,6 @@
 package model.token;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +20,6 @@ public class TokenFactory {
 	
 	public TokenFactory(SemanticsRegistry semanticsRegistry) {
 		this.semanticsRegistry = semanticsRegistry;
-		regexMatchable = new ArrayList<>();
 		regexMatchable = Arrays.asList(
 				semanticsRegistry.getLexicon()
 				.getString("regexMatchable").trim().split(SPACE_REGEX)
