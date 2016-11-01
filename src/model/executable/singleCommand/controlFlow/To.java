@@ -7,9 +7,9 @@ import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
 import model.executable.Constant;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
-public class To extends SingleCommand {
+public class To extends StaticCommand {
 	
 	private String stubName;
 	private CodeBlock varList;

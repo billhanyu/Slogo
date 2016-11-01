@@ -9,9 +9,9 @@ import model.Executable;
  * @author billyu
  * command type that operates a level above turtles
  */
-public abstract class SingleCommand extends StandardCommand {
+public abstract class StaticCommand extends StandardCommand {
 
-	public SingleCommand(List<Executable> argv) throws SyntacticErrorException {
+	public StaticCommand(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);
 	}
 	

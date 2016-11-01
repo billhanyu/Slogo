@@ -5,9 +5,9 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.TurtleLog;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class SetShape extends MultipleCommand{
+public class SetShape extends TurtleCommand{
 	
 	public SetShape(List<Executable> argv)
 			throws SyntacticErrorException {

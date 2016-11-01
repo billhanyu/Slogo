@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
 import model.executable.CodeBlock;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
-public class IfElse extends SingleCommand {
+public class IfElse extends StaticCommand {
 	
 	private Executable expr;
 	private CodeBlock trueBody;

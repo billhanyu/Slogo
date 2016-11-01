@@ -52,7 +52,8 @@ public class Marshaller {
 			sb.append(e.toString(false));
 		}
 		try (Writer writer = new BufferedWriter(new FileWriter(srcPath))) {
-			String output = interpreter.getTranslator().translateBackUserLang(sb.toString(), SPACE);
+			String output = interpreter.getTranslator()
+									   .translateBackUserLang(sb.toString(), SPACE);
 			writer.write(output);
 		}
 	}
@@ -79,21 +80,5 @@ public class Marshaller {
 		ObjectOutputStream oos = new ObjectOutputStream(fout);
 		oos.writeObject(workspace);
 		oos.close();
-	}
-
-	public static void main(String[] args) {
-		Marshaller m = new Marshaller();
-		try {
-			System.out.println(m.load("/Users/billyu/Documents/classes/CS-308/slogo_team07/data/examples/loops/circle.logo"));
-			WorkspaceState state = new WorkspaceState();
-			m.store(state, "data/test.state");
-			state = m.loadWorkspace("data/test.state");
-			System.out.println(state.getLanguage());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

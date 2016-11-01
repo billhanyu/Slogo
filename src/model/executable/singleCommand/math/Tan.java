@@ -5,9 +5,9 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 
-public class Tan extends SingleCommand {
+public class Tan extends StaticCommand {
 
 	public Tan(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);

@@ -7,9 +7,9 @@ import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class ShowTurtle extends MultipleCommand{
+public class ShowTurtle extends TurtleCommand{
 	
 	public ShowTurtle(List<Executable> argv)
 			throws SyntacticErrorException {

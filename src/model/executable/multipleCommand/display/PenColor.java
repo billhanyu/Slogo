@@ -7,9 +7,9 @@ import javafx.scene.paint.Color;
 import model.Executable;
 import model.Palette;
 import model.TurtleLog;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class PenColor extends MultipleCommand{
+public class PenColor extends TurtleCommand{
 	
 	public PenColor(List<Executable> argv)
 			throws SyntacticErrorException {

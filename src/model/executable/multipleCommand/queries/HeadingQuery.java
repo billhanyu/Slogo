@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class HeadingQuery extends MultipleCommand {
+public class HeadingQuery extends TurtleCommand {
 	
 	public HeadingQuery(List<Executable> argv)
 			throws SyntacticErrorException {

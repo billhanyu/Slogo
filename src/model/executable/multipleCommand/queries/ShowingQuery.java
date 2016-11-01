@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class ShowingQuery extends MultipleCommand {
+public class ShowingQuery extends TurtleCommand {
 	private static final double TRUE = 1.0;
 	private static final double FALSE = 0.0;
 	

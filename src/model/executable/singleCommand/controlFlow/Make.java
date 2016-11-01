@@ -5,10 +5,10 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import model.executable.Variable;
 
-public class Make extends SingleCommand{
+public class Make extends StaticCommand{
 	
 	public Make(List<Executable> argv)
 			throws SyntacticErrorException {

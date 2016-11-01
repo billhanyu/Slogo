@@ -6,10 +6,10 @@ import exception.LogByNonpositiveException;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import util.Utils;
 
-public class Log extends SingleCommand {
+public class Log extends StaticCommand {
 
 	public Log(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);

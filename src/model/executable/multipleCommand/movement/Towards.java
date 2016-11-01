@@ -7,9 +7,9 @@ import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
 import model.TurtleState;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class Towards extends MultipleCommand {
+public class Towards extends TurtleCommand {
 	private static final double UP = 0;
 	private static final double DOWN = 180;
 	private static final double RIGHT = 90;

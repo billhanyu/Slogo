@@ -6,9 +6,9 @@ import exception.SyntacticErrorException;
 import model.ActorState;
 import model.Executable;
 import model.TurtleLog;
-import model.executable.MultipleCommand;
+import model.executable.TurtleCommand;
 
-public class Shape extends MultipleCommand{
+public class Shape extends TurtleCommand{
 	
 	public Shape(List<Executable> argv)
 			throws SyntacticErrorException {

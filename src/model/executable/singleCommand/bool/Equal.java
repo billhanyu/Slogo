@@ -5,10 +5,10 @@ import java.util.List;
 import exception.SyntacticErrorException;
 import model.Executable;
 import model.LogHolder;
-import model.executable.SingleCommand;
+import model.executable.StaticCommand;
 import util.Utils;
 
-public class Equal extends SingleCommand {
+public class Equal extends StaticCommand {
 
 	public Equal(List<Executable> argv) throws SyntacticErrorException {
 		super(argv);
