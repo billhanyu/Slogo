@@ -33,6 +33,7 @@ public abstract class FloatingView extends View implements Subscriber {
 	
 	@Override
 	public void didUpdate(Publisher target) {
+		this.getRoot().getChildren().clear();
 		init();
 	}
 	
@@ -69,9 +70,9 @@ public abstract class FloatingView extends View implements Subscriber {
 		return makeLine(nameLabel, rectBox);
 	}
 	
-	protected HBox makeSelectionBox(String label, Node box) {
+	protected HBox makeSelectionBox(String label, Node box, double width) {
 		Label pickerLabel = new Label(label);
-		pickerLabel.setPrefWidth(130);
+		pickerLabel.setPrefWidth(width);
 		return makeLine(pickerLabel, box);
 	}
 	

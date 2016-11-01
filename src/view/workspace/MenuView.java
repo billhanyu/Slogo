@@ -15,12 +15,11 @@ import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.Marshaller;
-import view.floating.BackgroundPropertyView;
 import view.floating.FloatingViewManager;
-import view.floating.LanguagePropertyView;
 import view.floating.PaletteView;
 import view.floating.PenPropertyView;
 import view.floating.TurtleStateView;
+import view.floating.WorkspaceStateView;
 
 public class MenuView extends View {
 	
@@ -107,13 +106,11 @@ public class MenuView extends View {
 	
 	private Menu makeMenuWorkspace() {
 		Menu menu = new Menu("Workspace");
-		MenuItem backgroundState = makeMenuItem("Background",
-				e -> floatingManager.show(BackgroundPropertyView.class));
-		MenuItem languageState = makeMenuItem("Language",
-				e -> floatingManager.show(LanguagePropertyView.class));
+		MenuItem workspaceState = makeMenuItem("Workspace",
+				e -> floatingManager.show(WorkspaceStateView.class));
 		MenuItem palette = makeMenuItem("Palette",
 				e -> floatingManager.show(PaletteView.class));
-		menu.getItems().addAll(backgroundState, languageState, palette);
+		menu.getItems().addAll(workspaceState, palette);
 		return menu;
 	}
 	
