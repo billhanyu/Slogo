@@ -15,11 +15,11 @@ import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.Marshaller;
-import view.floating.BackgroundPropertyView;
 import view.floating.FloatingViewManager;
-import view.floating.LanguagePropertyView;
+import view.floating.PaletteView;
 import view.floating.PenPropertyView;
 import view.floating.TurtleStateView;
+import view.floating.WorkspaceStateView;
 
 public class MenuView extends View {
 	
@@ -40,11 +40,11 @@ public class MenuView extends View {
 		bar = new MenuBar();
 		bar.setPrefWidth(this.getWidth());
 		Menu menuFile = makeMenuFile();
-		Menu menuEdit = makeMenuEdit();
+		Menu menuWorkspace = makeMenuWorkspace();
 		Menu menuProperties = makeMenuProperties();
 		Menu menuRun = makeMenuRun();
 		Menu menuHelp = makeMenuHelp();
-		bar.getMenus().addAll(menuFile, menuEdit, menuProperties, menuRun, menuHelp);
+		bar.getMenus().addAll(menuFile, menuWorkspace, menuProperties, menuRun, menuHelp);
 		this.getRoot().getChildren().add(bar);
 		HBox.setHgrow(bar, Priority.ALWAYS);
 	}
@@ -104,8 +104,13 @@ public class MenuView extends View {
 		return menu;
 	}
 	
-	private Menu makeMenuEdit() {
-		Menu menu = new Menu("Edit");
+	private Menu makeMenuWorkspace() {
+		Menu menu = new Menu("Workspace");
+		MenuItem workspaceState = makeMenuItem("Workspace",
+				e -> floatingManager.show(WorkspaceStateView.class));
+		MenuItem palette = makeMenuItem("Palette",
+				e -> floatingManager.show(PaletteView.class));
+		menu.getItems().addAll(workspaceState, palette);
 		return menu;
 	}
 	
@@ -115,11 +120,7 @@ public class MenuView extends View {
 				e -> floatingManager.show(TurtleStateView.class));
 		MenuItem penState = makeMenuItem("Pen",
 				e -> floatingManager.show(PenPropertyView.class));
-		MenuItem backgroundState = makeMenuItem("Background",
-				e -> floatingManager.show(BackgroundPropertyView.class));
-		MenuItem languageState = makeMenuItem("Language",
-				e -> floatingManager.show(LanguagePropertyView.class));
-		menu.getItems().addAll(turtleState, penState, backgroundState, languageState);
+		menu.getItems().addAll(turtleState, penState);
 		return menu;
 	}
 	

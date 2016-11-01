@@ -19,7 +19,6 @@ public class TurtleStateView extends TurtleDependentView {
 
 	@Override
 	protected void init() {
-		this.getRoot().getChildren().clear();
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
 		currentState = this.getCurrentSelectedState();

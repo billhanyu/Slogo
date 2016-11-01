@@ -9,7 +9,7 @@ import view.floating.AbstractPublisher;
 
 public class WorkspaceState extends AbstractPublisher {
 	
-	private static final Color DEFAULT_BACKGROUND = Color.LIGHTBLUE;
+	private static final Color DEFAULT_BACKGROUND = Color.WHITE;
 	private static final String DEFAULT_LANGUAGE = "English";
 	private static final int DEFAULT_STARTING = 1;
 	
@@ -40,6 +40,7 @@ public class WorkspaceState extends AbstractPublisher {
 
 	public void setLanguage(String language) {
 		this.language = language;
+		this.notifySubscribers();
 	}
 
 	public int getStartingNumber() {

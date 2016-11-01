@@ -28,7 +28,6 @@ public class PenPropertyView extends TurtleDependentView {
 
 	@Override
 	protected void init() {
-		this.getRoot().getChildren().clear();
 		MainCanvas canvas = this.getController().getMainView().getCanvas();
 		canvas.addSubscriber(this);
 		currentState = this.getCurrentSelectedState();
@@ -91,7 +90,7 @@ public class PenPropertyView extends TurtleDependentView {
 
 	private HBox makePenPickerBox() {
 		ColorPicker picker = makePenPicker();
-		return makeSelectionBox(this.getLabelReader().getLabel("PenLabel"), picker);
+		return makeSelectionBox(this.getLabelReader().getLabel("PenLabel"), picker, 130);
 	}
 
 	private ColorPicker makePenPicker() {
