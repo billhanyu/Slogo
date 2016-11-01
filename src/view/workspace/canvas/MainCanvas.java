@@ -9,6 +9,7 @@ import controller.Controller;
 import exception.OutOfBoundsException;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -55,7 +56,8 @@ public class MainCanvas extends View implements Subscriber {
 		initCanvas();
 		movement = new AnimatedMovement(this);
 		transitionManager = new TransitionManager();
-		controller.getLogHolder().getWorkspaceState().addSubscriber(this);
+		log.getWorkspaceState().addSubscriber(this);
+		updateActiveTurtles();
 	}
 
 	public void render() throws OutOfBoundsException {
@@ -93,6 +95,7 @@ public class MainCanvas extends View implements Subscriber {
 			}
 			activelog.didRender();
 		}
+		updateActiveTurtles();
 		transitionManager.play();
 		this.notifySubscribers();
 	}
@@ -171,9 +174,8 @@ public class MainCanvas extends View implements Subscriber {
 
 	private void updateCurrentStates() {
 		currentStates.clear();
-		for (int key : this.getController().getLogHolder().getActiveIDs()) {
-			currentStates.put(key, 
-					this.getController().getLogHolder().getTurtleLog(key).peekLast());
+		for (int key : log.getActiveIDs()) {
+			currentStates.put(key, log.getTurtleLog(key).peekLast());
 		}
 	}
 
@@ -284,6 +286,18 @@ public class MainCanvas extends View implements Subscriber {
 			break;
 		}
 		this.getRoot().getChildren().add(path);
+	}
+	
+	private void updateActiveTurtles() {
+		DropShadow ds = new DropShadow(20, Color.AQUA);
+		for (int id : turtleViews.keySet()) {
+			if (log.getActiveIDs().contains(id)) {
+				turtleViews.get(id).getImageView().setEffect(ds);
+			}
+			else {
+				turtleViews.get(id).getImageView().setEffect(null);
+			}
+		}
 	}
 
 	@Override
