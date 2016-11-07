@@ -10,6 +10,10 @@ import model.LogHolder;
 import model.SemanticsRegistry;
 import util.Utils;
 
+/**
+ * A wrapper for a list of Executable
+ * @author CharlesXu
+ */
 public class CodeBlock implements Executable {
 	
 	private List<Executable> sequence;

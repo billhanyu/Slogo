@@ -4,6 +4,10 @@ import model.Executable;
 import model.LogHolder;
 import model.token.Token;
 
+/**
+ * Represent either a numerical value or an named identifier for user defined procedure
+ * @author CharlesXu
+ */
 public class Constant implements Executable {
 	
 	private String name;

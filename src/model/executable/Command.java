@@ -7,6 +7,10 @@ import model.Executable;
 import model.LogHolder;
 import util.Utils;
 
+/**
+ * Common abstractions from both user defined command and SLOGO standard command
+ * @author CharlesXu
+ */
 public abstract class Command implements Executable {
 	
 	protected List<Executable> argv;

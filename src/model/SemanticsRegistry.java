@@ -11,6 +11,10 @@ import model.executable.Constant;
 import model.executable.ProcedureImpl;
 import model.token.Token;
 
+/**
+ * Procedure linker for user defined commands
+ * @author CharlesXu
+ */
 public class SemanticsRegistry {
 	
 	public static final String TOKEN_DICT = "resources/tokens";

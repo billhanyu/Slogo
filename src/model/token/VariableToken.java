@@ -7,6 +7,9 @@ import model.ParserContext;
 import model.SemanticsRegistry;
 import model.executable.Variable;
 
+/**
+ * @author CharlesXu
+ */
 public class VariableToken extends Token {
 
 	public VariableToken(String token, SemanticsRegistry semanticsRegistry) {

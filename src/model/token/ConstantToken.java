@@ -7,6 +7,9 @@ import model.ParserContext;
 import model.SemanticsRegistry;
 import model.executable.Constant;
 
+/**
+ * @author CharlesXu
+ */
 public class ConstantToken extends Token {
 
 	public ConstantToken(String token, SemanticsRegistry semanticsRegistry) {

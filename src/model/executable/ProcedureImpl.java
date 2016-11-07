@@ -9,6 +9,11 @@ import model.LogHolder;
 import util.Utils;
 import model.Executable;
 
+/**
+ * Actual Implementation of a user defined procedure
+ * instantiated using TO command
+ * @author CharlesXu
+ */
 public class ProcedureImpl{
 	
 	private List<Variable> params;

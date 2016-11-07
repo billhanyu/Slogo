@@ -10,6 +10,10 @@ import model.token.Token;
 import model.token.TokenFactory;
 import util.Utils;
 
+/**
+ * Parse script to build an main Executable
+ * @author Charles Xu
+ */
 public class Interpreter {
 	
 	public static final String SPACE_REGEX = "\\s+";

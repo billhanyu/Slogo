@@ -6,6 +6,9 @@ import model.GlobalVariables;
 import model.ParserContext;
 import model.SemanticsRegistry;
 
+/**
+ * @author CharlesXu
+ */
 public class CloseBracketToken extends Token {
 
 	public CloseBracketToken(String token, SemanticsRegistry semanticsRegistry) {
