@@ -12,6 +12,7 @@ import model.TurtleState;
  * A Command is assumed to be executed in a given context by stackFrame
  * that contains its argv. It will never result in another stackFrame. If one
  * feels such need, use Procedure
+ * @author CharlesXu
  */
 public abstract class StandardCommand extends Command {
 	

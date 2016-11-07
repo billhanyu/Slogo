@@ -15,6 +15,9 @@ import model.SemanticsRegistry;
 import model.executable.Command;
 import util.ReflectionUtils;
 
+/**
+ * @author CharlesXu
+ */
 public class StandardCommandToken extends Token {
 	
 	protected Command cmd;

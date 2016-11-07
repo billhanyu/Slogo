@@ -6,6 +6,10 @@ import model.Executable;
 import model.LogHolder;
 import model.token.Token;
 
+/**
+ * Expression set at runtime
+ * @author CharlesXu
+ */
 public class Variable implements Executable {
 	
 	private String name;

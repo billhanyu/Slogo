@@ -9,6 +9,10 @@ import exception.UnrecognizedIdentifierException;
 import model.SemanticsRegistry;
 import util.ReflectionUtils;
 
+/**
+ * Factory pattern to use reflection for creating a Token
+ * @author CharlesXu
+ */
 public class TokenFactory {
 	
 	public static final String SPACE_REGEX = "\\s+";

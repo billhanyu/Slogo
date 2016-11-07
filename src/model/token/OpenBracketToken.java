@@ -9,6 +9,9 @@ import model.ParserContext;
 import model.SemanticsRegistry;
 import model.executable.CodeBlock;
 
+/**
+ * @author CharlesXu
+ */
 public class OpenBracketToken extends Token {
 
 	public OpenBracketToken(String token, SemanticsRegistry semanticsRegistry) {

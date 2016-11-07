@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import model.executable.CodeBlock;
-
+/**
+ * Used to implement variable scoping
+ * @author CharlesXu
+ */
 public class ParserContext {
 
 	private List<Executable> instructionCacheInReverse;

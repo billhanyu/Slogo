@@ -13,6 +13,11 @@ import java.io.Writer;
 
 import model.executable.CodeBlock;
 
+/**
+ * A Load/Store facility that bridges the CommandHistory
+ * and durable store in text
+ * @author CharlesXu
+ */
 public class Marshaller {
 
 	public static final String SPACE = " ";

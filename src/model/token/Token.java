@@ -8,6 +8,10 @@ import model.GlobalVariables;
 import model.ParserContext;
 import model.SemanticsRegistry;
 
+/**
+ * Common abstraction for all types of Tokens. 
+ * @author CharlesXu
+ */
 public abstract class Token {
 	
 	protected String token;

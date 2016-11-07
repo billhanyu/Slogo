@@ -7,6 +7,10 @@ import model.Executable;
 import model.LogHolder;
 import model.SemanticsRegistry;
 
+/**
+ * Dynamic binding at runtime through semantics registry
+ * @author CharlesXu
+ */
 public class ProcedureStub extends Command {
 	
 	private SemanticsRegistry semanticsRegistry;

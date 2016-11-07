@@ -12,6 +12,9 @@ import model.SemanticsRegistry;
 import model.executable.Constant;
 import model.executable.ProcedureStub;
 
+/**
+ * @author CharlesXu
+ */
 public class CustomCommandToken extends StandardCommandToken{
 	
 	public static final String TO = "to";
