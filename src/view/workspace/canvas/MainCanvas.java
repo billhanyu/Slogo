@@ -27,6 +27,9 @@ import view.floating.Publisher;
 import view.floating.Subscriber;
 import view.workspace.View;
 
+/**
+ * @author Chalena Scholl
+ */
 public class MainCanvas extends View implements Subscriber {
 
 	private Map<Integer, TurtleView> turtleTrackers;

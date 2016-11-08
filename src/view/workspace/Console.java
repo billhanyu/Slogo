@@ -8,6 +8,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * @author Chalena Scholl
+ * This class contains the code for a console which the results of a command are output to.
+ */
+
 public class Console extends View {
 	
 	private TextFlow textFlow;

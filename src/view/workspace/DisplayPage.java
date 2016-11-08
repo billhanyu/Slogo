@@ -9,6 +9,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
+/**
+ * @author Chalena Scholl
+ * This can retrieve a local html page to display in a browser.
+ */
 public class DisplayPage{
 
 	public void showPage(String pageLabel, DisplayLabelReader valueReader){

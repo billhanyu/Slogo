@@ -16,6 +16,9 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import model.ActorState;
 
+/**
+ * @author Chalena Scholl
+ */
 public class AnimatedMovement {
 	private MainCanvas actingOn;
 	private RotateTransition rotation;
