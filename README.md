@@ -1,5 +1,4 @@
-# slogo
-# CellSociety Team 07
+# SLogoTeam 07
 
 Duke CompSci 308 SLogo Project
 
