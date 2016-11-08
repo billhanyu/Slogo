@@ -21,6 +21,10 @@ import view.floating.PenPropertyView;
 import view.floating.TurtleStateView;
 import view.floating.WorkspaceStateView;
 
+/**
+ * @author Chalena Scholl
+ * This class makes all the menu items displayed in the UI.
+ */
 public class MenuView extends View {
 	
 	private MenuBar bar;

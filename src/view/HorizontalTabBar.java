@@ -5,6 +5,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+
+/**
+ * @author Chalena Scholl
+ * The purpose of this class is to create a HorizontalTabBar which SLogo workspaces can be added to.
+ */
+
+
 public class HorizontalTabBar{
 	private TabPane tabs;
 	private Node root;

@@ -6,6 +6,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.workspace.DisplayLabelReader;
 
+/**
+ * @author Chalena Scholl
+ * This class provides the main stage for the main UI framework.
+ */
+
+
 public class MainWindow {
 	
 	private static final String UI_RESOURCES = "resources/labels/MainWindow";

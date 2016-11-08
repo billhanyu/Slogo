@@ -5,6 +5,10 @@ import java.util.Map;
 
 import javafx.animation.SequentialTransition;
 
+
+/**
+ * @author Chalena Scholl
+ */
 public class TransitionManager {
 	
 	private Map<Integer, SequentialTransition> transitions;

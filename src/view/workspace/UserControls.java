@@ -9,6 +9,10 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
+/**
+ * @author Chalena Scholl
+ */
 public class UserControls extends View {
 
 	public UserControls(Controller controller, double width, double height) {

@@ -11,6 +11,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * @author Chalena Scholl
+ * This class extends FloatingView to provide a drop-down menu for certain workspace properties.
+ */
 public class WorkspaceStateView extends FloatingView {
 	
 	public WorkspaceStateView(Controller controller) {

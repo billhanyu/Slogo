@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import view.workspace.View;
 
+
+/**
+ * @author Chalena Scholl
+ */
 public class TurtleView extends View {
 	
 	private static final String DEFAULT_IMAGEFILE = "turtle.gif"; 

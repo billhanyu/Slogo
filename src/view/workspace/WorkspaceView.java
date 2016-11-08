@@ -10,6 +10,10 @@ import javafx.scene.layout.VBox;
 import view.workspace.canvas.MainCanvas;
 import view.workspace.environment.EnvironmentView;
 
+
+/**
+ * @author Chalena Scholl
+ */
 public class WorkspaceView {
 	
 	private Node sceneRoot;
